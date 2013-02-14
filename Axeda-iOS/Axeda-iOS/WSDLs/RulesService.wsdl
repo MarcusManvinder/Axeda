@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/rules/"
+		xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:apachesoap="http://xml.apache.org/xml-soap"
+		xmlns:impl="http://sdk.axeda.com/webservices/rules/"
+		xmlns:intf="http://sdk.axeda.com/webservices/rules/"
+		xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+		xmlns:tns1="http://sdk.axeda.com/webservices/type"
+		xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <simpleType name="ActionType">
+        <restriction base="xsd:string">
+          <enumeration value="create"/>
+          <enumeration value="find"/>
+          <enumeration value="createIfNotFound"/>
+        </restriction>
+      </simpleType>
+      <simpleType name="ModelType">
+        <restriction base="xsd:string">
+          <enumeration value="gateway"/>
+          <enumeration value="managed"/>
+          <enumeration value="standalone"/>
+        </restriction>
+      </simpleType>
+      <simpleType name="RuleOperandType">
+        <restriction base="xsd:string">
+          <enumeration value="TAG_VALUE"/>
+          <enumeration value="STRING_TAG"/>
+          <enumeration value="NUMERIC_TAG"/>
+          <enumeration value="NUMERIC_VALUE"/>
+          <enumeration value="STRING_VALUE"/>
+          <enumeration value="ALARM_NAME"/>
+          <enumeration value="ALARM_TYPE"/>
+          <enumeration value="ALARM_SEVERITY"/>
+          <enumeration value="REG_MODEL_NUMBER"/>
+          <enumeration value="SOAP_STATUS"/>
+          <enumeration value="EVENT_NAME"/>
+          <enumeration value="EMPTY"/>
+        </restriction>
+      </simpleType>
+      <simpleType name="RuleOperatorType">
+        <restriction base="xsd:string">
+          <enumeration value="EMPTY"/>
+          <enumeration value="HAS"/>
+          <enumeration value="OR"/>
+          <enumeration value="AND"/>
+          <enumeration value="MINUS"/>
+          <enumeration value="PLUS"/>
+          <enumeration value="DIVIDE_BY"/>
+          <enumeration value="MULTIPLY_BY"/>
+          <enumeration value="NOT_EQUAL_TO"/>
+          <enumeration value="LESS_THAN_EQUAL_TO"/>
+          <enumeration value="GRT_THAN_EQUAL_TO"/>
+          <enumeration value="EQUAL_TO"/>
+          <enumeration value="LESS_THAN"/>
+          <enumeration value="GREATER_THAN"/>
+        </restriction>
+      </simpleType>
+      <complexType name="UserGroup">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="UserGroupList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:UserGroup[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Organization">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Model">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="type" nillable="true" type="tns1:ModelType"/>
+          <element name="manufacturer" nillable="true" type="tns1:Organization"/>
+        </sequence>
+      </complexType>
+      <complexType name="ModelList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Model[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="Location">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="line1" nillable="true" type="xsd:string"/>
+          <element name="line2" nillable="true" type="xsd:string"/>
+          <element name="city" nillable="true" type="xsd:string"/>
+          <element name="state" nillable="true" type="xsd:string"/>
+          <element name="zip" nillable="true" type="xsd:string"/>
+          <element name="country" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeviceList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Device[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="DeviceSystem">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="devices" nillable="true" type="tns1:DeviceList"/>
+        </sequence>
+      </complexType>
+      <complexType name="Condition">
+        <sequence>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="priority" type="xsd:int"/>
+        </sequence>
+      </complexType>
+      <complexType name="Device">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="pingRate" nillable="true" type="xsd:long"/>
+          <element name="missing" type="xsd:boolean"/>
+          <element name="lastContactDate" nillable="true" type="xsd:dateTime"/>
+          <element name="registrationDate" nillable="true" type="xsd:dateTime"/>
+          <element name="location" nillable="true" type="tns1:Location"/>
+          <element name="customer" nillable="true" type="tns1:Organization"/>
+          <element name="deviceSystem" nillable="true" type="tns1:DeviceSystem"/>
+          <element name="condition" nillable="true" type="tns1:Condition"/>
+          <element name="associatedGatewayId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeviceGroup">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeviceGroupList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeviceGroup[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="IdList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="Action">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="type" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="ActionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Action[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="RuleParameter">
+        <sequence>
+          <element name="operand1" nillable="true" type="xsd:string"/>
+          <element name="operand1Type" nillable="true" type="tns1:RuleOperandType"/>
+          <element name="innerOperator" nillable="true" type="tns1:RuleOperatorType"/>
+          <element name="operand2" nillable="true" type="xsd:string"/>
+          <element name="operand2Type" nillable="true" type="tns1:RuleOperandType"/>
+          <element name="outerOperator" nillable="true" type="tns1:RuleOperatorType"/>
+        </sequence>
+      </complexType>
+      <complexType name="RuleParameterList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:RuleParameter[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="DataExpressionRule">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="consecutive" nillable="true" type="xsd:boolean"/>
+          <element name="enabled" nillable="true" type="xsd:boolean"/>
+          <element name="override" nillable="true" type="xsd:boolean"/>
+          <element name="parameters" nillable="true" type="tns1:RuleParameterList"/>
+          <element name="models" nillable="true" type="tns1:ModelList"/>
+          <element name="actions" nillable="true" type="tns1:ActionList"/>
+          <element name="deviceGroups" nillable="true" type="tns1:DeviceGroupList"/>
+          <element name="devices" nillable="true" type="tns1:DeviceList"/>
+          <element name="userGroups" nillable="true" type="tns1:UserGroupList"/>
+        </sequence>
+      </complexType>
+      <complexType name="DataExpressionRuleList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DataExpressionRule[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="CustomRule">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="consecutive" nillable="true" type="xsd:boolean"/>
+          <element name="enabled" nillable="true" type="xsd:boolean"/>
+          <element name="override" nillable="true" type="xsd:boolean"/>
+          <element name="messageType" nillable="true" type="xsd:string"/>
+          <element name="classHandler" nillable="true" type="xsd:string"/>
+          <element name="function" nillable="true" type="xsd:string"/>
+          <element name="parameters" nillable="true" type="xsd:string"/>
+          <element name="models" nillable="true" type="tns1:ModelList"/>
+          <element name="actions" nillable="true" type="tns1:ActionList"/>
+          <element name="deviceGroups" nillable="true" type="tns1:DeviceGroupList"/>
+          <element name="devices" nillable="true" type="tns1:DeviceList"/>
+          <element name="userGroups" nillable="true" type="tns1:UserGroupList"/>
+        </sequence>
+      </complexType>
+      <complexType name="CustomRuleList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:CustomRule[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="RuleSchedule">
+        <sequence>
+          <element name="day" nillable="true" type="xsd:int"/>
+          <element name="hour" nillable="true" type="xsd:int"/>
+          <element name="minute" nillable="true" type="xsd:int"/>
+          <element name="interval" nillable="true" type="xsd:int"/>
+          <element name="timeZoneId" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="ScheduledRule">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="consecutive" nillable="true" type="xsd:boolean"/>
+          <element name="enabled" nillable="true" type="xsd:boolean"/>
+          <element name="classHandler" nillable="true" type="xsd:string"/>
+          <element name="function" nillable="true" type="xsd:string"/>
+          <element name="setupPage" nillable="true" type="xsd:string"/>
+          <element name="parameters" nillable="true" type="xsd:string"/>
+          <element name="models" nillable="true" type="tns1:ModelList"/>
+          <element name="actions" nillable="true" type="tns1:ActionList"/>
+          <element name="schedules" nillable="true" type="tns1:RuleSchedule"/>
+          <element name="deviceGroups" nillable="true" type="tns1:DeviceGroupList"/>
+          <element name="devices" nillable="true" type="tns1:DeviceList"/>
+          <element name="userGroups" nillable="true" type="tns1:UserGroupList"/>
+        </sequence>
+      </complexType>
+      <complexType name="ScheduledRuleList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ScheduledRule[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="RegistrationRule">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="consecutive" nillable="true" type="xsd:boolean"/>
+          <element name="enabled" nillable="true" type="xsd:boolean"/>
+          <element name="models" nillable="true" type="tns1:ModelList"/>
+          <element name="actions" nillable="true" type="tns1:ActionList"/>
+          <element name="deviceGroups" nillable="true" type="tns1:DeviceGroupList"/>
+          <element name="devices" nillable="true" type="tns1:DeviceList"/>
+          <element name="userGroups" nillable="true" type="tns1:UserGroupList"/>
+        </sequence>
+      </complexType>
+      <complexType name="RegistrationRuleList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:RegistrationRule[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="RuleQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="createDataExpressionRulesRequest">
+    <wsdl:part name="dataExpressionRules" type="tns1:DataExpressionRuleList"/>
+  </wsdl:message>
+  <wsdl:message name="createDataExpressionRulesResponse" />
+  <wsdl:message name="createCustomRulesRequest">
+    <wsdl:part name="customRules" type="tns1:CustomRuleList"/>
+  </wsdl:message>
+  <wsdl:message name="createCustomRulesResponse" />
+  <wsdl:message name="createScheduledRulesRequest">
+    <wsdl:part name="scheduledRules" type="tns1:ScheduledRuleList"/>
+  </wsdl:message>
+  <wsdl:message name="createScheduledRulesResponse" />
+  <wsdl:message name="createRegistrationRulesRequest">
+    <wsdl:part name="registrationRules" type="tns1:RegistrationRuleList"/>
+  </wsdl:message>
+  <wsdl:message name="createRegistrationRulesResponse" />
+  <wsdl:message name="findDataExpressionRuleRequest">
+    <wsdl:part name="ruleQuery" type="tns1:RuleQuery"/>
+  </wsdl:message>
+  <wsdl:message name="findDataExpressionRuleResponse">
+    <wsdl:part name="dataExpressionRule" type="tns1:DataExpressionRule"/>
+  </wsdl:message>
+  <wsdl:message name="findCustomRuleRequest">
+    <wsdl:part name="ruleQuery" type="tns1:RuleQuery"/>
+  </wsdl:message>
+  <wsdl:message name="findCustomRuleResponse">
+    <wsdl:part name="customRule" type="tns1:CustomRule"/>
+  </wsdl:message>
+  <wsdl:message name="findScheduledRuleRequest">
+    <wsdl:part name="ruleQuery" type="tns1:RuleQuery"/>
+  </wsdl:message>
+  <wsdl:message name="findScheduledRuleResponse">
+    <wsdl:part name="scheduledRule" type="tns1:ScheduledRule"/>
+  </wsdl:message>
+  <wsdl:message name="findRegistrationRuleRequest">
+    <wsdl:part name="ruleQuery" type="tns1:RuleQuery"/>
+  </wsdl:message>
+  <wsdl:message name="findRegistrationRuleResponse">
+    <wsdl:part name="registrationRule" type="tns1:RegistrationRule"/>
+  </wsdl:message>
+  <wsdl:message name="deleteDataExpressionRuleRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteDataExpressionRuleResponse"/>
+  <wsdl:message name="deleteCustomRuleRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteCustomRuleResponse"/>
+  <wsdl:message name="deleteScheduledRuleRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteScheduledRuleResponse"/>
+  <wsdl:message name="deleteRegistrationRuleRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteRegistrationRuleResponse"/>
+  <wsdl:portType name="RulesService">
+    <wsdl:operation name="createDataExpressionRules" parameterOrder="dataExpressionRules">
+      <wsdl:input message="impl:createDataExpressionRulesRequest" name="createDataExpressionRulesRequest"/>
+      <wsdl:output message="impl:createDataExpressionRulesResponse" name="createDataExpressionRulesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createCustomRules" parameterOrder="customRules">
+      <wsdl:input message="impl:createCustomRulesRequest" name="createCustomRulesRequest"/>
+      <wsdl:output message="impl:createCustomRulesResponse" name="createCustomRulesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createScheduledRules" parameterOrder="scheduledRules">
+      <wsdl:input message="impl:createScheduledRulesRequest" name="createScheduledRulesRequest"/>
+      <wsdl:output message="impl:createScheduledRulesResponse" name="createScheduledRulesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createRegistrationRules" parameterOrder="registrationRules">
+      <wsdl:input message="impl:createRegistrationRulesRequest" name="createRegistrationRulesRequest"/>
+      <wsdl:output message="impl:createRegistrationRulesResponse" name="createRegistrationRulesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="findDataExpressionRule" parameterOrder="ruleQuery">
+      <wsdl:input message="impl:findDataExpressionRuleRequest" name="findDataExpressionRuleRequest"/>
+      <wsdl:output message="impl:findDataExpressionRuleResponse" name="findDataExpressionRuleResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="findCustomRule" parameterOrder="ruleQuery">
+      <wsdl:input message="impl:findCustomRuleRequest" name="findCustomRuleRequest"/>
+      <wsdl:output message="impl:findCustomRuleResponse" name="findCustomRuleResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="findScheduledRule" parameterOrder="ruleQuery">
+      <wsdl:input message="impl:findScheduledRuleRequest" name="findScheduledRuleRequest"/>
+      <wsdl:output message="impl:findScheduledRuleResponse" name="findScheduledRuleResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="findRegistrationRule" parameterOrder="ruleQuery">
+      <wsdl:input message="impl:findRegistrationRuleRequest" name="findRegistrationRuleRequest"/>
+      <wsdl:output message="impl:findRegistrationRuleResponse" name="findRegistrationRuleResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDataExpressionRule" parameterOrder="ids">
+      <wsdl:input message="impl:deleteDataExpressionRuleRequest" name="deleteDataExpressionRuleRequest"/>
+      <wsdl:output message="impl:deleteDataExpressionRuleResponse" name="deleteDataExpressionRuleResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCustomRule" parameterOrder="ids">
+      <wsdl:input message="impl:deleteCustomRuleRequest" name="deleteCustomRuleRequest"/>
+      <wsdl:output message="impl:deleteCustomRuleResponse" name="deleteCustomRuleResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteScheduledRule" parameterOrder="ids">
+      <wsdl:input message="impl:deleteScheduledRuleRequest" name="deleteScheduledRuleRequest"/>
+      <wsdl:output message="impl:deleteScheduledRuleResponse" name="deleteScheduledRuleResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRegistrationRule" parameterOrder="ids">
+      <wsdl:input message="impl:deleteRegistrationRuleRequest" name="deleteRegistrationRuleRequest"/>
+      <wsdl:output message="impl:deleteRegistrationRuleResponse" name="deleteRegistrationRuleResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RulesServiceBinding" type="impl:RulesService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createDataExpressionRules">
+      <wsdlsoap:operation soapAction="createDataExpressionRules"/>
+      <wsdl:input name="createDataExpressionRulesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createDataExpressionRulesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createCustomRules">
+      <wsdlsoap:operation soapAction="createCustomRules"/>
+      <wsdl:input name="createCustomRulesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createCustomRulesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createScheduledRules">
+      <wsdlsoap:operation soapAction="createScheduledRules"/>
+      <wsdl:input name="createScheduledRulesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createScheduledRulesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createRegistrationRules">
+      <wsdlsoap:operation soapAction="createRegistrationRules"/>
+      <wsdl:input name="createRegistrationRulesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createRegistrationRulesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findDataExpressionRule">
+      <wsdlsoap:operation soapAction="findDataExpressionRule"/>
+      <wsdl:input name="findDataExpressionRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="findDataExpressionRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findCustomRule">
+      <wsdlsoap:operation soapAction="findCustomRule"/>
+      <wsdl:input name="findCustomRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="findCustomRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findScheduledRule">
+      <wsdlsoap:operation soapAction="findScheduledRule"/>
+      <wsdl:input name="findScheduledRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="findScheduledRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findRegistrationRule">
+      <wsdlsoap:operation soapAction="findRegistrationRule"/>
+      <wsdl:input name="findRegistrationRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="findRegistrationRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDataExpressionRule">
+      <wsdlsoap:operation soapAction="deleteDataExpressionRule"/>
+      <wsdl:input name="deleteDataExpressionRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteDataExpressionRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCustomRule">
+      <wsdlsoap:operation soapAction="deleteCustomRule"/>
+      <wsdl:input name="deleteCustomRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteCustomRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteScheduledRule">
+      <wsdlsoap:operation soapAction="deleteScheduledRule"/>
+      <wsdl:input name="deleteScheduledRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteScheduledRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRegistrationRule">
+      <wsdlsoap:operation soapAction="deleteRegistrationRule"/>
+      <wsdl:input name="deleteRegistrationRuleRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteRegistrationRuleResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/rules/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RulesServiceService">
+    <wsdl:port binding="impl:RulesServiceBinding" name="RulesService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/RulesService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

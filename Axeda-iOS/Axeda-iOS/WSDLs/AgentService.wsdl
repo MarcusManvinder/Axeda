@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/agent/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/agent/" xmlns:intf="http://sdk.axeda.com/webservices/agent/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="DeviceIdentification">
+        <sequence>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="UploadEntry">
+        <sequence>
+          <element name="filename" nillable="true" type="xsd:string"/>
+          <element name="absolute" type="xsd:boolean"/>
+          <element name="delete" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+      <complexType name="CommandStatus">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="status" nillable="true" type="xsd:string"/>
+          <element name="date" nillable="true" type="xsd:dateTime"/>
+          <element name="finished" type="xsd:boolean"/>
+          <element name="error" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+      <complexType name="UploadEntryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:UploadEntry[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="restartRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="hardRestart" type="xsd:boolean"/>
+  </wsdl:message>
+  <wsdl:message name="executeResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="getStatusRequest">
+    <wsdl:part name="commandId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="setPingRateRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="pingRate" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="getStatusResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="setPingRateResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="setDataItemRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="dataItem" type="xsd:string"/>
+    <wsdl:part name="value" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="executeRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="command" type="xsd:string"/>
+    <wsdl:part name="arguments" type="xsd:string"/>
+    <wsdl:part name="asynchronous" type="xsd:boolean"/>
+    <wsdl:part name="relative" type="xsd:boolean"/>
+  </wsdl:message>
+  <wsdl:message name="setDataItemResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="uploadResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="uploadRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="entries" type="tns1:UploadEntryList"/>
+  </wsdl:message>
+  <wsdl:message name="restartResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:portType name="AgentService">
+    <wsdl:operation name="setPingRate" parameterOrder="device pingRate">
+      <wsdl:input message="impl:setPingRateRequest" name="setPingRateRequest"/>
+      <wsdl:output message="impl:setPingRateResponse" name="setPingRateResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="upload" parameterOrder="device entries">
+      <wsdl:input message="impl:uploadRequest" name="uploadRequest"/>
+      <wsdl:output message="impl:uploadResponse" name="uploadResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="execute" parameterOrder="device command arguments asynchronous relative">
+      <wsdl:input message="impl:executeRequest" name="executeRequest"/>
+      <wsdl:output message="impl:executeResponse" name="executeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="restart" parameterOrder="device hardRestart">
+      <wsdl:input message="impl:restartRequest" name="restartRequest"/>
+      <wsdl:output message="impl:restartResponse" name="restartResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="setDataItem" parameterOrder="device dataItem value">
+      <wsdl:input message="impl:setDataItemRequest" name="setDataItemRequest"/>
+      <wsdl:output message="impl:setDataItemResponse" name="setDataItemResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getStatus" parameterOrder="commandId">
+      <wsdl:input message="impl:getStatusRequest" name="getStatusRequest"/>
+      <wsdl:output message="impl:getStatusResponse" name="getStatusResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AgentServiceSoapBinding" type="impl:AgentService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="setPingRate">
+      <wsdlsoap:operation soapAction="SetPingRate"/>
+      <wsdl:input name="setPingRateRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setPingRateResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="upload">
+      <wsdlsoap:operation soapAction="Upload"/>
+      <wsdl:input name="uploadRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="uploadResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="execute">
+      <wsdlsoap:operation soapAction="Execute"/>
+      <wsdl:input name="executeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="executeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="restart">
+      <wsdlsoap:operation soapAction="Restart"/>
+      <wsdl:input name="restartRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="restartResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setDataItem">
+      <wsdlsoap:operation soapAction="SetDataItem"/>
+      <wsdl:input name="setDataItemRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setDataItemResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStatus">
+      <wsdlsoap:operation soapAction="GetStatus"/>
+      <wsdl:input name="getStatusRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getStatusResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/agent/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AgentServiceService">
+    <wsdl:port binding="impl:AgentServiceSoapBinding" name="AgentService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/AgentService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

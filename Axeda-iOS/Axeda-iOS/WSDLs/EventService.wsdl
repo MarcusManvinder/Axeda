@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/event/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/event/" xmlns:intf="http://sdk.axeda.com/webservices/event/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="DeviceIdentification">
+        <sequence>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Event">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="severity" type="xsd:int"/>
+          <element name="date" nillable="true" type="xsd:dateTime"/>
+        </sequence>
+      </complexType>
+      <complexType name="EventQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="severity" nillable="true" type="xsd:int"/>
+          <element name="minimumSeverity" nillable="true" type="xsd:int"/>
+          <element name="maximumSeverity" nillable="true" type="xsd:int"/>
+          <element name="startDate" nillable="true" type="xsd:dateTime"/>
+          <element name="endDate" nillable="true" type="xsd:dateTime"/>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="EventList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Event[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="createEventsRequest">
+    <wsdl:part name="events" type="tns1:EventList"/>
+  </wsdl:message>
+  <wsdl:message name="getEventsRequest">
+    <wsdl:part name="query" type="tns1:EventQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getEventsResponse">
+    <wsdl:part name="events" type="tns1:EventList"/>
+  </wsdl:message>
+  <wsdl:message name="createEventsResponse"/>
+  <wsdl:message name="getEventResponse">
+    <wsdl:part name="event" type="tns1:Event"/>
+  </wsdl:message>
+  <wsdl:message name="getEventRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:portType name="EventService">
+    <wsdl:operation name="createEvents" parameterOrder="events">
+      <wsdl:input message="impl:createEventsRequest" name="createEventsRequest"/>
+      <wsdl:output message="impl:createEventsResponse" name="createEventsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getEvents" parameterOrder="query">
+      <wsdl:input message="impl:getEventsRequest" name="getEventsRequest"/>
+      <wsdl:output message="impl:getEventsResponse" name="getEventsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getEvent" parameterOrder="id">
+      <wsdl:input message="impl:getEventRequest" name="getEventRequest"/>
+      <wsdl:output message="impl:getEventResponse" name="getEventResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EventServiceSoapBinding" type="impl:EventService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createEvents">
+      <wsdlsoap:operation soapAction="CreateEvents"/>
+      <wsdl:input name="createEventsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/event/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createEventsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/event/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEvents">
+      <wsdlsoap:operation soapAction="GetEvents"/>
+      <wsdl:input name="getEventsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/event/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getEventsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/event/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEvent">
+      <wsdlsoap:operation soapAction="GetEvent"/>
+      <wsdl:input name="getEventRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/event/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getEventResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/event/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EventServiceService">
+    <wsdl:port binding="impl:EventServiceSoapBinding" name="EventService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/EventService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

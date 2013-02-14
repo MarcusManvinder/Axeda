@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+  targetNamespace="http://sdk.axeda.com/webservices/mobilelocation/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+  xmlns:impl="http://sdk.axeda.com/webservices/mobilelocation/"
+  xmlns:intf="http://sdk.axeda.com/webservices/mobilelocation/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsdl1="http://sdk.axeda.com/webservices/mobilelocation/"
+  xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+  xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <!-- Create mobile locations -->
+  <wsdl:message name="createRequest">
+    <wsdl:part name="mobileLocation" type="tns1:MobileLocation"/>
+  </wsdl:message>
+  <wsdl:message name="createResponse"/>
+
+  <!-- Current mobile locations -->
+  <wsdl:message name="getCurrentMobileLocationRequest">
+    <wsdl:part name="query" type="tns1:MobileLocationQuery"/>
+  </wsdl:message>
+
+  <wsdl:message name="getCurrentMobileLocationResponse">
+    <wsdl:part name="mobileLocation" type="tns1:MobileLocation"/>
+  </wsdl:message>
+
+  <!-- History mobile locations -->
+  <wsdl:message name="getHistoricalMobileLocationRequest">
+    <wsdl:part name="query" type="tns1:MobileLocationQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getHistoricalMobileLocationResponse">
+    <wsdl:part name="mobileLocation" type="tns1:MobileLocationList"/>
+  </wsdl:message>
+
+  <wsdl:portType name="MobileLocationServicePortType">
+    <!-- Create mobile locations -->
+    <wsdl:operation name="createMobileLocation" parameterOrder="mobileLocation">
+      <wsdl:input message="impl:createRequest" name="createRequest"/>
+      <wsdl:output message="impl:createResponse" name="createResponse"/>
+    </wsdl:operation>
+
+    <!-- Current mobile locations -->
+    <wsdl:operation name="getCurrentMobileLocation" parameterOrder="query">
+      <wsdl:input message="impl:getCurrentMobileLocationRequest" name="getCurrentMobileLocationRequest"/>
+      <wsdl:output message="impl:getCurrentMobileLocationResponse" name="getCurrentMobileLocationResponse"/>
+    </wsdl:operation>
+
+    <!-- History mobile locations -->
+    <wsdl:operation name="getHistoricalMobileLocations" parameterOrder="query">
+      <wsdl:input message="impl:getHistoricalMobileLocationRequest" name="getHistoricalMobileLocationRequest"/>
+      <wsdl:output message="impl:getHistoricalMobileLocationResponse" name="getHistoricalMobileLocationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>  
+
+  <wsdl:binding name="MobileLocationServiceBinding" type="impl:MobileLocationServicePortType">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createMobileLocation">
+      <wsdlsoap:operation soapAction="createMobileLocation"/>
+      <wsdl:input name="createRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/mobilelocation/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/mobilelocation/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getCurrentMobileLocation">
+      <wsdlsoap:operation soapAction="getCurrentMobileLocation"/>
+      <wsdl:input name="getCurrentMobileLocationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/mobilelocation/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getCurrentMobileLocationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/mobilelocation/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getHistoricalMobileLocations">
+      <wsdlsoap:operation soapAction="getHistoricalMobileLocations"/>
+      <wsdl:input name="getHistoricalMobileLocationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/mobilelocation/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getHistoricalMobileLocationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/mobilelocation/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="MobileLocationService">
+    <wsdl:port binding="impl:MobileLocationServiceBinding"
+               name="MobileLocationService">
+      <wsdlsoap:address
+        location="http://sdk.axeda.com/webservices/services/MobileLocationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

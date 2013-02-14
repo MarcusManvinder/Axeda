@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+    targetNamespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:apachesoap="http://xml.apache.org/xml-soap"
+    xmlns:impl="http://sdk.axeda.com/webservices/devicePropertiesService/"
+    xmlns:intf="http://sdk.axeda.com/webservices/devicePropertiesService/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns1="http://sdk.axeda.com/webservices/type"
+    xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl1="http://sdk.axeda.com/webservices/devicePropertiesService/"
+    xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+    xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  
+  <!-- create Model Properties -->
+  <wsdl:message name="createModelPropertiesRequest">
+    <wsdl:part name="properties" type="tns1:Properties"/>	
+	<wsdl:part name="modelId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="createModelPropertiesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>  
+
+  <!-- update Model Properties -->
+  <wsdl:message name="updateModelPropertiesRequest">
+    <wsdl:part name="properties" type="tns1:Properties"/>
+	<wsdl:part name="modelId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="updateModelPropertiesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message> 
+  
+  <!-- set Device Properties --> 
+  <wsdl:message name="setDevicePropertiesRequest">
+    <wsdl:part name="properties" type="tns1:Properties"/>
+	<wsdl:part name="deviceId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="setDevicePropertiesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>   
+  
+  <!-- clear Device Properties --> 
+  <wsdl:message name="clearDevicePropertiesRequest">
+    <wsdl:part name="properties" type="tns1:Properties"/>
+	<wsdl:part name="deviceId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="clearDevicePropertiesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>     
+  
+  <!-- delete Model Properties --> 
+  <wsdl:message name="deleteModelPropertiesRequest">
+    <wsdl:part name="properties" type="tns1:Properties"/>
+	<wsdl:part name="modelId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="deleteModelPropertiesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>  
+
+  <!-- get Model Properties --> 
+  <wsdl:message name="getModelPropertiesRequest">
+    <wsdl:part name="modelId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="getModelPropertiesResponse">
+    <wsdl:part name="properties" type="tns1:Properties"/>
+  </wsdl:message>  
+
+  <!-- get Device Properties --> 
+  <wsdl:message name="getDevicePropertiesRequest">
+    <wsdl:part name="deviceId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="getDevicePropertiesResponse">
+    <wsdl:part name="properties" type="tns1:Properties"/>
+  </wsdl:message>  
+
+  
+  <wsdl:portType name="DevicePropertiesService">
+
+  <!-- create Model Properties -->
+    <wsdl:operation name="createModelProperties"
+                    parameterOrder="properties modelId">
+      <wsdl:input message="impl:createModelPropertiesRequest"
+                  name="createModelPropertiesRequest"/>
+      <wsdl:output message="impl:createModelPropertiesResponse"
+                   name="createModelPropertiesResponse"/>
+    </wsdl:operation> 
+  
+  <!-- update Model Properties --> 
+    <wsdl:operation name="updateModelProperties"
+                    parameterOrder="properties modelId">
+      <wsdl:input message="impl:updateModelPropertiesRequest"
+                  name="updateModelPropertiesRequest"/>
+      <wsdl:output message="impl:updateModelPropertiesResponse"
+                   name="updateModelPropertiesResponse"/>
+    </wsdl:operation>   
+
+  <!-- set Device Properties --> 
+    <wsdl:operation name="setDeviceProperties"
+                    parameterOrder="properties deviceId">
+      <wsdl:input message="impl:setDevicePropertiesRequest"
+                  name="setDevicePropertiesRequest"/>
+      <wsdl:output message="impl:setDevicePropertiesResponse"
+                   name="setDevicePropertiesResponse"/>
+    </wsdl:operation> 	
+
+  <!-- clear Device Properties --> 
+    <wsdl:operation name="clearDeviceProperties"
+                    parameterOrder="properties deviceId">
+      <wsdl:input message="impl:clearDevicePropertiesRequest"
+                  name="clearDevicePropertiesRequest"/>
+      <wsdl:output message="impl:clearDevicePropertiesResponse"
+                   name="clearDevicePropertiesResponse"/>
+    </wsdl:operation> 		
+	
+  <!-- delete Model Properties --> 
+    <wsdl:operation name="deleteModelProperties"
+                    parameterOrder="properties modelId">
+      <wsdl:input message="impl:deleteModelPropertiesRequest"
+                  name="deleteModelPropertiesRequest"/>
+      <wsdl:output message="impl:deleteModelPropertiesResponse"
+                   name="deleteModelPropertiesResponse"/>
+    </wsdl:operation>  
+
+  <!-- get Model Properties --> 
+    <wsdl:operation name="getModelProperties"
+                    parameterOrder="modelId">
+      <wsdl:input message="impl:getModelPropertiesRequest"
+                  name="getModelPropertiesRequest"/>
+      <wsdl:output message="impl:getModelPropertiesResponse"
+                   name="getModelPropertiesResponse"/>
+    </wsdl:operation>
+
+  <!-- get Device Properties --> 
+    <wsdl:operation name="getDeviceProperties"
+                    parameterOrder="deviceId">
+      <wsdl:input message="impl:getDevicePropertiesRequest"
+                  name="getDevicePropertiesRequest"/>
+      <wsdl:output message="impl:getDevicePropertiesResponse"
+                   name="getDevicePropertiesResponse"/>
+    </wsdl:operation>	
+	
+  </wsdl:portType>
+
+  <wsdl:binding name="DevicePropertiesServiceBinding"
+                type="impl:DevicePropertiesService">
+    <wsdlsoap:binding style="rpc"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+	
+	<!-- create Model Properties -->
+    <wsdl:operation name="createModelProperties">
+      <wsdlsoap:operation soapAction="devicePropertiesService"/>
+      <wsdl:input name="createModelPropertiesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>	  
+      <wsdl:output name="createModelPropertiesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+		<!-- create Model Properties --> 
+    <wsdl:operation name="updateModelProperties">
+      <wsdlsoap:operation soapAction="devicePropertiesService"/>
+      <wsdl:input name="updateModelPropertiesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateModelPropertiesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+		<!-- update Device Properties --> 
+    <wsdl:operation name="setDeviceProperties">
+      <wsdlsoap:operation soapAction="devicePropertiesService"/>
+      <wsdl:input name="setDevicePropertiesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setDevicePropertiesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>	
+
+		<!-- clear Device Properties --> 
+    <wsdl:operation name="clearDeviceProperties">
+      <wsdlsoap:operation soapAction="devicePropertiesService"/>
+      <wsdl:input name="clearDevicePropertiesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="clearDevicePropertiesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+	
+		<!-- delete Model Properties --> 
+    <wsdl:operation name="deleteModelProperties">
+      <wsdlsoap:operation soapAction="devicePropertiesService"/>
+      <wsdl:input name="deleteModelPropertiesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteModelPropertiesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>	
+
+		<!-- get Model Properties --> 
+    <wsdl:operation name="getModelProperties">
+      <wsdlsoap:operation soapAction="devicePropertiesService"/>
+      <wsdl:input name="getModelPropertiesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getModelPropertiesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+
+		<!-- get Device Properties --> 
+    <wsdl:operation name="getDeviceProperties">
+      <wsdlsoap:operation soapAction="devicePropertiesService"/>
+      <wsdl:input name="getDevicePropertiesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDevicePropertiesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/devicePropertiesService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+  </wsdl:binding>
+
+  <wsdl:service name="DevicePropertiesService">
+    <wsdl:port binding="impl:DevicePropertiesServiceBinding"
+               name="DevicePropertiesService">
+      <wsdlsoap:address
+          location="http://sdk.axeda.com/webservices/services/DevicePropertiesService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

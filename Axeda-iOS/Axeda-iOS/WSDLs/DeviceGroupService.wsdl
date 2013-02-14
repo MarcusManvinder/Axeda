@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/deviceGroup/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap"
+	xmlns:impl="http://sdk.axeda.com/webservices/deviceGroup/" xmlns:intf="http://sdk.axeda.com/webservices/deviceGroup/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:import namespace="http://sdk.axeda.com/webservices/type/"
+		location="Types.wsdl" />
+	<wsdl:types>
+		<schema targetNamespace="http://sdk.axeda.com/webservices/type"
+			xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+
+			<complexType name="SessionInfo">
+				<sequence>
+					<element name="User" nillable="true" type="xsd:string" />
+					<element name="Password" nillable="true" type="xsd:string" />
+					<element name="sessionID" nillable="true" type="xsd:string" />
+				</sequence>
+			</complexType>
+
+			<complexType name="DeviceGroupQuery">
+				<sequence>
+					<element name="id" nillable="true" type="xsd:long" />
+					<element name="deviceId" nillable="true" type="xsd:long" />
+					<element name="modelId" nillable="true" type="xsd:long" />
+					<element name="name" nillable="true" type="xsd:string" />
+				</sequence>
+			</complexType>
+
+			<complexType name="DeviceGroup">
+				<sequence>
+					<element name="id" nillable="false" type="xsd:long" />
+					<element name="name" nillable="true" type="xsd:string" />
+					<element name="description" nillable="true" type="xsd:string" />
+					<element name="model" nillable="true" type="xsd:string" />
+				</sequence>
+			</complexType>
+
+			<complexType name="DeviceGroupList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeviceGroup[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+		</schema>
+	</wsdl:types>
+
+	<wsdl:message name="Authentication">
+		<wsdl:part name="Authentication" type="tns1:SessionInfo" />
+	</wsdl:message>
+
+	<wsdl:message name="getDeviceGroupsRequest">
+		<wsdl:part name="query" type="tns1:DeviceGroupQuery" />
+	</wsdl:message>
+	<wsdl:message name="getDeviceGroupsResponse">
+		<wsdl:part name="deviceGroups" type="tns1:DeviceGroupList" />
+	</wsdl:message>
+	
+	<wsdl:message name="getChildDeviceGroupsRequest">	
+		<wsdl:part name="deviceGroupId" type="xsd:long" />
+		<wsdl:documentation>How deep to recurse; currently only a depth of 1 is supported</wsdl:documentation>
+		<wsdl:part name="depth" type="xsd:int" />
+	</wsdl:message>
+	<wsdl:message name="getChildDeviceGroupsResponse">
+		<wsdl:part name="deviceGroups" type="tns1:DeviceGroupList"/>
+	</wsdl:message>
+
+	<wsdl:message name="addDeviceGroupRequest">
+		<wsdl:documentation>deprecated: no longer supported; use
+			createDeviceGroups</wsdl:documentation>
+		<wsdl:part name="parentDeviceGroup" type="tns1:DeviceGroup" />
+		<wsdl:part name="childDeviceGroup" type="tns1:DeviceGroup" />
+	</wsdl:message>
+	<wsdl:message name="addDeviceGroupResponse" />
+
+	<wsdl:message name="removeDeviceGroupRequest">
+		<wsdl:documentation>deprecated: no longer supported; use
+			deleteDeviceGroup</wsdl:documentation>
+		<wsdl:part name="parentDeviceGroup" type="tns1:DeviceGroup" />
+		<wsdl:part name="childDeviceGroup" type="tns1:DeviceGroup" />
+	</wsdl:message>
+	<wsdl:message name="removeDeviceGroupResponse" />
+
+	<wsdl:message name="createDeviceGroupRequest">
+		<wsdl:part name="parentId" type="xsd:long" />
+		<wsdl:part name="groups" type="tns1:DeviceGroupList" />
+	</wsdl:message>
+	<wsdl:message name="createDeviceGroupResponse">
+		<wsdl:part name="results" type="tns1:ResultList" />
+	</wsdl:message>
+
+	<wsdl:message name="deleteDeviceGroupRequest">
+		<wsdl:part name="deviceGroupId" type="xsd:long" />
+	</wsdl:message>
+	<wsdl:message name="deleteDeviceGroupResponse">
+		<wsdl:part name="result" type="tns1:Result" />
+	</wsdl:message>
+
+	<!--dynamic group messages-->
+	<wsdl:message name="createDynamicGroupDefsRequest">
+		<wsdl:part name="dynamicGroupDefs" type="tns1:DynamicGroupDefsList" />
+	</wsdl:message>
+	<wsdl:message name="createDynamicGroupDefsResponse">
+		<wsdl:part name="ids" type="tns1:ResultList" />
+	</wsdl:message>
+	<wsdl:message name="updateDynamicGroupDefsRequest">
+		<wsdl:part name="dynamicGroupDefs" type="tns1:DynamicGroupDefsList" />
+	</wsdl:message>
+	<wsdl:message name="updateDynamicGroupDefsResponse">
+		<wsdl:part name="ids" type="tns1:ResultList" />
+	</wsdl:message>
+	<wsdl:message name="deleteDynamicGroupDefsRequest">
+		<wsdl:part name="dynamicGroupIds" type="tns1:IdList" />
+	</wsdl:message>
+	<wsdl:message name="deleteDynamicGroupDefsResponse">
+		<wsdl:part name="dynamicGroupIds" type="tns1:ResultList" />
+	</wsdl:message>
+	<wsdl:message name="getDynamicGroupDefsRequest">
+		<wsdl:part name="dynamicGroupDefQuery" type="tns1:DynamicGroupDefQuery" />
+	</wsdl:message>
+	<wsdl:message name="getDynamicGroupDefsResponse">
+		<wsdl:part name="dynamicGroupDefs" type="tns1:DynamicGroupDefsList" />
+	</wsdl:message>
+	<!--end dynamic group messages-->
+
+	<wsdl:portType name="DeviceGroupService">
+
+		<wsdl:operation name="getDeviceGroups" parameterOrder="query">
+			<wsdl:input message="impl:getDeviceGroupsRequest" name="getDeviceGroupsRequest" />
+			<wsdl:output message="impl:getDeviceGroupsResponse" name="getDeviceGroupsResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="getChildDeviceGroups" parameterOrder="deviceGroupId depth">
+			<wsdl:input message="impl:getChildDeviceGroupsRequest" name="getChildDeviceGroupsRequest"/>
+			<wsdl:output message="impl:getChildDeviceGroupsResponse" name="getChildDeviceGroupsResponse"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="addDeviceGroup"
+			parameterOrder="parentDeviceGroup childDeviceGroup">
+			<wsdl:documentation>deprecated: no longer supported; use
+				createDeviceGroups instead</wsdl:documentation>
+			<wsdl:input message="impl:addDeviceGroupRequest" name="addDeviceGroupRequest" />
+			<wsdl:output message="impl:addDeviceGroupResponse" name="addDeviceGroupResponse" />
+		</wsdl:operation>
+
+		<wsdl:operation name="removeDeviceGroup"
+			parameterOrder="parentDeviceGroup childDeviceGroup">
+			<wsdl:documentation>deprecated: no longer supported; use
+				deleteDeviceGroup instead</wsdl:documentation>
+			<wsdl:input message="impl:removeDeviceGroupRequest" name="removeDeviceGroupRequest" />
+			<wsdl:output message="impl:removeDeviceGroupResponse"
+				name="removeDeviceGroupResponse" />
+		</wsdl:operation>
+
+		<wsdl:operation name="createDeviceGroups"
+			parameterOrder="parentId groups">
+			<wsdl:input message="impl:createDeviceGroupRequest" name="createDeviceGroupRequest" />
+			<wsdl:output message="impl:createDeviceGroupResponse"
+				name="createDeviceGroupResponse" />
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteDeviceGroup"
+			parameterOrder="deviceGroupId">
+			<wsdl:input message="impl:deleteDeviceGroupRequest" name="deleteDeviceGroupRequest" />
+			<wsdl:output message="impl:deleteDeviceGroupResponse"
+				name="deleteDeviceGroupResponse" />
+		</wsdl:operation>
+
+		<!--dynamic group operations -->
+		<wsdl:operation name="createDynamicGroupDefs"
+			parameterOrder="dynamicGroupDefs">
+			<wsdl:input message="impl:createDynamicGroupDefsRequest"
+				name="createDynamicGroupDefsRequest" />
+			<wsdl:output message="impl:createDynamicGroupDefsResponse"
+				name="createDynamicGroupDefsResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="updateDynamicGroupDefs"
+			parameterOrder="dynamicGroupDefs">
+			<wsdl:input message="impl:updateDynamicGroupDefsRequest"
+				name="updateDynamicGroupDefsRequest" />
+			<wsdl:output message="impl:updateDynamicGroupDefsResponse"
+				name="updateDynamicGroupDefsResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="deleteDynamicGroupDefs">
+			<wsdl:input message="impl:deleteDynamicGroupDefsRequest"
+				name="deleteDynamicGroupDefsRequest" />
+			<wsdl:output message="impl:deleteDynamicGroupDefsResponse"
+				name="deleteDynamicGroupDefsResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="getDynamicGroupDefs">
+			<wsdl:input message="impl:getDynamicGroupDefsRequest"
+				name="getDynamicGroupDefsRequest" />
+			<wsdl:output message="impl:getDynamicGroupDefsResponse"
+				name="getDynamicGroupDefsResponse" />
+		</wsdl:operation>
+		<!--end dynamic group operations -->
+	</wsdl:portType>
+
+	<wsdl:binding name="DeviceGroupServiceBinding" type="impl:DeviceGroupService">
+		<wsdlsoap:binding style="rpc"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="getDeviceGroups">
+			<wsdlsoap:operation soapAction="getDeviceGroups" />
+			<wsdl:input name="getDeviceGroupsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="getDeviceGroupsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getChildDeviceGroups">
+			<wsdlsoap:operation soapAction="getChildDeviceGroups" />
+			<wsdl:input name="getChildDeviceGroupsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="getChildDeviceGroupsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="addDeviceGroup">
+			<wsdl:documentation>deprecated: no longer supported; use
+				createDeviceGroups</wsdl:documentation>
+			<wsdlsoap:operation soapAction="addDeviceGroup" />
+			<wsdl:input name="addDeviceGroupRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="addDeviceGroupResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="removeDeviceGroup">
+			<wsdl:documentation>deprecated: no longer supported; use
+				deleteDeviceGroup</wsdl:documentation>
+			<wsdlsoap:operation soapAction="removeDeviceGroup" />
+			<wsdl:input name="removeDeviceGroupRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="removeDeviceGroupResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="createDeviceGroups">
+			<wsdlsoap:operation soapAction="createDeviceGroups" />
+			<wsdl:input name="createDeviceGroupRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="createDeviceGroupResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteDeviceGroup">
+			<wsdlsoap:operation soapAction="deleteDeviceGroup" />
+			<wsdl:input name="deleteDeviceGroupRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="deleteDeviceGroupResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="createDynamicGroupDefs">
+			<wsdlsoap:operation soapAction="createDynamicGroupDefs" />
+			<wsdl:input name="createDynamicGroupDefsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="createDynamicGroupDefsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="updateDynamicGroupDefs">
+			<wsdlsoap:operation soapAction="updateDynamicGroupDefs" />
+			<wsdl:input name="updateDynamicGroupDefsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="updateDynamicGroupDefsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteDynamicGroupDefs">
+			<wsdlsoap:operation soapAction="deleteDynamicGroupDefs" />
+			<wsdl:input name="deleteDynamicGroupDefsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="deleteDynamicGroupDefsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getDynamicGroupDefs">
+			<wsdlsoap:operation soapAction="getDynamicGroupDefs" />
+			<wsdl:input name="getDynamicGroupDefsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+				<wsdlsoap:header message="impl:Authentication" part="Authentication"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="getDynamicGroupDefsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://sdk.axeda.com/webservices/deviceGroup/" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="DeviceGroupServiceService">
+		<wsdl:port binding="impl:DeviceGroupServiceBinding" name="DeviceGroupService">
+			<wsdlsoap:address
+				location="http://sdk.axeda.com/webservices/services/DeviceGroupService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

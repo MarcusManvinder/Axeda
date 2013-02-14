@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+  targetNamespace="http://sdk.axeda.com/webservices/actions/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+  xmlns:impl="http://sdk.axeda.com/webservices/actions/"
+  xmlns:intf="http://sdk.axeda.com/webservices/actions/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <simpleType name="ActionType">
+        <restriction base="xsd:string">
+          <enumeration value="create"/>
+          <enumeration value="find"/>
+          <enumeration value="createIfNotFound"/>
+        </restriction>
+      </simpleType>
+      <simpleType name="ModelType">
+        <restriction base="xsd:string">
+          <enumeration value="gateway"/>
+          <enumeration value="managed"/>
+          <enumeration value="standalone"/>
+        </restriction>
+      </simpleType>
+      <simpleType name="DataItemType">
+        <restriction base="xsd:string">
+          <enumeration value="string"/>
+          <enumeration value="digital"/>
+          <enumeration value="analog"/>
+        </restriction>
+      </simpleType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Organization">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Model">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="type" nillable="true" type="tns1:ModelType"/>
+          <element name="manufacturer" nillable="true" type="tns1:Organization"/>
+        </sequence>
+      </complexType>
+      <complexType name="ModelList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Model[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="UserGroup">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="UserGroupList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:UserGroup[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="DataItem">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="alias" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="visible" nillable="true" type="xsd:boolean"/>
+          <element name="stored" nillable="true" type="xsd:boolean"/>
+          <element name="readOnly" nillable="true" type="xsd:boolean"/>
+          <element name="type" nillable="true" type="tns1:DataItemType"/>
+          <element name="unit" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="IdList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="Action">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="type" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="SetDataItemAction">
+        <complexContent>
+          <extension base="tns1:Action">
+            <sequence>
+              <element name="dataItemName" nillable="true" type="xsd:string"/>
+              <element name="dataItemValue" nillable="true" type="xsd:string"/>
+              <element name="dataItemType" nillable="true" type="tns1:DataItemType"/>
+              <element name="models" nillable="true" type="tns1:ModelList"/>
+              <element name="userGroupWithEditPermission" nillable="true" type="tns1:UserGroupList"/>
+              <element name="userGroupWithExecutePermission" nillable="true" type="tns1:UserGroupList"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType name="SetDataItemActionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:SetDataItemAction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="AlarmAction">
+        <complexContent>
+          <extension base="tns1:Action">
+            <sequence>
+              <element name="alarmName" nillable="true" type="xsd:string"/>
+              <element name="alarmDescription" nillable="true" type="xsd:string"/>
+              <element name="state" nillable="true" type="xsd:string"/>
+              <element name="severity" nillable="true" type="xsd:int"/>
+              <element name="userGroup" nillable="true" type="tns1:UserGroup"/>
+              <element name="dataItem" nillable="true" type="tns1:DataItem"/>
+              <element name="processTrigger" nillable="true" type="xsd:boolean"/>
+              <element name="models" nillable="true" type="tns1:ModelList"/>
+              <element name="userGroupWithEditPermission" nillable="true" type="tns1:UserGroupList"/>
+              <element name="userGroupWithExecutePermission" nillable="true" type="tns1:UserGroupList"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType name="AlarmActionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:AlarmAction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="CustomAction">
+        <complexContent>
+          <extension base="tns1:Action">
+            <sequence>
+              <element name="classHandler" nillable="true" type="xsd:string"/>
+              <element name="function" nillable="true" type="xsd:string"/>
+              <element name="parameters" nillable="true" type="xsd:string"/>
+              <element name="asynchronous" nillable="true" type="xsd:boolean"/>
+              <element name="userGroupWithEditPermission" nillable="true" type="tns1:UserGroupList"/>
+              <element name="userGroupWithExecutePermission" nillable="true" type="tns1:UserGroupList"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType name="CustomActionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:CustomAction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="ActionQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="createSetDataItemActionsRequest">
+    <wsdl:part name="actionList" type="tns1:SetDataItemActionList"/>
+  </wsdl:message>
+  <wsdl:message name="createSetDataItemActionsResponse"/>
+  <wsdl:message name="createAlarmActionsRequest">
+    <wsdl:part name="actionList" type="tns1:AlarmActionList"/>
+  </wsdl:message>
+  <wsdl:message name="createAlarmActionsResponse"/>
+  <wsdl:message name="createCustomActionsRequest">
+    <wsdl:part name="actionList" type="tns1:CustomActionList"/>
+  </wsdl:message>
+  <wsdl:message name="createCustomActionsResponse"/>
+  <wsdl:message name="findSetDataItemActionRequest">
+    <wsdl:part name="actionQuery" type="tns1:ActionQuery"/>
+  </wsdl:message>
+  <wsdl:message name="findSetDataItemActionResponse">
+    <wsdl:part name="setDataItemAction" type="tns1:SetDataItemAction"/>
+  </wsdl:message>
+  <wsdl:message name="findAlarmActionRequest">
+    <wsdl:part name="actionQuery" type="tns1:ActionQuery"/>
+  </wsdl:message>
+  <wsdl:message name="findAlarmActionResponse">
+    <wsdl:part name="alarmAction" type="tns1:AlarmAction"/>
+  </wsdl:message>
+  <wsdl:message name="findCustomActionRequest">
+    <wsdl:part name="actionQuery" type="tns1:ActionQuery"/>
+  </wsdl:message>
+  <wsdl:message name="findCustomActionResponse">
+    <wsdl:part name="customAction" type="tns1:CustomAction"/>
+  </wsdl:message>
+  <wsdl:message name="deleteSetDataItemActionRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteSetDataItemActionResponse" />
+  <wsdl:message name="deleteAlarmActionRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteAlarmActionResponse" />
+  <wsdl:message name="deleteCustomActionRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteCustomActionResponse" />
+  <wsdl:portType name="ActionsService">
+    <wsdl:operation name="createSetDataItemActions" parameterOrder="actionList">
+      <wsdl:input message="impl:createSetDataItemActionsRequest" name="createSetDataItemActionsRequest"/>
+      <wsdl:output message="impl:createSetDataItemActionsResponse" name="createSetDataItemActionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createAlarmActions" parameterOrder="actionList">
+      <wsdl:input message="impl:createAlarmActionsRequest" name="createAlarmActionsRequest"/>
+      <wsdl:output message="impl:createAlarmActionsResponse" name="createAlarmActionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createCustomActions" parameterOrder="actionList">
+      <wsdl:input message="impl:createCustomActionsRequest" name="createCustomActionsRequest"/>
+      <wsdl:output message="impl:createCustomActionsResponse" name="createCustomActionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="findSetDataItemAction" parameterOrder="actionQuery">
+      <wsdl:input message="impl:findSetDataItemActionRequest" name="findSetDataItemActionRequest"/>
+      <wsdl:output message="impl:findSetDataItemActionResponse" name="findSetDataItemActionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="findAlarmAction" parameterOrder="actionQuery">
+      <wsdl:input message="impl:findAlarmActionRequest" name="findAlarmActionRequest"/>
+      <wsdl:output message="impl:findAlarmActionResponse" name="findAlarmActionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="findCustomAction" parameterOrder="actionQuery">
+      <wsdl:input message="impl:findCustomActionRequest" name="findCustomActionRequest"/>
+      <wsdl:output message="impl:findCustomActionResponse" name="findCustomActionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSetDataItemAction" parameterOrder="ids">
+      <wsdl:input message="impl:deleteSetDataItemActionRequest" name="deleteSetDataItemActionRequest"/>
+      <wsdl:output message="impl:deleteSetDataItemActionResponse" name="deleteSetDataItemActionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAlarmAction" parameterOrder="ids">
+      <wsdl:input message="impl:deleteAlarmActionRequest" name="deleteAlarmActionRequest"/>
+      <wsdl:output message="impl:deleteAlarmActionResponse" name="deleteAlarmActionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCustomAction" parameterOrder="ids">
+      <wsdl:input message="impl:deleteCustomActionRequest" name="deleteCustomActionRequest"/>
+      <wsdl:output message="impl:deleteCustomActionResponse" name="deleteCustomActionResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ActionsServiceBinding" type="impl:ActionsService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createSetDataItemActions">
+      <wsdlsoap:operation soapAction="createSetDataItemActions"/>
+      <wsdl:input name="createSetDataItemActionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createSetDataItemActionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createAlarmActions">
+      <wsdlsoap:operation soapAction="createAlarmActions"/>
+      <wsdl:input name="createAlarmActionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createAlarmActionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createCustomActions">
+      <wsdlsoap:operation soapAction="createCustomActions"/>
+      <wsdl:input name="createCustomActionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createCustomActionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findSetDataItemAction">
+      <wsdlsoap:operation soapAction="findSetDataItemAction"/>
+      <wsdl:input name="findSetDataItemActionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="findSetDataItemActionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlarmAction">
+      <wsdlsoap:operation soapAction="findAlarmAction"/>
+      <wsdl:input name="findAlarmActionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="findAlarmActionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findCustomAction">
+      <wsdlsoap:operation soapAction="findCustomAction"/>
+      <wsdl:input name="findCustomActionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="findCustomActionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSetDataItemAction">
+      <wsdlsoap:operation soapAction="deleteSetDataItemAction"/>
+      <wsdl:input name="deleteSetDataItemActionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteSetDataItemActionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAlarmAction">
+      <wsdlsoap:operation soapAction="deleteAlarmAction"/>
+      <wsdl:input name="deleteAlarmActionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteAlarmActionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCustomAction">
+      <wsdlsoap:operation soapAction="deleteCustomAction"/>
+      <wsdl:input name="deleteCustomActionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteCustomActionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/actions/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ActionsServiceService">
+    <wsdl:port binding="impl:ActionsServiceBinding" name="ActionsService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/ActionsService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

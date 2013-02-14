@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/caseNote/" xmlns:intf="http://sdk.axeda.com/webservices/caseNote/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sdk.axeda.com/webservices/caseNote/">
+	<wsdl:types>
+		<schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<complexType name="CaseNoteQuery">
+				<sequence>
+					<element name="caseId" nillable="true" type="xsd:long"/>
+					<element name="caseNoteId" nillable="true" type="xsd:long"/>
+				</sequence>
+			</complexType>
+			<complexType name="CaseNote">
+				<sequence>
+					<element name="caseNoteId" nillable="true" type="xsd:long"/>
+					<element name="description " nillable="true" type="xsd:string"/>
+					<element name="caseId" nillable="true" type="xsd:long"/>
+					<element name="isPublic " nillable="true" type="xsd:boolean"/>
+					<element name="userName" nillable="true" type="xsd:string"/>
+					<element name="createTime" nillable="true" type="xsd:dateTime"/>
+				</sequence>
+			</complexType>
+			<complexType name="CaseNoteList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:CaseNote[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="SessionInfo">
+				<sequence>
+					<element name="User" nillable="true" type="xsd:string"/>
+					<element name="Password" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="Authentication">
+		<wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+	</wsdl:message>
+	<wsdl:message name="createCaseNoteRequest">
+		<wsdl:part name="CaseNoteCreateList" type="tns1:CaseNoteList"/>
+	</wsdl:message>
+	<wsdl:message name="createCaseNoteResponse">
+		<wsdl:part name="CaseNote" type="tns1:CaseNoteList"/>
+	</wsdl:message>
+	<wsdl:message name="updateCaseNoteRequest">
+		<wsdl:part name="CaseNoteUpdateList" type="tns1:CaseNoteList"/>
+	</wsdl:message>
+	<wsdl:message name="updateCaseNoteResponse">
+		<wsdl:part name="CaseNote" type="tns1:CaseNoteList"/>
+	</wsdl:message>
+	<wsdl:message name="findCaseNoteRequest">
+		<wsdl:part name="query" type="tns1:CaseNoteQuery"/>
+	</wsdl:message>
+	<wsdl:message name="findCaseNoteResponse">
+		<wsdl:part name="CaseNote" type="tns1:CaseNoteList"/>
+	</wsdl:message>
+	<wsdl:message name="deleteCaseNoteRequest">
+		<wsdl:part name="CaseNoteDeleteList" type="tns1:CaseNoteList"/>
+	</wsdl:message>
+	<wsdl:message name="deleteCaseNoteResponse">
+		<wsdl:part name="CaseNoteDeleteResponse" type="tns1:CaseNoteList"/>
+	</wsdl:message>
+	<wsdl:portType name="CaseNoteService">
+		<wsdl:operation name="createCaseNote">
+			<wsdl:input name="createCaseNoteRequest" message="impl:createCaseNoteRequest"/>
+			<wsdl:output name="createCaseNoteResponse" message="impl:createCaseNoteResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="updateCaseNote">
+			<wsdl:input name="updateCaseNoteRequest" message="impl:updateCaseNoteRequest"/>
+			<wsdl:output name="updateCaseNoteResponse" message="impl:updateCaseNoteResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="findCaseNote">
+			<wsdl:input name="findCaseNoteRequest" message="impl:findCaseNoteRequest"/>
+			<wsdl:output name="findCaseNoteResponse" message="impl:findCaseNoteResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="deleteCaseNote">
+			<wsdl:input name="deleteCaseNoteRequest" message="impl:deleteCaseNoteRequest"/>
+			<wsdl:output name="deleteCaseNoteResponse" message="impl:deleteCaseNoteResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CaseNoteServiceSoapBinding" type="impl:CaseNoteService">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createCaseNote">
+			<wsdlsoap:operation soapAction="createCaseNote"/>
+			<wsdl:input name="createCaseNoteRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/caseNote/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="createCaseNoteResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/caseNote/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="updateCaseNote">
+			<wsdlsoap:operation soapAction="updateCaseNote"/>
+			<wsdl:input name="updateCaseNoteRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/caseNote/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="updateCaseNoteResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/caseNote/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="findCaseNote">
+			<wsdlsoap:operation soapAction="caseNoteFind"/>
+			<wsdl:input name="findCaseNoteRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/caseNote/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="findCaseNoteResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/caseNote/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteCaseNote">
+			<wsdlsoap:operation soapAction="caseNoteDelete"/>
+			<wsdl:input name="deleteCaseNoteRequest">>
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/caseNote/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="deleteCaseNoteResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CaseNoteServiceService">
+		<wsdl:port name="CaseNoteService" binding="impl:CaseNoteServiceSoapBinding">
+			<wsdlsoap:address location="http://sdk.axeda.com/webservices/services/CaseNoteService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

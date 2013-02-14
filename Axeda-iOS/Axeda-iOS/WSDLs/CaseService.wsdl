@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 rel. 3 (http://www.altova.com) by krishna (Applabs) -->
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/cases/" xmlns:intf="http://sdk.axeda.com/webservices/case/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sdk.axeda.com/webservices/cases/">
+	<wsdl:types>
+		<schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<complexType name="CaseQuery">
+				<sequence>
+					<element name="caseId" nillable="true" type="xsd:long"/>
+					<element name="crmId" nillable="true" type="xsd:string"/>
+					<element name="owners" nillable="true" type="xsd:string"/>
+					<element name="vendors" nillable="true" type="xsd:string"/>
+					<element name="model" nillable="true" type="xsd:string"/>
+					<element name="deviceName" nillable="true" type="xsd:string"/>
+					<element name="gateway" nillable="true" type="xsd:string"/>
+					<element name="deviceList" nillable="true" type="tns1:DeviceSerialList"/>
+					<element name="deviceGroup" nillable="true" type="xsd:string"/>
+					<element name="system" nillable="true" type="xsd:string"/>
+					<element name="region" nillable="true" type="xsd:string"/>
+					<element name="statusId" nillable="true" type="xsd:long"/>
+					<element name="priorityId" nillable="true" type="xsd:long"/>
+					<element name="reasonId" nillable="true" type="xsd:long"/>
+					<element name="resolutionId" nillable="true" type="xsd:long"/>
+					<element name="createMethod" nillable="true" type="xsd:string"/>
+					<element name="openDtTimestamp" nillable="true" type="xsd:dateTime"/>
+					<element name="closeDtTimestamp" nillable="true" type="xsd:dateTime"/>
+					<element name="title" nillable="true" type="xsd:string"/>
+					<element name="description" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="Priority">
+				<sequence>
+					<element name="id" nillable="true" type="xsd:long"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="sortOrderNo" nillable="true" type="xsd:int"/>
+					<element name="defaultChoice" nillable="true" type="xsd:string"/>
+					<element name="visibleToPartner" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+
+			<complexType name="PriorityList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Priority[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+
+			<complexType name="Reason">
+				<sequence>
+					<element name="id" nillable="true" type="xsd:long"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="sortOrderNo" nillable="true" type="xsd:int"/>
+					<element name="visibleToPartner" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+
+			<complexType name="ReasonList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Reason[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+
+
+
+			<complexType name="Resolution">
+				<sequence>
+					<element name="id" nillable="true" type="xsd:long"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="sortOrderNo" nillable="true" type="xsd:int"/>
+					<element name="visibleToPartner" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="ResolutionList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Resolution[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="Status">
+				<sequence>
+					<element name="id" nillable="true" type="xsd:long"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="sortOrderNo" nillable="true" type="xsd:int"/>
+					<element name="defaultChoice" nillable="true" type="xsd:string"/>
+					<element name="resolved" nillable="true" type="xsd:string"/>
+					<element name="visibleToPartner" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="StatusList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Status[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="Cases">
+				<sequence>
+					<element name="caseId" nillable="true" type="xsd:long"/>
+					<element name="deviceList" nillable="true" type="tns1:DeviceSerialList"/>
+					<element name="modelSerial" nillable="true" type="xsd:string"/>
+					<element name="crmId" nillable="true" type="xsd:string"/>
+					<element name="reason" nillable="true" type="tns1:Reason"/>
+					<element name="priority" nillable="true" type="tns1:Priority"/>
+					<element name="status" nillable="true" type="tns1:Status"/>
+					<element name="resolution" nillable="true" type="tns1:Resolution"/>
+					<element name="title" nillable="true" type="xsd:string"/>
+					<element name="description" nillable="true" type="xsd:string"/>
+					<element name="owner" nillable="true" type="xsd:string"/>
+					<element name="partner" nillable="true" type="xsd:string"/>
+					<element name="contactName" nillable="true" type="tns1:ContactList"/>
+					<element name="openDate" nillable="true" type="xsd:dateTime"/>
+					<element name="closedDate" nillable="true" type="xsd:dateTime"/>
+				</sequence>
+			</complexType>
+			<complexType name="CaseList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Cases[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+
+			<complexType name="ContactName">
+				<sequence>
+					<element name="name" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="ContactList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ContactName[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			
+			<complexType name="DeviceSerial">
+				<sequence>
+					<element name="name" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+
+			<complexType name="DeviceSerialList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeviceSerial[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="SessionInfo">
+				<sequence>
+					<element name="User" nillable="true" type="xsd:string"/>
+					<element name="Password" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+
+		        <complexType name="AttributeName">
+				<sequence>
+					<element name="Name" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="Authentication">
+		<wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+	</wsdl:message>
+	<wsdl:message name="createCaseRequest">
+		<wsdl:part name="caseRequestList" type="tns1:CaseList"/>
+	</wsdl:message>
+	<wsdl:message name="createCaseResponse">
+		<wsdl:part name="caseList" type="tns1:CaseList"/>
+	</wsdl:message>
+	<wsdl:message name="updateCaseRequest">
+		<wsdl:part name="caseUpdateList" type="tns1:CaseList"/>
+	</wsdl:message>
+	<wsdl:message name="updateCaseResponse">
+		<wsdl:part name="caseList" type="tns1:CaseList"/>
+	</wsdl:message>
+	<wsdl:message name="findCaseRequest">
+		<wsdl:part name="query" type="tns1:CaseQuery"/>
+	</wsdl:message>
+	<wsdl:message name="findCaseResponse">
+		<wsdl:part name="caseList" type="tns1:CaseList"/>
+	</wsdl:message>
+
+	<wsdl:message name="ReasonListRequest">
+		<wsdl:part name="AttributeName" type="tns1:AttributeName"/>
+	</wsdl:message>
+
+	<wsdl:message name="ReasonListResponse">
+		<wsdl:part name="ReasonListResponse" type="tns1:ReasonList"/>
+	</wsdl:message>
+
+
+
+	<wsdl:message name="PriorityListRequest">
+		<wsdl:part name="AttributeName" type="tns1:AttributeName"/>
+	</wsdl:message>
+
+	<wsdl:message name="PriorityListResponse">
+		<wsdl:part name="PriorityListResponse" type="tns1:PriorityList"/>
+	</wsdl:message>
+
+	<wsdl:message name="ResolutionListRequest">
+		<wsdl:part name="AttributeName" type="tns1:AttributeName"/>
+	</wsdl:message>
+	<wsdl:message name="ResolutionListResponse">
+		<wsdl:part name="ResolutionListResponse" type="tns1:ResolutionList"/>
+	</wsdl:message>
+
+	<wsdl:message name="StatusListRequest">
+		<wsdl:part name="AttributeName" type="tns1:AttributeName"/>
+	</wsdl:message>
+	<wsdl:message name="StatusListResponse">
+		<wsdl:part name="StatusListResponse" type="tns1:StatusList"/>
+	</wsdl:message>
+
+	<wsdl:portType name="CaseService">
+		<wsdl:operation name="createCase">
+			<wsdl:input name="createCaseRequest" message="impl:createCaseRequest"/>
+			<wsdl:output name="createCaseResponse" message="impl:createCaseResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="updateCase">
+			<wsdl:input name="updateCaseRequest" message="impl:updateCaseRequest"/>
+			<wsdl:output name="updateCaseResponse" message="impl:updateCaseResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="findCase">
+			<wsdl:input name="findCaseRequest" message="impl:findCaseRequest"/>
+			<wsdl:output name="findCaseResponse" message="impl:findCaseResponse"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="findCaseReasons">			
+			<wsdl:input name="ReasonListRequest" message="impl:ReasonListRequest"/>
+			<wsdl:output name="ReasonListResponse" message="impl:ReasonListResponse"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="findCasePriorities">			
+			<wsdl:input name="PriorityListRequest" message="impl:PriorityListRequest"/>
+			<wsdl:output name="PriorityListResponse" message="impl:PriorityListResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="findCaseResolutions">			
+			<wsdl:input name="ResolutionListRequest" message="impl:ResolutionListRequest"/>
+			<wsdl:output name="ResolutionListResponse" message="impl:ResolutionListResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="findCaseStatuses">			
+			<wsdl:input name="StatusListRequest" message="impl:StatusListRequest"/>
+			<wsdl:output name="StatusListResponse" message="impl:StatusListResponse"/>
+		</wsdl:operation>
+
+
+	</wsdl:portType>
+	<wsdl:binding name="CaseServiceSoapBinding" type="impl:CaseService">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createCase">
+			<wsdlsoap:operation soapAction="createCase"/>
+			<wsdl:input name="createCaseRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="createCaseResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="updateCase">
+			<wsdlsoap:operation soapAction="updateCase"/>
+			<wsdl:input name="updateCaseRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="updateCaseResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="findCase">
+			<wsdlsoap:operation soapAction="findCase"/>
+			<wsdl:input name="findCaseRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="findCaseResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="findCaseReasons">
+			<wsdlsoap:operation soapAction="findCaseReasons"/>
+			<wsdl:input name="ReasonListRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="ReasonListResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="findCasePriorities">
+			<wsdlsoap:operation soapAction="findCasePriorities"/>
+			<wsdl:input name="PriorityListRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="PriorityListResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="findCaseResolutions">
+			<wsdlsoap:operation soapAction="findCaseResolutions"/>
+			<wsdl:input name="ResolutionListRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="ResolutionListResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="findCaseStatuses">
+			<wsdlsoap:operation soapAction="findCaseStatuses"/>
+			<wsdl:input name="StatusListRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="StatusListResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/cases/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+	<wsdl:service name="CaseServiceService">
+		<wsdl:port name="CaseService" binding="impl:CaseServiceSoapBinding">
+			<wsdlsoap:address location="http://sdk.axeda.com/webservices/services/CaseService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

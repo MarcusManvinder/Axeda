@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+    targetNamespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:apachesoap="http://xml.apache.org/xml-soap"
+    xmlns:impl="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+    xmlns:intf="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns1="http://sdk.axeda.com/webservices/type"
+    xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl1="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+    xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+    xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <!-- create Timers -->
+  <wsdl:message name="createTimersRequest">
+    <wsdl:part name="timers" type="tns1:RuleTimerList"/>
+  </wsdl:message>
+  <wsdl:message name="createTimersResponse">
+    <wsdl:part name="timersRes" type="tns1:ResultList"/>
+  </wsdl:message>
+  
+  <!-- update Timers -->
+  <wsdl:message name="updateTimersRequest">
+    <wsdl:part name="timers" type="tns1:RuleTimerList"/>
+  </wsdl:message>
+  <wsdl:message name="updateTimersResponse">
+    <wsdl:part name="timersRes" type="tns1:ResultList"/>
+  </wsdl:message>
+  
+  <!-- delete Timers -->
+  <wsdl:message name="deleteTimersRequest">
+    <wsdl:part name="timers" type="tns1:RuleTimerList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteTimersResponse">
+    <wsdl:part name="timersRes" type="tns1:ResultList"/>
+  </wsdl:message>  
+  
+  
+  <!-- get timers-->
+  <wsdl:message name="getTimerRequest">
+    <wsdl:part name="ruleTimerQuery" type="tns1:RuleTimerQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getTimerResponse">
+    <wsdl:part name="timers" type="tns1:RuleTimerList"/>
+  </wsdl:message>
+
+  <wsdl:portType name="RuleTimerService">
+
+
+  <!-- create Timers -->
+    <wsdl:operation name="createRuleTimers"
+                    parameterOrder="timers">
+      <wsdl:input message="impl:createTimersRequest"
+                  name="createTimersRequest"/>
+      <wsdl:output message="impl:createTimersResponse"
+                   name="createTimersResponse"/>
+    </wsdl:operation>  
+  
+
+  <!-- update Timers -->
+    <wsdl:operation name="updateRuleTimers"
+                    parameterOrder="timers">
+      <wsdl:input message="impl:updateTimersRequest"
+                  name="updateTimersRequest"/>
+      <wsdl:output message="impl:updateTimersResponse"
+                   name="updateTimersResponse"/>
+    </wsdl:operation> 
+
+  <!-- delete Timers -->
+    <wsdl:operation name="deleteRuleTimers"
+                    parameterOrder="timers">
+      <wsdl:input message="impl:deleteTimersRequest"
+                  name="deleteTimersRequest"/>
+      <wsdl:output message="impl:deleteTimersResponse"
+                   name="deleteTimersResponse"/>
+    </wsdl:operation>	
+  
+    <!-- get timers Mapping -->
+
+    <wsdl:operation name="getRuleTimers"
+                    parameterOrder="ruleTimerQuery">
+      <wsdl:input message="impl:getTimerRequest"
+                  name="getTimerRequest"/>
+      <wsdl:output message="impl:getTimerResponse"
+                   name="getTimerResponse"/>
+    </wsdl:operation>
+	
+  </wsdl:portType>
+
+  <wsdl:binding name="RuleTimerServiceBinding"
+                type="impl:RuleTimerService">
+    <wsdlsoap:binding style="rpc"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <!-- create timers Mapping -->					  
+    <wsdl:operation name="createRuleTimers">
+      <wsdlsoap:operation soapAction="timerService"/>
+      <wsdl:input name="createTimersRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createTimersResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>	
+
+    <!-- update timers Mapping -->					  
+    <wsdl:operation name="updateRuleTimers">
+      <wsdlsoap:operation soapAction="timerService"/>
+      <wsdl:input name="updateTimersRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateTimersResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>	
+	
+    <!-- delete timers Mapping -->					  
+    <wsdl:operation name="deleteRuleTimers">
+      <wsdlsoap:operation soapAction="timerService"/>
+      <wsdl:input name="deleteTimersRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteTimersResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>	
+					  
+    <!-- get timers Mapping -->
+
+    <wsdl:operation name="getRuleTimers">
+      <wsdlsoap:operation soapAction="timerService"/>
+      <wsdl:input name="getTimerRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getTimerResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/ruleTimerService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+  </wsdl:binding>
+
+  <wsdl:service name="RuleTimerService">
+    <wsdl:port binding="impl:RuleTimerServiceBinding"
+               name="RuleTimerService">
+      <wsdlsoap:address
+          location="http://sdk.axeda.com/webservices/services/RuleTimerService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/dataitem/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/dataitem/" xmlns:intf="http://sdk.axeda.com/webservices/dataitem/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="DataItemQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="alias" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="readOnly" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+      <simpleType name="DataItemType">
+        <restriction base="xsd:string">
+          <enumeration value="string"/>
+          <enumeration value="digital"/>
+          <enumeration value="analog"/>
+        </restriction>
+      </simpleType>
+      <complexType name="DataItem">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="alias" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="visible" nillable="true" type="xsd:boolean"/>
+          <element name="stored" nillable="true" type="xsd:boolean"/>
+          <element name="readOnly" nillable="true" type="xsd:boolean"/>
+          <element name="type" nillable="true" type="tns1:DataItemType"/>
+          <element name="unit" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DataItemUpdateQuery">
+        <sequence>
+          <element name="query" nillable="true" type="tns1:DataItemQuery"/>
+          <element name="update" nillable="true" type="tns1:DataItem"/>
+        </sequence>
+      </complexType>
+      <complexType name="DataItemList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DataItem[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="IdList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="DataItemUpdateQueryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DataItemUpdateQuery[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="deleteDataItemsRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="createDataItemsResponse">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="createDataItemsRequest">
+    <wsdl:part name="dataItems" type="tns1:DataItemList"/>
+  </wsdl:message>
+  <wsdl:message name="getDataItemsRequest">
+    <wsdl:part name="query" type="tns1:DataItemQuery"/>
+  </wsdl:message>
+  <wsdl:message name="updateDataItemsRequest">
+    <wsdl:part name="updates" type="tns1:DataItemUpdateQueryList"/>
+  </wsdl:message>
+  <wsdl:message name="getDataItemResponse">
+    <wsdl:part name="dataItem" type="tns1:DataItem"/>
+  </wsdl:message>
+  <wsdl:message name="getDataItemRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="updateDataItemsResponse"/>
+  <wsdl:message name="deleteDataItemsResponse"/>
+  <wsdl:message name="getDataItemsResponse">
+    <wsdl:part name="dataItems" type="tns1:DataItemList"/>
+  </wsdl:message>
+  <wsdl:portType name="DataItemService">
+    <wsdl:operation name="createDataItems" parameterOrder="dataItems">
+      <wsdl:input message="impl:createDataItemsRequest" name="createDataItemsRequest"/>
+      <wsdl:output message="impl:createDataItemsResponse" name="createDataItemsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDataItems" parameterOrder="query">
+      <wsdl:input message="impl:getDataItemsRequest" name="getDataItemsRequest"/>
+      <wsdl:output message="impl:getDataItemsResponse" name="getDataItemsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDataItem" parameterOrder="id">
+      <wsdl:input message="impl:getDataItemRequest" name="getDataItemRequest"/>
+      <wsdl:output message="impl:getDataItemResponse" name="getDataItemResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDataItems" parameterOrder="ids">
+      <wsdl:input message="impl:deleteDataItemsRequest" name="deleteDataItemsRequest"/>
+      <wsdl:output message="impl:deleteDataItemsResponse" name="deleteDataItemsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateDataItems" parameterOrder="updates">
+      <wsdl:input message="impl:updateDataItemsRequest" name="updateDataItemsRequest"/>
+      <wsdl:output message="impl:updateDataItemsResponse" name="updateDataItemsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DataItemServiceSoapBinding" type="impl:DataItemService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createDataItems">
+      <wsdlsoap:operation soapAction="CreateDataItems"/>
+      <wsdl:input name="createDataItemsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createDataItemsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataItems">
+      <wsdlsoap:operation soapAction="GetDataItems"/>
+      <wsdl:input name="getDataItemsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDataItemsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataItem">
+      <wsdlsoap:operation soapAction="GetDataItem"/>
+      <wsdl:input name="getDataItemRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDataItemResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDataItems">
+      <wsdlsoap:operation soapAction="DeleteDataItems"/>
+      <wsdl:input name="deleteDataItemsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteDataItemsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDataItems">
+      <wsdlsoap:operation soapAction="UpdateDataItems"/>
+      <wsdl:input name="updateDataItemsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateDataItemsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/dataitem/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DataItemServiceService">
+    <wsdl:port binding="impl:DataItemServiceSoapBinding" name="DataItemService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/DataItemService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

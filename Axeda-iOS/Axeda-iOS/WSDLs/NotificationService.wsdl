@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/notification/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/notification/" xmlns:intf="http://sdk.axeda.com/webservices/notification/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Notification">
+        <sequence>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="fromAddress" nillable="true" type="xsd:string"/>
+          <element name="styleId" nillable="true" type="xsd:long"/>      
+          <element name="localeId" nillable="true" type="xsd:string"/>
+          <element name="messageTitle" nillable="true" type="xsd:string"/>
+          <element name="messageBody" nillable="true" type="xsd:string"/>          
+          <element name="allowAttachments" nillable="true" type="xsd:boolean"/>          
+          <element name="compress" nillable="true" type="xsd:boolean"/>          
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="createNotificationRequest">
+    <wsdl:part name="notification" type="tns1:Notification"/>
+  </wsdl:message>
+  <wsdl:message name="createNotificationResponse">    
+  </wsdl:message>
+  <wsdl:portType name="NotificationService">
+    <wsdl:operation name="createNotification" parameterOrder="notification">
+      <wsdl:input message="impl:createNotificationRequest" name="createNotificationRequest"/>
+      <wsdl:output message="impl:createNotificationResponse" name="createNotificationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NotificationServiceBinding" type="impl:NotificationService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createNotification">
+      <wsdlsoap:operation soapAction="createNotification"/>
+      <wsdl:input name="createNotificationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/notification/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createNotificationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/notification/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>    
+  </wsdl:binding>
+  <wsdl:service name="NotificationServiceService">
+    <wsdl:port binding="impl:NotificationServiceBinding" name="NotificationService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/NotificationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

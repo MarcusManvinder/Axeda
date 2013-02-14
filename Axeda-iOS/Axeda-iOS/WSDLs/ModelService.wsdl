@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/model/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/model/" xmlns:intf="http://sdk.axeda.com/webservices/model/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <simpleType name="ActionType">
+        <restriction base="xsd:string">
+          <enumeration value="create"/>
+          <enumeration value="find"/>
+          <enumeration value="createIfNotFound"/>
+        </restriction>
+      </simpleType>
+      <complexType name="ModelQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="hasAssociation" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+      <simpleType name="ModelType">
+        <restriction base="xsd:string">
+          <enumeration value="gateway"/>
+          <enumeration value="managed"/>
+          <enumeration value="standalone"/>
+        </restriction>
+      </simpleType>
+      <complexType name="Organization">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Model">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="type" nillable="true" type="tns1:ModelType"/>
+          <element name="manufacturer" nillable="true" type="tns1:Organization"/>
+          <element name="defaultAssetGroup" nillable="true" type="tns1:DeviceGroup"/>
+        </sequence>
+      </complexType>
+      <complexType name="ModelUpdateQuery">
+        <sequence>
+          <element name="query" nillable="true" type="tns1:ModelQuery"/>
+          <element name="update" nillable="true" type="tns1:Model"/>
+        </sequence>
+      </complexType>
+      <complexType name="ModelList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Model[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="IdList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="ModelUpdateQueryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ModelUpdateQuery[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeviceGroup">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="parentPath" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="getModelsRequest">
+    <wsdl:part name="query" type="tns1:ModelQuery"/>
+  </wsdl:message>
+  <wsdl:message name="createModelsResponse">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="getModelRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="getModelsResponse">
+    <wsdl:part name="models" type="tns1:ModelList"/>
+  </wsdl:message>
+  <wsdl:message name="updateModelsRequest">
+    <wsdl:part name="updates" type="tns1:ModelUpdateQueryList"/>
+  </wsdl:message>
+  <wsdl:message name="updateModelsResponse"/>
+  <wsdl:message name="getModelResponse">
+    <wsdl:part name="model" type="tns1:Model"/>
+  </wsdl:message>
+  <wsdl:message name="createModelsRequest">
+    <wsdl:part name="models" type="tns1:ModelList"/>
+  </wsdl:message>  
+  <wsdl:message name="deleteModelsRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>  
+  <wsdl:message name="deleteModelsResponse"/>
+  
+  <wsdl:portType name="ModelService">
+    <wsdl:operation name="createModels" parameterOrder="models">
+      <wsdl:input message="impl:createModelsRequest" name="createModelsRequest"/>
+      <wsdl:output message="impl:createModelsResponse" name="createModelsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getModels" parameterOrder="query">
+      <wsdl:input message="impl:getModelsRequest" name="getModelsRequest"/>
+      <wsdl:output message="impl:getModelsResponse" name="getModelsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getModel" parameterOrder="id">
+      <wsdl:input message="impl:getModelRequest" name="getModelRequest"/>
+      <wsdl:output message="impl:getModelResponse" name="getModelResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateModels" parameterOrder="updates">
+      <wsdl:input message="impl:updateModelsRequest" name="updateModelsRequest"/>
+      <wsdl:output message="impl:updateModelsResponse" name="updateModelsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteModels" parameterOrder="ids">
+      <wsdl:input message="impl:deleteModelsRequest" name="deleteModelsRequest"/>
+      <wsdl:output message="impl:deleteModelsResponse" name="deleteModelsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ModelServiceSoapBinding" type="impl:ModelService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createModels">
+      <wsdlsoap:operation soapAction="CreateModels"/>
+      <wsdl:input name="createModelsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createModelsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModels">
+      <wsdlsoap:operation soapAction="GetModels"/>
+      <wsdl:input name="getModelsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getModelsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <wsdlsoap:operation soapAction="GetModel"/>
+      <wsdl:input name="getModelRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getModelResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateModels">
+      <wsdlsoap:operation soapAction="UpdateModels"/>
+      <wsdl:input name="updateModelsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateModelsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+     <wsdl:operation name="deleteModels">
+      <wsdlsoap:operation soapAction="DeleteModels"/>
+      <wsdl:input name="deleteModelsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteModelsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/model/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+  </wsdl:binding>
+  <wsdl:service name="ModelServiceService">
+    <wsdl:port binding="impl:ModelServiceSoapBinding" name="ModelService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/ModelService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

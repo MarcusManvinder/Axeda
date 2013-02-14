@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/region/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/region/" xmlns:intf="http://sdk.axeda.com/webservices/region/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <simpleType name="ActionType">
+        <restriction base="xsd:string">
+          <enumeration value="create"/>
+          <enumeration value="find"/>
+          <enumeration value="createIfNotFound"/>
+        </restriction>
+      </simpleType>
+      <complexType name="Region">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="parent" nillable="true" type="tns1:Region"/>          
+          <element name="children" nillable="true" type="tns1:RegionList"/>
+          <element name="locations" nillable="true" type="tns1:LocationList"/>          
+        </sequence>
+      </complexType>
+      <complexType name="Location">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" type="xsd:string"/>
+          <element name="line1"  type="xsd:string"/>
+          <element name="line2" nillable="true" type="xsd:string"/>
+          <element name="city"  type="xsd:string"/>
+          <element name="state" nillable="true" type="xsd:string"/>
+          <element name="zip" nillable="true" type="xsd:string"/>
+          <element name="country" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      
+      <complexType name="RegionQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="parentId" nillable="true" type="xsd:long"/>
+          <element name="locationId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+      <complexType name="RegionUpdateQuery">
+        <sequence>
+          <element name="query" type="tns1:RegionQuery"/>
+          <element name="update" type="tns1:Region"/>
+        </sequence>
+      </complexType>
+      <complexType name="RegionsAvailableForParentQuery">
+        <sequence>
+          <element name="regionId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+      <complexType name="RegionsAvailableForChildrenQuery">
+        <sequence>
+          <element name="region" type="tns1:Region"/>
+        </sequence>
+      </complexType>
+      
+      <complexType name="RegionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Region[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="LocationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Location[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="IdList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="RegionUpdateQueryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:RegionUpdateQuery[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+
+  <!-- Messages -->
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="createRegionsRequest">
+    <wsdl:part name="regions" type="tns1:RegionList"/>
+  </wsdl:message>
+  <wsdl:message name="createRegionsResponse">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="updateRegionsRequest">
+    <wsdl:part name="updates" type="tns1:RegionUpdateQueryList"/>
+  </wsdl:message>
+  <wsdl:message name="updateRegionsResponse"/>
+  <wsdl:message name="deleteRegionsRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteRegionsResponse"/>
+  <wsdl:message name="getRegionRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="getRegionResponse">
+    <wsdl:part name="region" type="tns1:Region"/>
+  </wsdl:message>
+  <wsdl:message name="getRegionsRequest">
+    <wsdl:part name="query" type="tns1:RegionQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getRegionsResponse">
+    <wsdl:part name="regions" type="tns1:RegionList"/>
+  </wsdl:message>
+  <wsdl:message name="getRegionsAvailabeForParentRequest">
+    <wsdl:part name="parentQuery" type="tns1:RegionsAvailableForParentQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getRegionsAvailabeForParentResponse">
+    <wsdl:part name="regions" type="tns1:RegionList"/>
+  </wsdl:message>
+  <wsdl:message name="getRegionsAvailabeForChildrenRequest">
+    <wsdl:part name="childrenQuery" type="tns1:RegionsAvailableForChildrenQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getRegionsAvailabeForChildrenResponse">
+    <wsdl:part name="regions" type="tns1:RegionList"/>
+  </wsdl:message>
+
+  
+  <wsdl:portType name="RegionService">
+    <wsdl:operation name="createRegions" parameterOrder="regions">
+      <wsdl:input message="impl:createRegionsRequest" name="createRegionsRequest"/>
+      <wsdl:output message="impl:createRegionsResponse" name="createRegionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getRegions" parameterOrder="query">
+      <wsdl:input message="impl:getRegionsRequest" name="getRegionsRequest"/>
+      <wsdl:output message="impl:getRegionsResponse" name="getRegionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getRegion" parameterOrder="id">
+      <wsdl:input message="impl:getRegionRequest" name="getRegionRequest"/>
+      <wsdl:output message="impl:getRegionResponse" name="getRegionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateRegions" parameterOrder="updates">
+      <wsdl:input message="impl:updateRegionsRequest" name="updateRegionsRequest"/>
+      <wsdl:output message="impl:updateRegionsResponse" name="updateRegionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRegions" parameterOrder="ids">
+      <wsdl:input message="impl:deleteRegionsRequest" name="deleteRegionsRequest"/>
+      <wsdl:output message="impl:deleteRegionsResponse" name="deleteRegionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionsAvailabeForParent" parameterOrder="parentQuery">
+      <wsdl:input message="impl:getRegionsAvailabeForParentRequest" name="getRegionsAvailabeForParentRequest"/>
+      <wsdl:output message="impl:getRegionsAvailabeForParentResponse" name="getRegionsAvailabeForParentResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionsAvailabeForChildren" parameterOrder="childrenQuery">
+      <wsdl:input message="impl:getRegionsAvailabeForChildrenRequest" name="getRegionsAvailabeForChildrenRequest"/>
+      <wsdl:output message="impl:getRegionsAvailabeForChildrenResponse" name="getRegionsAvailabeForChildrenResponse"/>
+    </wsdl:operation>
+    
+  </wsdl:portType>
+  
+  <wsdl:binding name="RegionServiceSoapBinding" type="impl:RegionService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createRegions">
+      <wsdlsoap:operation soapAction="CreateRegions"/>
+      <wsdl:input name="createRegionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createRegionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegions">
+      <wsdlsoap:operation soapAction="GetRegions"/>
+      <wsdl:input name="getRegionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getRegionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegion">
+      <wsdlsoap:operation soapAction="GetRegion"/>
+      <wsdl:input name="getRegionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getRegionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateRegions">
+      <wsdlsoap:operation soapAction="UpdateRegions"/>
+      <wsdl:input name="updateRegionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateRegionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRegions">
+      <wsdlsoap:operation soapAction="DeleteRegions"/>
+      <wsdl:input name="deleteRegionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteRegionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionsAvailabeForParent">
+      <wsdlsoap:operation soapAction="GetAvailabeRegionsForParent"/>
+      <wsdl:input name="getRegionsAvailabeForParentRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getRegionsAvailabeForParentResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionsAvailabeForChildren">
+      <wsdlsoap:operation soapAction="GetAvailabeRegionsForChildren"/>
+      <wsdl:input name="getRegionsAvailabeForChildrenRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getRegionsAvailabeForChildrenResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/region/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RegionServiceService">
+    <wsdl:port binding="impl:RegionServiceSoapBinding" name="RegionService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/RegionService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

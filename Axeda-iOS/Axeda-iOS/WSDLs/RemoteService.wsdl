@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/remote/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/remote/" xmlns:intf="http://sdk.axeda.com/webservices/remote/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+      <complexType name="DeviceIdentification">
+        <sequence>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      
+      <complexType name="RemoteSession">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="sessionId" nillable="true" type="xsd:string"/>
+          <element name="multiUser" type="xsd:boolean"/>
+          <element name="url" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      
+      <complexType name="RemoteInterfaceQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="interfaceName" nillable="true" type="xsd:string"/>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+        </sequence>
+      </complexType>
+      
+      <simpleType name="RemoteInterfaceType">
+        <restriction base="xsd:string">
+          <enumeration value="telnet"/>
+          <enumeration value="ssh"/>
+          <enumeration value="auto"/>
+          <enumeration value="manual"/>
+          <enumeration value="browser"/>
+          <enumeration value="desktop"/>
+        </restriction>
+      </simpleType>
+      
+      <complexType name="RemoteInterface">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="type" nillable="true" type="tns1:RemoteInterfaceType"/>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+        </sequence>
+      </complexType>
+      
+      <complexType name="RemoteInterfaceList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:RemoteInterface[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      
+      <complexType name="NameValuePair">
+	<sequence>
+	  <element name="name" type="xsd:string"/>
+	  <element name="value" type="xsd:string"/>
+	</sequence>
+      </complexType>
+      
+      <complexType name="NameValuePairList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:NameValuePair[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RemoteSessionStatus">
+	<sequence>
+	  <element name="sessionId" type="xsd:string" />
+	  <element name="status" type="xsd:long" />
+	  <element name="description" type="xsd:string" />
+	  <element name="ipAddress" nillable="true" type="xsd:string" />
+	  <element name="url" type="xsd:string" />
+	</sequence>
+      </complexType>
+
+      <simpleType name="RemoteSessionStatusInfo">
+        <restriction base="xsd:string">
+          <enumeration value="ACTIVE"/>
+          <enumeration value="INACTIVE"/>
+        </restriction>
+      </simpleType>
+      <complexType name="RemoteDeviceInterface">
+        <sequence>
+          <element name="name" type="xsd:string"/>
+          <element name="functionId" type="xsd:int"/>
+          <element name="status" type="tns1:RemoteSessionStatusInfo"/>
+          <element name="connection" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="RemoteServer">
+        <sequence>
+          <element name="port" type="xsd:int"/>
+          <element name="sslPort" type="xsd:int"/>
+          <element name="tzOffset" type="xsd:int"/>
+          <element name="activeSessions" type="xsd:int"/>
+          <element name="maximumSessions" type="xsd:int"/>
+          <element name="name" type="xsd:string"/>
+          <element name="hostName" type="xsd:string"/>
+          <element name="extHostName" type="xsd:string"/>
+          <element name="lastContact" type="xsd:dateTime"/>
+        </sequence>
+      </complexType>
+     <complexType name="RemoteSessionInformation">
+	<sequence>
+	  <element name="sessionId" type="xsd:string" />
+	  <element name="interfaceName" type="xsd:string" />
+	  <element name="deviceSN" type="xsd:string" />
+	  <element name="rasName" type="xsd:string" />
+	  <element name="absName" type="xsd:string" />
+          <element name="userIP" nillable="true" type="xsd:string"/>
+          <element name="absIP" nillable="true" type="xsd:string"/>
+          <element name="agentIP" nillable="true" type="xsd:string"/>
+	  <element name="agentSite" type="xsd:string" />
+	  <element name="agentDevice" type="xsd:string" />
+          <element name="tasks" nillable="true" type="xsd:string"/>
+          <element name="problems" nillable="true" type="xsd:string"/>
+          <element name="logFile" nillable="true" type="xsd:string"/>
+          <element name="portsUsed" nillable="true" type="xsd:string"/>
+          <element name="dataTransfer" nillable="true" type="xsd:long"/>
+          <element name="terminationCause" nillable="true" type="xsd:long"/>
+          <element name="startTime" type="xsd:dateTime" />
+          <element name="endTime" nillable="true" type="xsd:dateTime"/>
+          <element name="lastTransfer" nillable="true" type="xsd:dateTime"/>
+          <element name="ext" nillable="true" type="tns1:NameValuePairList"/>        
+          <element name="remoteServer" nillable="true" type="tns1:RemoteServer"/>
+          <element name="remoteDeviceInterface" nillable="true" type="tns1:RemoteDeviceInterface"/>
+	</sequence>
+     </complexType>
+
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <wsdl:message name="getRemoteInterfacesRequest">
+    <wsdl:part name="query" type="tns1:RemoteInterfaceQuery"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getRemoteInterfacesResponse">
+    <wsdl:part name="remotes" type="tns1:RemoteInterfaceList"/>
+  </wsdl:message>
+  
+  <wsdl:message name="createRemoteSessionRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="interfaceName" type="xsd:string"/>
+    <wsdl:part name="description" type="xsd:string"/>
+    <wsdl:part name="multiUser" type="xsd:boolean"/>
+    <wsdl:part name="secure" type="xsd:boolean"/>
+  </wsdl:message>
+
+  <wsdl:message name="createRemoteSessionResponse">
+    <wsdl:part name="remote" type="tns1:RemoteSession"/>
+  </wsdl:message>
+
+  <wsdl:message name="createRemoteSessionExtRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="interfaceName" type="xsd:string"/>
+    <wsdl:part name="description" type="xsd:string"/>
+    <wsdl:part name="multiUser" type="xsd:boolean"/>
+    <wsdl:part name="secure" type="xsd:boolean"/>
+    <wsdl:part name="tzOffset" type="xsd:long"/>
+    <wsdl:part name="clientIP" type="xsd:string"/>
+    <wsdl:part name="ext" type="tns1:NameValuePairList"/>
+  </wsdl:message>
+
+  <wsdl:message name="createRemoteSessionExtResponse">
+    <wsdl:part name="status" type="tns1:RemoteSessionStatus"/>
+  </wsdl:message>
+
+  <wsdl:message name="mergeRemoteSessionRequest">
+    <wsdl:part name="interfaceName" type="xsd:string"/>
+    <wsdl:part name="sessionId" type="xsd:string"/>
+    <wsdl:part name="description" type="xsd:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="mergeRemoteSessionResponse">
+    <wsdl:part name="status" type="tns1:RemoteSessionStatus"/>
+  </wsdl:message>
+
+  <wsdl:message name="getRemoteSessionInformationRequest">
+    <wsdl:part name="sessionId" type="xsd:string"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getRemoteSessionInformationResponse">
+    <wsdl:part name="sessionInfo" type="tns1:RemoteSessionInformation"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getSessionStatusRequest">
+    <wsdl:part name="sessionId" type="xsd:string"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getSessionStatusResponse">
+    <wsdl:part name="status" type="tns1:RemoteSessionStatus"/>
+  </wsdl:message>
+  
+  <wsdl:message name="terminateSessionRequest">
+    <wsdl:part name="sessionId" type="xsd:string"/>
+  </wsdl:message>
+  
+  <wsdl:message name="terminateSessionResponse">
+    <wsdl:part name="status" type="tns1:RemoteSessionStatus"/>
+  </wsdl:message>
+  
+
+  <wsdl:portType name="RemoteService">
+
+    <wsdl:operation name="getRemoteInterfaces" parameterOrder="query">
+      <wsdl:input message="impl:getRemoteInterfacesRequest" name="getRemoteInterfacesRequest"/>
+      <wsdl:output message="impl:getRemoteInterfacesResponse" name="getRemoteInterfacesResponse"/>
+    </wsdl:operation>
+    
+    <wsdl:operation name="createRemoteSession" parameterOrder="device interfaceName description multiUser secure">
+      <wsdl:input message="impl:createRemoteSessionRequest" name="createRemoteSessionRequest"/>
+      <wsdl:output message="impl:createRemoteSessionResponse" name="createRemoteSessionResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="createRemoteSessionExt" parameterOrder="device interfaceName description multiUser secure tzOffset clientIP ext">
+      <wsdl:input message="impl:createRemoteSessionExtRequest" name="createRemoteSessionExtRequest"/>
+      <wsdl:output message="impl:createRemoteSessionExtResponse" name="createRemoteSessionExtResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="mergeRemoteSession" parameterOrder="interfaceName sessionId description">
+      <wsdl:input message="impl:mergeRemoteSessionRequest" name="mergeRemoteSessionRequest"/>
+      <wsdl:output message="impl:mergeRemoteSessionResponse" name="mergeRemoteSessionResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getRemoteSessionInformation" parameterOrder="sessionId">
+      <wsdl:input message="impl:getRemoteSessionInformationRequest" name="getRemoteSessionInformationRequest"/>
+      <wsdl:output message="impl:getRemoteSessionInformationResponse" name="getRemoteSessionInformationResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getSessionStatus" parameterOrder="sessionId">
+      <wsdl:input message="impl:getSessionStatusRequest" name="getSessionStatusRequest"/>
+      <wsdl:output message="impl:getSessionStatusResponse" name="getSessionStatusResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="terminateSession" parameterOrder="sessionId">
+      <wsdl:input message="impl:terminateSessionRequest" name="terminateSessionRequest"/>
+      <wsdl:output message="impl:terminateSessionResponse" name="terminateSessionResponse"/>
+    </wsdl:operation>
+
+  </wsdl:portType>
+  
+  <wsdl:binding name="RemoteServiceSoapBinding" type="impl:RemoteService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    
+    <wsdl:operation name="getRemoteInterfaces">
+      <wsdlsoap:operation soapAction="GetRemoteInterfaces"/>
+      <wsdl:input name="getRemoteInterfacesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getRemoteInterfacesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+    <wsdl:operation name="createRemoteSession">
+      <wsdlsoap:operation soapAction="CreateRemoteSession"/>
+      <wsdl:input name="createRemoteSessionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createRemoteSessionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+    <wsdl:operation name="createRemoteSessionExt">
+      <wsdlsoap:operation soapAction="CreateRemoteSessionExt"/>
+      <wsdl:input name="createRemoteSessionExtRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createRemoteSessionExtResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  
+    <wsdl:operation name="mergeRemoteSession">
+      <wsdlsoap:operation soapAction="MergeRemoteSession"/>
+      <wsdl:input name="mergeRemoteSessionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="mergeRemoteSessionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  
+    <wsdl:operation name="getRemoteSessionInformation">
+      <wsdlsoap:operation soapAction="GetRemoteSessionInformation"/>
+      <wsdl:input name="getRemoteSessionInformationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getRemoteSessionInformationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getSessionStatus">
+      <wsdlsoap:operation soapAction="GetSessionStatus"/>
+      <wsdl:input name="getSessionStatusRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getSessionStatusResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="terminateSession">
+      <wsdlsoap:operation soapAction="GetRemoteSessionInformation"/>
+      <wsdl:input name="terminateSessionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="terminateSessionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/remote/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+  </wsdl:binding>
+  
+  <wsdl:service name="RemoteServiceService">
+    <wsdl:port binding="impl:RemoteServiceSoapBinding" name="RemoteService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/RemoteService"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

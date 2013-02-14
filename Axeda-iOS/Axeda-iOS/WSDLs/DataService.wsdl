@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/data/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/data/" xmlns:intf="http://sdk.axeda.com/webservices/data/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="DeviceIdentification">
+        <sequence>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="HistoricalDataQuery">
+        <sequence>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="startDate" nillable="true" type="xsd:dateTime"/>
+          <element name="endDate" nillable="true" type="xsd:dateTime"/>
+          <element name="lastNValues" type="xsd:int"/>
+          <element name="dataItem" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="CurrentDataQuery">
+        <sequence>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="dataItem" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DataValue">
+        <sequence>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="value" nillable="true" type="xsd:string"/>
+          <element name="date" nillable="true" type="xsd:dateTime"/>
+        </sequence>
+      </complexType>
+      <complexType name="DataValueList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DataValue[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="DataValues">
+        <sequence>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="data" nillable="true" type="tns1:DataValueList"/>
+        </sequence>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="createDataValueResponse"/>
+  <wsdl:message name="getCurrentDataRequest">
+    <wsdl:part name="query" type="tns1:CurrentDataQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getHistoricalDataRequest">
+    <wsdl:part name="query" type="tns1:HistoricalDataQuery"/>
+  </wsdl:message>
+  <wsdl:message name="createDataValueRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="dataItem" type="xsd:string"/>
+    <wsdl:part name="value" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getHistoricalDataResponse">
+    <wsdl:part name="data" type="tns1:DataValues"/>
+  </wsdl:message>
+  <wsdl:message name="getCurrentDataResponse">
+    <wsdl:part name="data" type="tns1:DataValues"/>
+  </wsdl:message>
+  <wsdl:portType name="DataService">
+    <wsdl:operation name="getHistoricalData" parameterOrder="query">
+      <wsdl:input message="impl:getHistoricalDataRequest" name="getHistoricalDataRequest"/>
+      <wsdl:output message="impl:getHistoricalDataResponse" name="getHistoricalDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentData" parameterOrder="query">
+      <wsdl:input message="impl:getCurrentDataRequest" name="getCurrentDataRequest"/>
+      <wsdl:output message="impl:getCurrentDataResponse" name="getCurrentDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createDataValue" parameterOrder="device dataItem value">
+      <wsdl:input message="impl:createDataValueRequest" name="createDataValueRequest"/>
+      <wsdl:output message="impl:createDataValueResponse" name="createDataValueResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DataServiceSoapBinding" type="impl:DataService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getHistoricalData">
+      <wsdlsoap:operation soapAction="GetHistoricalData"/>
+      <wsdl:input name="getHistoricalDataRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/data/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getHistoricalDataResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/data/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentData">
+      <wsdlsoap:operation soapAction="GetCurrentData"/>
+      <wsdl:input name="getCurrentDataRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/data/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getCurrentDataResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/data/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createDataValue">
+      <wsdlsoap:operation soapAction="CreateDataValue"/>
+      <wsdl:input name="createDataValueRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/data/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createDataValueResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/data/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DataServiceService">
+    <wsdl:port binding="impl:DataServiceSoapBinding" name="DataService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/DataService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

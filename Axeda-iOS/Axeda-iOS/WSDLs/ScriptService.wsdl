@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/script/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/script/" xmlns:intf="http://sdk.axeda.com/webservices/script/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+      <simpleType name="ScriptResult">
+        <restriction base="xsd:string">
+          <enumeration value="None"/>
+          <enumeration value="Success"/>
+          <enumeration value="Failure"/>
+          <enumeration value="Timed_out"/>
+          <enumeration value="Denied_by_Agent"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="DeviceIdentification">
+        <sequence>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeviceQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="gatewayId" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="missing" nillable="true" type="xsd:boolean"/>
+          <element name="idleTime" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeployedScriptQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="device" nillable="true" type="tns1:DeviceQuery"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="CommandStatus">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="status" nillable="true" type="xsd:string"/>
+          <element name="date" nillable="true" type="xsd:dateTime"/>
+          <element name="finished" type="xsd:boolean"/>
+          <element name="error" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeployedScript">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="status" nillable="true" type="xsd:string"/>
+          <element name="result" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeployedScriptList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeployedScript[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="getDeployedScriptRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="removeScriptResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="cancelScriptResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="runScriptRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="scriptName" type="xsd:string"/>
+    <wsdl:part name="parameter" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDeployedScriptsResponse">
+    <wsdl:part name="deployedScripts" type="tns1:DeployedScriptList"/>
+  </wsdl:message>
+  <wsdl:message name="runScriptResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="getDeployedScriptResponse">
+    <wsdl:part name="deployedScript" type="tns1:DeployedScript"/>
+  </wsdl:message>
+  <wsdl:message name="getDeployedScriptsRequest">
+    <wsdl:part name="query" type="tns1:DeployedScriptQuery"/>
+  </wsdl:message>
+  <wsdl:message name="disableScriptResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="enableScriptRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="scriptName" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="removeScriptRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="scriptName" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="enableScriptResponse">
+    <wsdl:part name="status" type="tns1:CommandStatus"/>
+  </wsdl:message>
+  <wsdl:message name="cancelScriptRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="scriptName" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="disableScriptRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="scriptName" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:portType name="ScriptService">
+    <wsdl:operation name="getDeployedScript" parameterOrder="id">
+      <wsdl:input message="impl:getDeployedScriptRequest" name="getDeployedScriptRequest"/>
+      <wsdl:output message="impl:getDeployedScriptResponse" name="getDeployedScriptResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDeployedScripts" parameterOrder="query">
+      <wsdl:input message="impl:getDeployedScriptsRequest" name="getDeployedScriptsRequest"/>
+      <wsdl:output message="impl:getDeployedScriptsResponse" name="getDeployedScriptsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="runScript" parameterOrder="device scriptName parameter">
+      <wsdl:input message="impl:runScriptRequest" name="runScriptRequest"/>
+      <wsdl:output message="impl:runScriptResponse" name="runScriptResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="cancelScript" parameterOrder="device scriptName">
+      <wsdl:input message="impl:cancelScriptRequest" name="cancelScriptRequest"/>
+      <wsdl:output message="impl:cancelScriptResponse" name="cancelScriptResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removeScript" parameterOrder="device scriptName">
+      <wsdl:input message="impl:removeScriptRequest" name="removeScriptRequest"/>
+      <wsdl:output message="impl:removeScriptResponse" name="removeScriptResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="enableScript" parameterOrder="device scriptName">
+      <wsdl:input message="impl:enableScriptRequest" name="enableScriptRequest"/>
+      <wsdl:output message="impl:enableScriptResponse" name="enableScriptResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="disableScript" parameterOrder="device scriptName">
+      <wsdl:input message="impl:disableScriptRequest" name="disableScriptRequest"/>
+      <wsdl:output message="impl:disableScriptResponse" name="disableScriptResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ScriptServiceSoapBinding" type="impl:ScriptService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getDeployedScript">
+      <wsdlsoap:operation soapAction="GetDeployedScript"/>
+      <wsdl:input name="getDeployedScriptRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeployedScriptResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeployedScripts">
+      <wsdlsoap:operation soapAction="GetDeployedScripts"/>
+      <wsdl:input name="getDeployedScriptsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeployedScriptsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="runScript">
+      <wsdlsoap:operation soapAction="RunScript"/>
+      <wsdl:input name="runScriptRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="runScriptResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelScript">
+      <wsdlsoap:operation soapAction="RunScript"/>
+      <wsdl:input name="cancelScriptRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="cancelScriptResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeScript">
+      <wsdlsoap:operation soapAction="RunScript"/>
+      <wsdl:input name="removeScriptRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removeScriptResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="enableScript">
+      <wsdlsoap:operation soapAction="RunScript"/>
+      <wsdl:input name="enableScriptRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="enableScriptResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disableScript">
+      <wsdlsoap:operation soapAction="RunScript"/>
+      <wsdl:input name="disableScriptRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="disableScriptResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/script/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ScriptServiceService">
+    <wsdl:port binding="impl:ScriptServiceSoapBinding" name="ScriptService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/ScriptService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

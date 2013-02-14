@@ -1,0 +1,2070 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ================================================================= -->
+<!-- Shared Data Types                                                 -->
+<!-- ================================================================= -->
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/type/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+                  xmlns:impl="http://sdk.axeda.com/webservices/type/"
+                  xmlns:intf="http://sdk.axeda.com/webservices/type/"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+            xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+            xmlns:typens="http://sdk.axeda.com/webservices/type">
+
+      <simpleType name="ActionType">
+        <restriction base="xsd:string">
+          <enumeration value="create"/>
+          <enumeration value="find"/>
+          <enumeration value="createIfNotFound"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="DataItemType">
+        <restriction base="xsd:string">
+          <enumeration value="string"/>
+          <enumeration value="digital"/>
+          <enumeration value="analog"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="AlarmState">
+        <restriction base="xsd:string">
+          <enumeration value="Started"/>
+          <enumeration value="Acknowledged"/>          
+		  <enumeration value="Escalated"/>
+		  <enumeration value="Suppressed"/>
+		  <enumeration value="Closed"/>
+		  <enumeration value="Duplicate"/>
+        </restriction>
+      </simpleType>	 
+
+	  <simpleType name="CreateDisposition">
+        <restriction base="xsd:string">
+          <enumeration value="suppress"/>
+          <enumeration value="disable"/>
+          <enumeration value="normal"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="CreateDispositionEntity">
+        <restriction base="xsd:string">
+          <enumeration value="model"/>
+          <enumeration value="device"/>
+        </restriction>
+      </simpleType>
+	  	  
+      <simpleType name="AddressingMode">
+        <restriction base="xsd:string">
+          <enumeration value="literal"/>
+          <enumeration value="dataItemName"/>
+          <enumeration value="dataItemValue"/>
+          <enumeration value="geofenceName"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="DataType">
+        <restriction base="xsd:string">
+          <enumeration value="String"/>
+          <enumeration value="Double"/>
+          <enumeration value="Integer"/>
+          <enumeration value="Boolean"/>
+          <enumeration value="Date"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="BooleanOperator">
+        <restriction base="xsd:string">
+          <enumeration value="and"/>
+          <enumeration value="or"/>
+          <enumeration value="not"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="RelationalOperator">
+        <restriction base="xsd:string">
+          <enumeration value="EQUAL_TO"/>
+          <enumeration value="NOT_EQUAL_TO"/>
+          <enumeration value="LESS_THAN"/>
+          <enumeration value="GREATER_THAN"/>
+          <enumeration value="GRT_THAN_EQUAL_TO"/>
+          <enumeration value="LESS_THAN_EQUAL_TO"/>
+          <enumeration value="LIKE"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="StringList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AddressingModeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:AddressingMode[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <simpleType name="PrimitiveType">
+        <restriction base="xsd:string">
+          <enumeration value="string"/>
+          <enumeration value="digital"/>
+          <enumeration value="integer"/>
+          <enumeration value="analog"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="PrimitiveTypeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:PrimitiveType[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <simpleType name="SCMOperator">
+        <restriction base="xsd:string">
+          <enumeration value="EQUAL_TO"/>
+          <enumeration value="NOT_EQUAL_TO"/>
+          <enumeration value="LESS_THAN"/>
+          <enumeration value="GREATER_THAN"/>
+          <enumeration value="GRT_THAN_EQUAL_TO"/>
+          <enumeration value="LESS_THAN_EQUAL_TO"/>
+        </restriction>
+      </simpleType>
+      
+      <simpleType name="DataItemQueryOperator">
+        <restriction base="xsd:string">
+          <enumeration value="EQUAL_TO"/>
+          <enumeration value="NOT_EQUAL_TO"/>
+          <enumeration value="LESS_THAN"/>
+          <enumeration value="GREATER_THAN"/>
+          <enumeration value="GRT_THAN_EQUAL_TO"/>
+          <enumeration value="LESS_THAN_EQUAL_TO"/>
+          <enumeration value="HAS"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="DeviceStatus">
+        <restriction base="xsd:string">
+          <enumeration value="CONNECTED"/>
+          <enumeration value="MISSING"/>
+          <enumeration value="PARTIALLY_CONNECTED"/>
+		      <enumeration value="COMPLETELY_DISCONNECTED"/>
+        </restriction>
+      </simpleType>
+
+       <complexType name="DeviceDataItemQuery">
+        <sequence>
+        <element name="name" nillable="true" type="xsd:string"/>
+        <element name="value" nillable="true" type="xsd:string"/>
+        <element name="dataItemQueryOperator" nillable="true" type="tns1:DataItemQueryOperator"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="NamedPackageQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="RegistryDependencyEntryQuery">
+        <sequence>
+          <element name="modelId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="IdList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <xsd:element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceSessionInfo">
+        <sequence>
+          <element name="Model" nillable="true" type="xsd:string"/>
+          <element name="Serial" nillable="true" type="xsd:string"/>
+          <element name="Token" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="UserOrDeviceSessionInfo">
+        <sequence>
+          <element name="SessionInfo" nillable="true"
+                   type="tns1:SessionInfo"/>
+          <element name="DeviceSessionInfo" nillable="true"
+                   type="tns1:DeviceSessionInfo"/>
+        </sequence>
+      </complexType>
+
+      <simpleType name="CompressionType">
+        <restriction base="xsd:string">
+          <enumeration value="NONE"/>
+          <enumeration value="TAR_GZIP"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="Version">
+        <sequence>
+          <element name="rev" nillable="false" type="xsd:int"/>
+          <element name="minor" nillable="false" type="xsd:int"/>
+          <element name="build" nillable="false" type="xsd:int"/>
+          <element name="major" nillable="false" type="xsd:int"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="UserGroup">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="UserGroupList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:UserGroup[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DataItem">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="alias" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="visible" nillable="true" type="xsd:boolean"/>
+          <element name="stored" nillable="true" type="xsd:boolean"/>
+          <element name="readOnly" nillable="true" type="xsd:boolean"/>
+          <element name="type" nillable="true" type="tns1:DataItemType"/>
+          <element name="unit" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Location">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="line1" nillable="true" type="xsd:string"/>
+          <element name="line2" nillable="true" type="xsd:string"/>
+          <element name="city" nillable="true" type="xsd:string"/>
+          <element name="state" nillable="true" type="xsd:string"/>
+          <element name="zip" nillable="true" type="xsd:string"/>
+          <element name="country" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Organization">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="location" nillable="true" type="tns1:Location"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Device[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DeviceSystem">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="devices" nillable="true" type="tns1:DeviceList"/>
+        </sequence>
+      </complexType>
+
+
+      <complexType name="Condition">
+        <sequence>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="priority" type="xsd:int"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Device">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="pingRate" nillable="true" type="xsd:long"/>
+          <element name="missing" type="xsd:boolean"/>
+          <element name="lastContactDate" nillable="true" type="xsd:dateTime"/>
+          <element name="registrationDate" nillable="true" type="xsd:dateTime"/>
+          <element name="location" nillable="true" type="tns1:Location"/>
+          <element name="customer" nillable="true" type="tns1:Organization"/>
+          <element name="deviceSystem" nillable="true"
+                   type="tns1:DeviceSystem"/>
+          <element name="condition" nillable="true" type="tns1:Condition"/>
+          <element name="associatedGatewayId" nillable="true" type="xsd:long"/>
+          <element name="currentMobileLocation" nillable="true" type="tns1:MobileLocation"/>
+          <element name="deviceFamily" nillable="true" type="xsd:string"/>
+          <element name="agentVersion" nillable="true" type="xsd:string"/>
+          <element name="timezone" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <simpleType name="PackageType">
+        <restriction base="xsd:string">
+          <enumeration value="USER_CREATED"/>
+          <enumeration value="UPLOAD_ACTION"/>
+          <enumeration value="UPLOAD_REQUEST"/>
+          <enumeration value="SYSTEM_CREATED"/>
+          <enumeration value="DOWNLOAD_ACTION"/>
+          <enumeration value="NAMED_INSTRUCTION_SET"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="SCMStatus">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="status" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeployedPackageQuery">
+        <sequence>
+          <element name="userId" nillable="true" type="xsd:long"/>
+          <element name="deviceId" nillable="true" type="xsd:long"/>
+          <!--<element name="endDate" nillable="true" type="xsd:dateTime"/>-->
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="version" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="uploadedFilename" nillable="true" type="xsd:string"/>
+          <!--<element name="startDate" nillable="true" type="xsd:dateTime"/>-->
+          <element name="status" nillable="true" type="tns1:SCMStatus"/>
+        </sequence>
+      </complexType>
+
+      <simpleType name="SCMStatusConstants">
+        <restriction base="xsd:string">
+          <enumeration value="QUEUED"/>
+          <enumeration value="STARTED"/>
+          <enumeration value="FINISHED_OK"/>
+          <enumeration value="FINISHED_ERROR"/>
+          <enumeration value="CANCELED"/>
+          <enumeration value="TIMED_OUT"/>
+          <enumeration value="MISSING"/>
+          <enumeration value="ROLLING_BACK"/>
+          <enumeration value="ROLLBACK_ERROR"/>
+          <enumeration value="ROLLBACK_SUCCESS"/>
+          <enumeration value="DEPENDENCY_FAILED"/>
+          <enumeration value="CANCEL_PENDING"/>
+          <enumeration value="PENDING_ASK"/>
+          <enumeration value="PERMISSION_DENIED"/>
+          <enumeration value="UPLOAD_INHIBITED"/>
+          <enumeration value="PAUSED"/>
+          <enumeration value="PAUSE_PENDING"/>
+          <enumeration value="PREEMPTED"/>
+          <enumeration value="DUPLICATE_INVISIBLE_SCRIPT_NAME"/>
+          <enumeration value="NONE"/>
+          <enumeration value="RUNNING"/>
+          <enumeration value="RUN_PENDING"/>
+          <enumeration value="REMOVE_PENDING"/>
+          <enumeration value="DEPLOY_PENDING"/>
+          <enumeration value="DEPLOY_ERROR"/>
+          <enumeration value="DISABLE_PENDING"/>
+          <enumeration value="DISABLED"/>
+          <enumeration value="ENABLE_PENDING"/>
+          <enumeration value="REMOVE_ERROR"/>
+          <enumeration value="ASSOCIATE_PENDING"/>
+          <enumeration value="ASSOCIATE_ERROR"/>
+          <enumeration value="DISSOCIATE_PENDING"/>
+          <enumeration value="DISSOCIATE_ERROR"/>
+          <enumeration value="NOT_RUNNING"/>
+          <enumeration value="COMPLETE"/>
+          <enumeration value="SUCCESS"/>
+          <enumeration value="ERROR"/>
+          <enumeration value="INHIBITED_BY_AGENT"/>
+          <enumeration value="NOT_RETRIEVED"/>
+          <enumeration value="NOT_PROCESSED"/>
+          <enumeration value="DENIED"/>
+          <enumeration value="DENIED_TIMEOUT"/>
+          <enumeration value="UNSUPPORTED"/>
+          <enumeration value="ASKING"/>
+          <enumeration value="ASK_DENIED"/>
+          <enumeration value="ASK_ACCEPTED"/>
+          <enumeration value="DENIED_APMOFFLINE"/>
+          <enumeration value="SCRIPT_BAD_STATE"/>
+          <enumeration value="SCRIPT_RUNNING"/>
+          <enumeration value="SCRIPT_NO_SEQUENCE_FILE"/>
+          <enumeration value="SCRIPT_NOT_FOUND"/>
+          <enumeration value="SCRIPT_DUPLICATE_NAME"/>
+          <enumeration value="SCRIPT_NOT_RUNNING"/>
+          <enumeration value="SCRIPT_INVALID_COMMAND"/>
+          <enumeration value="SCRIPT_BAD_XML"/>
+          <enumeration value="SCRIPT_EMPTY_NAME"/>
+          <enumeration value="SCRIPT_WAITING"/>
+          <enumeration value="SCRIPT_DISABLED"/>
+          <enumeration value="SCRIPT_ALREADY_SCHEDULED"/>
+          <enumeration value="SCRIPT_NOT_SCHEDULED"/>
+          <enumeration value="SCRIPT_NOT_DYNAMIC"/>
+          <enumeration value="SCRIPT_FINISHED_WITH_ERROR"/>
+          <enumeration value="SCRIPT_DUPLICATE_INVISIBLE_NAME"/>
+          <enumeration value="SCRIPT_DISABLED_"/>
+          <enumeration value="SCRIPT_ALREADY_SCHEDULED_"/>
+          <enumeration value="SCRIPT_NOT_SCHEDULED_"/>
+          <enumeration value="SCRIPT_NOT_DYNAMIC_"/>
+          <enumeration value="SCRIPT_FINISHED_WITH_ERROR_"/>
+          <enumeration value="FAILED"/>
+          <enumeration value="INVALID_PARAMETERS"/>
+          <enumeration value="FILE_OPEN_ERROR"/>
+          <enumeration value="FILE_READ_ERROR"/>
+          <enumeration value="BAD_FILE_FORMAT"/>
+          <enumeration value="NOT_IMPLEMENTED"/>
+          <enumeration value="OPERATION_TIMED_OUT"/>
+          <enumeration value="DATA_ITEM_READ_ONLY"/>
+          <enumeration value="HANDLE_OPEN_ERROR"/>
+          <enumeration value="CONVERSION_ERROR"/>
+          <enumeration value="TYPE_MISMATCH"/>
+          <enumeration value="OBJECT_NOT_FOUND"/>
+          <enumeration value="INVALID_HANDLE"/>
+          <enumeration value="INVALID_NAME"/>
+          <enumeration value="ALREADY_EXISTS"/>
+          <enumeration value="BAD_QUALITY"/>
+          <enumeration value="OUT_OF_RANGE"/>
+          <enumeration value="UNKNOWN_METHOD"/>
+          <enumeration value="BAD_SOAP_FORMAT"/>
+          <enumeration value="BAD_XML_FORMAT"/>
+          <enumeration value="DATA_ITEM_NOT_FOUND"/>
+          <enumeration value="AGENT_AUTH_IN_PROGRESS"/>
+          <enumeration value="AGENT_AUTH_PROVIDER_UNKNOWN"/>
+          <enumeration value="AGENT_AUTH_PROVIDER_UNAVAILABLE"/>
+          <enumeration value="AGENT_AUTH_ACCESS_DENIED"/>
+          <enumeration value="AGENT_AUTH_NEED_MORE_CREDENTIALS"/>
+          <enumeration value="WAITING_TO_DELIVER_TO_AGENT"/>
+          <enumeration value="DELIVERED_TO_AGENT"/>
+          <enumeration value="EXPORTED"/>
+          <enumeration value="EXPORTED_FINISHED"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="DeployedPackage">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="interval" nillable="false" type="xsd:long"/>
+          <element name="packageId" nillable="false" type="xsd:long"/>
+          <element name="delayed" nillable="true" type="xsd:date"/>
+          <element name="devices" nillable="false" type="tns1:DeviceList"/>
+          <element name="immediate" nillable="false" type="xsd:boolean"/>
+          <element name="notifyOnError" nillable="true" type="xsd:boolean"/>
+          <element name="notifyOnCompletion" nillable="true" type="xsd:boolean"/>
+          <element name="emailAddresses" nillable="true" type="xsd:string"/>
+          <element name="soapId" nillable="true" type="xsd:long"/>
+          <element name="status" nillable="true" type="tns1:SCMStatus"/>
+          <element name="deployedBy" nillable="true" type="xsd:string"/>
+          <element name="deployTime" nillable="true" type="xsd:dateTime"/>
+          <element name="completionTime" nillable="true" type="xsd:dateTime"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeployedPackageList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:DeployedPackage[]"/>
+        </restriction>
+      </complexContent>
+    </complexType>
+
+      <!-- start of instruction -->
+      <complexType name="Instruction">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DownloadInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="destinationDirectory" type="xsd:string"/>
+              <element name="filename" type="xsd:string"/>
+              <element name="uploadedFilePath" type="xsd:string"/>
+              <element name="hashValue" nillable="true" type="xsd:string"/>
+              <element name="fileSize" nillable="true" type="xsd:long"/>
+              <element name="compressedFileSize" nillable="true"
+                       type="xsd:long"/>
+              <element name="execute" nillable="true" type="xsd:boolean"/>
+              <element name="overwrite" nillable="true" type="xsd:boolean"/>
+              <element name="userCompressed" nillable="true"
+                       type="xsd:boolean"/>
+              <element name="deviceRelativePath" nillable="true"
+                       type="xsd:boolean"/>
+              <!--<element name="file" nillable="true" type="xsd:file"/>-->
+              <element name="compressionType" nillable="true"
+                       type="tns1:CompressionType"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ExecuteInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="arguments" nillable="true" type="xsd:string"/>
+              <element name="application" type="xsd:string"/>
+              <element name="asynchronous" nillable="true" type="xsd:boolean"/>
+              <element name="deviceRelativePath" nillable="true"
+                       type="xsd:boolean"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RegisterScriptInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="scriptName" type="xsd:string"/>
+              <element name="scriptFileName" type="xsd:string"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RestartInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="hardRestart" type="xsd:boolean"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RunScriptInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="scriptName" type="xsd:string"/>
+              <element name="parameter" nillable="true" type="xsd:string"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="SetDataItemInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="dataItem" type="tns1:DataItem"/>
+              <element name="dataItemValue" type="xsd:string"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="UnregisterScriptInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="scriptName" type="xsd:string"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="UploadInstructionEntry">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="fileMask" type="xsd:string"/>
+              <element name="deleteAfter" nillable="true" type="xsd:boolean"/>
+              <element name="deviceRelativePath" nillable="true"
+                       type="xsd:boolean"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="UploadInstructionEntryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:UploadInstructionEntry[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="UploadInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="entries" type="tns1:UploadInstructionEntryList"/>
+              <element name="hint" nillable="true" type="xsd:string"/>
+              <element name="clientId" nillable="true" type="xsd:string"/>
+              <element name="sessionId" nillable="true" type="xsd:long"/>
+              <element name="associationId" nillable="true" type="xsd:long"/>
+              <element name="partialFilePosition" nillable="true"
+                       type="xsd:long"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="WaitInstruction">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="dependencyList"
+                       type="tns1:DataItemDependencyList"/>
+              <element name="timeout" type="xsd:int"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DownloadInstructionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:DownloadInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ExecuteInstructionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:ExecuteInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RegisterScriptInstructionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:RegisterScriptInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RunScriptInstructionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:RunScriptInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="SetDataItemInstructionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:SetDataItemInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="UnregisterScriptInstructionList">
+
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:UnregisterScriptInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="UploadInstructionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:UploadInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="WaitInstructionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:WaitInstruction[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <!-- end of instruction -->
+
+      <!-- start of dependency-->
+      <complexType name="Dependency">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="RegistryDependencyEntry">
+        <complexContent>
+          <extension base="tns1:Dependency">
+            <sequence>
+              <element name="name" type="xsd:string"/>
+              <element name="modelId" type="xsd:long"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RegistryDependencyEntryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:RegistryDependencyEntry[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RegistryDependency">
+        <complexContent>
+          <extension base="tns1:Dependency">
+            <sequence>
+              <element name="entryValue" nillable="true" type="xsd:string"/>
+              <element name="operator" nillable="true" type="tns1:SCMOperator"/>
+              <element name="entry" nillable="true"
+                       type="tns1:RegistryDependencyEntry"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="PackageDependency">
+        <complexContent>
+          <extension base="tns1:Dependency">
+            <sequence>
+              <element name="namedPackage" nillable="true"
+                       type="tns1:NamedPackage"/>
+              <element name="operator" nillable="true" type="tns1:SCMOperator"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DataItemDependency">
+        <complexContent>
+          <extension base="tns1:Dependency">
+
+            <sequence>
+              <element name="dataItem" nillable="true" type="tns1:DataItem"/>
+              <element name="dataItemValue" nillable="true" type="xsd:string"/>
+              <element name="operator" nillable="true" type="tns1:SCMOperator"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="PackageDependencyList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:PackageDependency[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RegistryDependencyList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:RegistryDependency[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DataItemDependencyList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:DataItemDependency[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <!-- end of dependency-->
+
+      <complexType name="InstructionsList">
+        <sequence>
+          <element name="downloadInstructionList" nillable="true"
+                   type="tns1:DownloadInstructionList"/>
+          <element name="executeInstructionList" nillable="true"
+                   type="tns1:ExecuteInstructionList"/>
+          <element name="registerScriptInstructionList" nillable="true"
+                   type="tns1:RegisterScriptInstructionList"/>
+          <element name="restartInstruction" nillable="true"
+                   type="tns1:RestartInstruction"/>
+          <element name="runScriptInstructionList" nillable="true"
+                   type="tns1:RunScriptInstructionList"/>
+          <element name="setDataItemInstructionList" nillable="true"
+                   type="tns1:SetDataItemInstructionList"/>
+          <element name="unregisterScriptInstructionList" nillable="true"
+                   type="tns1:UnregisterScriptInstructionList"/>
+          <element name="uploadInstructionList" nillable="true"
+                   type="tns1:UploadInstruction"/>
+          <element name="waitInstructionList" nillable="true"
+                   type="tns1:WaitInstructionList"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="RollBackInstructionList">
+        <complexContent>
+          <extension base="tns1:InstructionsList"/>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DependenciesList">
+        <sequence>
+          <element name="packageDependencyList" nillable="true"
+                   type="tns1:PackageDependencyList"/>
+          <element name="dataItemDependencyList" nillable="true"
+                   type="tns1:DataItemDependencyList"/>
+          <element name="registryDependencyList" nillable="true"
+                   type="tns1:RegistryDependencyList"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Package">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="DependencyList" nillable="true"
+                   type="tns1:DependenciesList"/>
+          <element name="instructionList" nillable="true"
+                   type="tns1:InstructionsList"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="NamedPackage">
+        <complexContent>
+          <extension base="tns1:Package">
+            <sequence>
+              <element name="id" nillable="true" type="xsd:long"/>
+              <element name="name" type="xsd:string"/>
+              <element name="modelId" type="xsd:long"/>
+              <element name="version" type="tns1:Version"/>
+              <element name="description" nillable="true" type="xsd:string"/>
+              <element name="deployUserGroups" nillable="true"
+                       type="tns1:UserGroupList"/>
+              <element name="modifyUserGroups" nillable="true"
+                       type="tns1:UserGroupList"/>
+              <element name="rollBackInstructionsList" nillable="true"
+                       type="tns1:RollBackInstructionList"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="NamedPackageList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:NamedPackage[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <!-- Asset to Edge Device types -->
+      <complexType name="AssetID">
+        <sequence>
+          <element name="modelNumber" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="EdgeDeviceID">
+        <sequence>
+          <element name="modelNumber" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AssetToEdgeDevice">
+        <sequence>
+          <element name="assetId" nillable="true" type="xsd:long"/>
+          <element name="edgeDeviceId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AssetToEdgeDeviceQuery">
+        <sequence>
+          <element name="edgeModelNumber" nillable="true" type="xsd:string"/>
+          <element name="edgeSerialNumber" nillable="true" type="xsd:string"/>
+          <element name="assetModelNumber" nillable="true" type="xsd:string"/>
+          <element name="assetSerialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AssetIDList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:AssetID[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="EdgeDeviceIDList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:EdgeDeviceID[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AssetToEdgeDeviceList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:AssetToEdgeDevice[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <!-- Mobile locations Types -->
+      <complexType name="MobileLocationQuery">
+        <sequence>
+          <element name="lastN" nillable="true" type="xsd:int"/>
+          <element name="radius" nillable="true" type="xsd:int"/>
+          <element name="lat" nillable="true" type="xsd:double"/>
+          <element name="lng" nillable="true" type="xsd:double"/>
+          <element name="alt" nillable="true" type="xsd:double"/>
+          <element name="deviceId" nillable="false" type="xsd:long"/>
+          <element name="endDate" nillable="true" type="xsd:dateTime"/>
+          <element name="startDate" nillable="true" type="xsd:dateTime"/>
+          <element name="address" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <!-- Current mobile locations -->
+      <complexType name="MobileLocation">
+        <sequence>
+          <element name="lat" nillable="false" type="xsd:double"/>
+          <element name="lng" nillable="false" type="xsd:double"/>
+          <element name="alt" nillable="false" type="xsd:double"/>
+          <element name="deviceId" nillable="false" type="xsd:long"/>
+          <element name="endDate" nillable="true" type="xsd:dateTime"/>
+          <element name="startDate" nillable="true" type="xsd:dateTime"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="MobileLocationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:MobileLocation[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <!-- Expression rule types -->
+      <complexType name="ExpressionRule">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="triggerName" nillable="true" type="xsd:string"/>
+          <element name="isEnabled" nillable="true" type="xsd:boolean"/>
+          <element name="isConsecutive" nillable="true" type="xsd:boolean"/>
+          <element name="isApplyToAll" nillable="true" type="xsd:boolean"/>
+          <element name="author" nillable="true" type="xsd:string"/>
+          <element name="creationDate" nillable="true" type="xsd:dateTime"/>
+          <element name="lastModifiedUser" nillable="true" type="xsd:string"/>
+          <element name="lastModifiedDate" nillable="true" type="xsd:dateTime"/>
+          <element name="ifExpression" nillable="true" type="xsd:string"/>
+          <element name="thenExpression" nillable="true" type="xsd:string"/>
+          <element name="elseExpression" nillable="true" type="xsd:string"/>
+          <element name="ifValidationMessage" nillable="true" type="xsd:string"/>
+          <element name="thenValidationMessage" nillable="true"
+                   type="xsd:string"/>
+          <element name="elseValidationMessage" nillable="true"
+                   type="xsd:string"/>
+          <element name="isValidateSuccess" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ExpressionRuleIds">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ExpressionRulesList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:ExpressionRule[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ExpressionRuleQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="triggerName" nillable="true" type="xsd:string"/>
+          <element name="enabled" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+      <simpleType name="RuleType">
+        <restriction base="xsd:string">
+          <enumeration value="ExpressionRule"/>
+          <enumeration value="StateMachine"/>
+          <enumeration value="ThresholdRule"/>
+        </restriction>
+      </simpleType>
+
+      <simpleType name="EntityType">
+        <restriction base="xsd:string">
+          <enumeration value="Model"/>
+          <enumeration value="DeviceInclude"/>
+          <enumeration value="DeviceExclude"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="RuleAssociation">
+        <sequence>
+          <element name="ruleType" nillable="true" type="tns1:RuleType"/>
+          <element name="ruleId" type="xsd:long"/>
+          <element name="entityType" type="tns1:EntityType"/>
+          <element name="entityId" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="RuleAssociationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:RuleAssociation[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RuleAssociationQuery">
+        <sequence>
+          <element name="ruleType" nillable="true" type="tns1:RuleType"/>
+          <element name="ruleId" nillable="true" type="xsd:long"/>
+          <element name="entityType" nillable="true" type="tns1:EntityType"/>
+          <element name="entityId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ExpressionRuleResult">
+        <sequence>
+          <element name="result" nillable="true" type="tns1:Result"/>
+          <element name="expressionRule" nillable="true" type="tns1:ExpressionRule"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Result">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="statusMessage" nillable="true" type="xsd:string"/>
+          <element name="statusCode" nillable="false" type="xsd:int"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ResultList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Result[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <!-- State Machine -->
+      <complexType name="State">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="false" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="rules" nillable="true" type="tns1:ExpressionRulesList"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="StateList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:State[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="FailedRuleNamesList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="StateMachine">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="false" type="xsd:string"/>
+          <element name="states" nillable="true" type="tns1:StateList"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="isEnabled" nillable="true" type="xsd:boolean"/>          
+          <element name="isValidateSuccess" nillable="true" type="xsd:boolean"/>
+          <element name="isApplyToAll" nillable="true" type="xsd:boolean"/>
+          <element name="failedRuleNames" nillable="true"
+                   type="tns1:FailedRuleNamesList"/>
+          <element name="author" nillable="true" type="xsd:string"/>
+          <element name="creationDate" nillable="true" type="xsd:dateTime"/>
+          <element name="lastModifiedUser" nillable="true" type="xsd:string"/>
+          <element name="lastModifiedDate" nillable="true" type="xsd:dateTime"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="StateMachineList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:StateMachine[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="StateMachineQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="isEnabled" nillable="true" type="xsd:boolean"/>         
+        </sequence>
+      </complexType>
+
+      <complexType name="StateMachineResult">
+        <sequence>
+          <element name="result" nillable="true" type="tns1:Result"/>
+          <element name="stateMachine" nillable="true" type="tns1:StateMachine"/>
+        </sequence>
+      </complexType>
+
+      <!-- Rule Triggers -->
+
+      <complexType name="TriggerList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <!-- Functions -->
+      <complexType name="Function">
+        <sequence>
+          <element name="name" nillable="false" type="xsd:string"/>
+          <element name="category" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="FunctionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:Function[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      
+      <!-- ExpressionVariables -->
+      
+      <simpleType name="VariableDataType">
+        <restriction base="xsd:string">
+          <enumeration value="String"/>
+          <enumeration value="Double"/>
+          <enumeration value="Boolean"/>
+          <enumeration value="Date"/>
+          <enumeration value="Timestamp"/>
+          <enumeration value="Analog"/>
+          <enumeration value="Digital"/>          
+        </restriction>
+      </simpleType>
+      <complexType name="ExpressionVariable">
+        <sequence>
+          <element name="name" nillable="false" type="xsd:string"/>
+          <element name="datatype" nillable="true" type="tns1:VariableDataType"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ExpressionVariableList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:ExpressionVariable[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ExpressionVariableQuery">
+        <sequence>
+          <element name="triggerType" nillable="true" type="xsd:string"/>
+          <element name="modelIds" nillable="true" type="tns1:IdList"/>
+          <element name="union" nillable="true" type="xsd:boolean"/>         
+        </sequence>
+      </complexType>
+
+      <!-- Geofence -->
+      <complexType name="Geofence">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="false" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="address" nillable="true" type="xsd:string"/>
+          <element name="buffer" nillable="false" type="xsd:double"/>
+          <element name="geometry" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="GeofenceList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:Geofence[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="GeofenceQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="address" nillable="true" type="xsd:string"/>
+          <element name="point" nillable="true" type="tns1:Point"/>
+          <element name="buffer" nillable="true" type="xsd:double"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Point">
+        <sequence>
+          <element name="lat" nillable="false" type="xsd:double"/>
+          <element name="lng" nillable="false" type="xsd:double"/>
+          <element name="alt" nillable="true" type="xsd:double"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DataAssociation">
+        <sequence>
+          <element name="source" nillable="false" type="xsd:string"/>
+          <element name="destination" nillable="false" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceAssociation">
+        <sequence>
+          <element name="sourceId" nillable="false" type="xsd:long"/>
+          <element name="destinationId" nillable="false" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceAssociationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeviceAssociation[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DataAssociationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DataAssociation[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ModelAssociation">
+        <sequence>
+          <element name="sourceId" nillable="false" type="xsd:long"/>
+          <element name="destinationId" nillable="false" type="xsd:long"/>
+          <element name="associations" nillable="true" type="tns1:DataAssociationList"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ModelAssociationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ModelAssociation[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AssociationQuery">
+        <sequence>
+          <element name="Id" nillable="true" type="xsd:long"/>
+          <element name="isSource" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Property">
+        <sequence>
+		  <element name="id" nillable="true" type="xsd:long"/>		
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="value" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <simpleType name="PropertyQueryOperator">
+        <restriction base="xsd:string">
+          <enumeration value="EQUAL_TO"/>
+          <enumeration value="NOT_EQUAL_TO"/>
+          <enumeration value="HAS"/>
+        </restriction>
+      </simpleType>	  
+	  
+       <complexType name="DevicePropertyQuery">
+        <sequence>
+        <element name="name" nillable="true" type="xsd:string"/>
+        <element name="value" nillable="true" type="xsd:string"/>
+        <element name="propertyQueryOperator" nillable="true" type="tns1:PropertyQueryOperator"/>
+        </sequence>
+      </complexType>	  
+	  
+
+       <complexType name="ProximityQuery">
+        <sequence>
+          <element name="alt" nillable="true" type="xsd:double"/>
+          <element name="lat" nillable="true" type="xsd:double"/>
+          <element name="lng" nillable="true" type="xsd:double"/>
+          <element name="address" nillable="true" type="xsd:string"/>
+          <element name="radius" nillable="false" type="xsd:double"/>
+          <element name="inside" nillable="false" default="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ConditionQuery">
+        <sequence>
+        	<element name="active" nillable="true" type="xsd:boolean"/>
+        	<element name="priority" nillable="true" type="xsd:int"/>
+        	</sequence>
+      </complexType>
+      
+      <!--  Newly Added for Sprint 10 -->
+      <complexType name="DeviceDeviceGroupQuery">
+        <sequence>
+        	<element name="deviceGroupId" nillable="true" type="xsd:long" />
+        	<element name="deviceGroupName" nillable="true" type="xsd:string" />
+        	<element name="includeSubGroups" nillable="true" default="false" type="xsd:boolean" />
+        </sequence>
+      </complexType>
+      
+      <complexType name="DeviceQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="gatewayId" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="idleTime" nillable="true" type="xsd:long"/>
+          <element name="hasAssociation" nillable="true" type="xsd:boolean"/>
+          <element name="proximityQuery" nillable="true" type="tns1:ProximityQuery"/>
+          <element name="conditionQuery" nillable="true" type="tns1:ConditionQuery"/>
+          <element name="status" nillable="true" type="tns1:DeviceStatus"/>
+          <element name="devicePropertyQuery" nillable="true" type="tns1:DevicePropertyQuery"/>
+          <element name="deviceDataItemQuery" nillable="true" type="tns1:DeviceDataItemQuery"/>
+          <element name="deviceDeviceGroupQuery" nillable="true" type="tns1:DeviceDeviceGroupQuery"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceUpdateQuery">
+        <sequence>
+          <element name="query" nillable="true" type="tns1:DeviceQuery"/>
+          <element name="update" nillable="true" type="tns1:Device"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceUpdateQueryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeviceUpdateQuery[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="FormalParameter">
+        <sequence>
+          <element name="name" type="xsd:string"/>
+          <element name="addressingModes" type="tns1:AddressingModeList"/>
+          <element name="types" nillable="true" type="tns1:PrimitiveTypeList"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="FormalParameterList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:FormalParameter[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ActualParameter">
+        <sequence>
+          <element name="name" type="xsd:string"/>
+          <element name="addressingMode" type="tns1:AddressingMode"/>
+          <element name="value" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ActualParameterList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ActualParameter[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AlgorithmPrototype">
+        <sequence>
+          <element name="name" type="xsd:string"/>
+          <element name="formalParameters" type="tns1:FormalParameterList"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AlgorithmPrototypeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:AlgorithmPrototype[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ThresholdRule">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="thresholdName" nillable="true" type="xsd:string"/>
+          <element name="thresholdParameters" nillable="true" type="tns1:ActualParameterList"/>
+          <element name="actionName" nillable="true" type="xsd:string"/>
+          <element name="actionParameters" nillable="true" type="tns1:ActualParameterList"/>
+          <element name="isEnabled" nillable="true" type="xsd:boolean"/>
+          <element name="isApplyToAll" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ThresholdRuleList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ThresholdRule[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ThresholdRuleQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="RuleTimerRule">
+        <sequence>
+          <element name="ruleId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>
+
+	  <complexType name="RuleTimerRuleList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:RuleTimerRule[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+
+      <complexType name="RuleTimer">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="false" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="schedule" nillable="false" type="xsd:string"/>
+          <element name="ruleList" nillable="true" type="tns1:RuleTimerRuleList"/>
+        </sequence>
+      </complexType>
+
+
+      <complexType name="RuleTimerList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:RuleTimer[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="RuleTimerQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="schedule" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>      
+
+      <complexType name="Properties">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Property[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>	
+      <complexType name="DeviceGroup">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="parentPath" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DynamicGroupDef">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="parentDeviceGroupId" nillable="true" 
+                   type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="dynamicGroupHierarchy" nillable="true" type="tns1:DynamicGroupHierarchy"/>
+          <element name="devicesIncludedList" nillable="true" type="tns1:IdList"/>
+          <element name="allDevices" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>  
+      <complexType name="DynamicGroupHierarchy">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Hierarchy[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>  
+      <complexType name="Hierarchy">
+        <sequence>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="sequence" nillable="true" type="xsd:int"/>
+        </sequence>
+      </complexType>
+      <complexType name="DynamicGroupDefsList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:DynamicGroupDef[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="DynamicGroupDefQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="parentDeviceGroupId" nillable="true" type="xsd:long"/>
+        </sequence>
+      </complexType>	  
+      <complexType name="DeviceIdentification">
+        <sequence>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="serialNumber" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="AlarmIdentification">
+        <sequence>
+          <element name="alarmName" type="xsd:string"/>
+          <element name="deviceId" type="tns1:DeviceIdentification"/>
+        </sequence>
+      </complexType>
+      <complexType name="Alarm">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="severity" type="xsd:int"/>
+          <element name="date" nillable="true" type="xsd:dateTime"/>
+          <element name="acknowledged" type="xsd:boolean"/>
+          <element name="acknowledgementDate" nillable="true" type="xsd:dateTime"/>
+          <element name="mobileLocation" nillable="true" type="tns1:MobileLocation"/>
+          <element name="active" type="xsd:boolean"/>
+          <element name="dataItemName" nillable="true" type="xsd:string"/>
+          <element name="dataItemValue" nillable="true" type="xsd:string"/>
+          <element name="state" nillable="true" type="tns1:AlarmState"/>		           		  
+          <element name="sourceType" nillable="true" type="xsd:string"/>
+          <element name="sourceDetails" nillable="true" type="xsd:string"/>
+          <element name="note" nillable="true" type="xsd:string"/>
+          <element name="extendedData" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="AlarmQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="acknowledged" nillable="true" type="xsd:boolean"/>
+          <element name="severity" nillable="true" type="xsd:int"/>
+          <element name="minimumSeverity" nillable="true" type="xsd:int"/>
+          <element name="maximumSeverity" nillable="true" type="xsd:int"/>
+          <element name="startDate" nillable="true" type="xsd:dateTime"/>
+          <element name="endDate" nillable="true" type="xsd:dateTime"/>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+          <element name="state" nillable="true" type="tns1:AlarmState"/>		           		  
+          <element name="sourceType" nillable="true" type="xsd:string"/>
+          <element name="sourceDetails" nillable="true" type="xsd:string"/>                      
+          <element name="extendedData" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="AlarmList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Alarm[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AlarmStateChange">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="fromState" type="tns1:AlarmState"/>
+          <element name="toState"  type="tns1:AlarmState"/>
+          <element name="date" type="xsd:dateTime"/>
+          <element name="user" nillable="true" type="xsd:string"/>
+          <element name="notes" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AlarmStateChangeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:AlarmStateChange[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AlarmStateList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:AlarmState[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AlarmSourceTypeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+	  
+      <complexType name="AlarmSpecifier">
+        <sequence>
+          <element name="alarmName" nillable="true" type="xsd:string"/>
+          <element name="allAlarms" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AlarmCreateDisposition">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="entityId" nillable="true" type="xsd:long"/>
+          <element name="entity" type="tns1:CreateDispositionEntity"/>
+          <element name="alarm" type="tns1:AlarmSpecifier"/>
+          <element name="disposition" type="tns1:CreateDisposition"/>
+          <element name="creationDate" nillable="true" type="xsd:dateTime"/>
+          <element name="author" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AlarmCreateDispositionList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:AlarmCreateDisposition[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="AlarmCreateDispositionResult">
+        <sequence>
+          <element name="entity" type="tns1:CreateDispositionEntity"/>
+          <element name="disposition" type="tns1:CreateDisposition"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="AlarmCreateDispositionQuery">
+        <sequence>
+          <!--
+               Note the model ID and ModelUnitTest ID have an OR relationship
+               when both are specified.
+            -->
+          <element name="modelId" nillable="true" type="xsd:long"/>
+          <element name="deviceId" nillable="true" type="xsd:long"/>
+          <element name="alarmName" nillable="true" type="xsd:string"/>
+          <element name="allAlarms" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+      <!--                                  -->
+      <!-- Extension Objects and Properties -->
+      <!--                                  -->
+
+      <simpleType name="PredefinedExtObjectClasses">
+        <restriction base="xsd:string">
+          <enumeration value="com.axeda.drm.sdk.device.Model"/>
+          <enumeration value="com.axeda.drm.sdk.device.Device"/>
+          <enumeration value="com.axeda.drm.sdk.device.DataItem"/>
+          <enumeration value="com.axeda.drm.sdk.data.Alarm"/>
+          <enumeration value="com.axeda.drm.sdk.data.Event"/>
+          <!-- TODO Finish this list -->
+          <enumeration value="com.axeda.drm.sdk."/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="ExtObjectType">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="className" type="xsd:string"/>
+          <element name="displayName" type="xsd:string"/>
+          <element name="userDefined" nillable="true" type="xsd:boolean"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="extPropertyTypes" nillable="true"
+                   type="tns1:ExtPropertyTypeList"/>
+        </sequence>
+      </complexType>
+      <complexType name="ExtObjectTypeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:ExtObjectType[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="ExtObjectTypeQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="className" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="userDefined" nillable="true" type="xsd:boolean"/>
+          <element name="displayName" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ExtPropertyType">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="extObjectTypeId" nillable="true" type="xsd:long"/>
+          <element name="dataType" type="tns1:DataType"/>
+          <element name="name" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="ExtPropertyTypeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:ExtPropertyType[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="ExtPropertyTypeQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="extObjectTypeId" nillable="true" type="xsd:long"/>
+          <element name="extObjectTypeClassName" nillable="true"
+                   type="xsd:string"/>
+          <element name="dataType" nillable="true" type="tns1:DataType"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ExtProperty">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="extObjectId" nillable="true" type="xsd:long"/>
+          <element name="value" type="xsd:string"/>
+          <element name="propertyType" type="tns1:ExtPropertyType"/>
+        </sequence>
+      </complexType>
+      <complexType name="ExtPropertyList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:ExtProperty[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="SimpleExpression">
+        <sequence>
+          <element name="property" type="xsd:string"/>
+          <element name="value" type="xsd:string"/>
+          <element name="operator" type="tns1:RelationalOperator"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="LogicalExpression">
+        <sequence>
+          <!-- Left Operand nillable for unary operators -->
+          <element name="leftOperand" nillable="true" type="tns1:Expression"/>
+          <element name="rightOperand" type="tns1:Expression"/>
+          <element name="operator" type="tns1:BooleanOperator"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Expression">
+        <sequence>
+          <!-- Would use choice here, but not supported by .net -->
+          <element name="simpleExpression" nillable="true"
+                   type="tns1:SimpleExpression"/>
+          <element name="logicalExpression" nillable="true"
+                   type="tns1:LogicalExpression"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ExtPropertyQuery">
+        <sequence>
+          <element name="propertyExpression" nillable="true"
+                   type="tns1:Expression"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ExtObject">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="extObjectTypeId" type="xsd:long"/>
+          <element name="internalObjectId" type="xsd:long"/>
+          <element name="externalClientKey" type="xsd:string"/>
+          <element name="properties" nillable="true"
+                   type="tns1:ExtPropertyList"/>
+        </sequence>
+      </complexType>
+      <complexType name="ExtObjectList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:ExtObject[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="ExtObjectQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="extObjectTypeId" nillable="true" type="xsd:long"/>
+          <element name="internalObjectId" nillable="true" type="xsd:long"/>
+          <element name="extClientKey" nillable="true" type="xsd:string"/>
+          <element name="extObjectTypeClassName" nillable="true"
+                   type="xsd:string"/>
+          <element name="propertyQuery" nillable="true"
+                   type="tns1:ExtPropertyQuery"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ContactIdentification">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="firstName" nillable="true" type="xsd:string"/>
+          <element name="middleName" nillable="true" type="xsd:string"/>
+          <element name="lastName" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="Contact">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="firstName" nillable="true" type="xsd:string"/>
+          <element name="middleName" nillable="true" type="xsd:string"/>
+          <element name="lastName" nillable="true" type="xsd:string"/>
+          <element name="organization" nillable="true" type="tns1:Organization"/>
+          <element name="location" nillable="true" type="tns1:Location"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ContactType">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ContactTypeQuery">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceContactQuery">
+        <sequence>
+          <element name="device" nillable="true" type="tns1:DeviceIdentification"/>
+          <element name="contact" nillable="true" type="tns1:ContactIdentification"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceContact">
+        <sequence>
+          <element name="device" nillable="true" type="tns1:Device"/>
+          <element name="contact" nillable="true" type="tns1:Contact"/>
+          <element name="contactType" nillable="true" type="tns1:ContactType"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="DeviceContactList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeviceContact[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DataItemList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DataItem[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>	  
+	  
+      <complexType name="DataItemValue">
+        <complexContent>
+          <extension base="tns1:Instruction">
+            <sequence>
+              <element name="dataItem" type="tns1:DataItem"/>
+              <element name="dataItemValue" type="xsd:string"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DataItemValueList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:DataItemValue[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>	  
+	  
+      <complexType name="DeviceData">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>		  
+		  <element name="currentMobileLocation" nillable="true" type="tns1:MobileLocation"/>
+		  <element name="dataItems" nillable="true" type="tns1:DataItemValueList"/>
+		  <element name="properties" nillable="true" type="tns1:Properties"/>	  		  		  
+        </sequence>
+      </complexType>	  
+
+      <complexType name="DeviceDataList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:DeviceData[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>	  
+	  
+      <complexType name="RuleTypeList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:RuleType[]"/>
+          </restriction>
+        </complexContent>	  
+      </complexType>	  
+	  
+      <complexType name="DeviceRules">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>		  
+		  <element name="expressionRules" type="tns1:ExpressionRulesList"/>
+		  <element name="thresholdRules" type="tns1:ThresholdRuleList"/>
+		  <element name="stateMachines" type="tns1:StateMachineList"/>
+        </sequence>
+      </complexType>	  
+	  
+      <complexType name="DeviceRuleList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType"
+                       wsdl:arrayType="tns1:DeviceRules[]"/>
+          </restriction>
+        </complexContent>	  
+      </complexType>
+
+      <complexType name="DeviceDataType">
+        <sequence>
+          <element name="includeMobileLocation" nillable="true" type="xsd:boolean"/>
+		  <element name="includeDataItems" nillable="true" type="xsd:boolean"/>
+		  <element name="includeProperties" nillable="true" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+
+<!--  Event Subscription Service -->
+      <complexType name="EventTypeList">
+		<complexContent>
+			<restriction base="soapenc:Array">
+				<attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]" />
+			</restriction>
+		</complexContent>
+	  </complexType>
+	  <simpleType name="EventMessageFormat">
+		<restriction base="xsd:string">
+			<enumeration value="XML" />
+			<enumeration value="JSON" />
+		</restriction>
+	  </simpleType>
+	  <complexType name="SubscriptionResponse">
+		<sequence>
+			<element name="destinationURI" nillable="true" type="xsd:string" />
+			<element name="result" nillable="true" type="tns1:Result" />
+		</sequence>
+	  </complexType>
+	  
+    </schema>
+  </wsdl:types>
+
+</wsdl:definitions>

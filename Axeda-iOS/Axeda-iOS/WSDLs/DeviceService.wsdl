@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/device/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+                  xmlns:impl="http://sdk.axeda.com/webservices/device/"
+                  xmlns:intf="http://sdk.axeda.com/webservices/device/"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+  
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="getDeviceRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="updateDevicesResponse"/>
+  <wsdl:message name="updateDevicesRequest">
+    <wsdl:part name="updates" type="tns1:DeviceUpdateQueryList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteDevicesResponse"/>
+  <wsdl:message name="getDevicesResponse">
+    <wsdl:part name="devices" type="tns1:DeviceList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteDevicesRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="getDeviceResponse">
+    <wsdl:part name="device" type="tns1:Device"/>
+  </wsdl:message>
+  <wsdl:message name="createDevicesResponse">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="getDevicesRequest">
+    <wsdl:part name="query" type="tns1:DeviceQuery"/>
+  </wsdl:message>
+  <wsdl:message name="createDevicesRequest">
+    <wsdl:part name="devices" type="tns1:DeviceList"/>
+  </wsdl:message>
+  <wsdl:message name="getAssociatedGatewayRequest">
+    <wsdl:part name="device" type="tns1:Device"/>
+  </wsdl:message>
+  <wsdl:message name="getAssociatedGatewayResponse">
+    <wsdl:part name="gateway" type="tns1:Device"/>
+  </wsdl:message>
+  <wsdl:message name="getMonitoredDevicesRequest">
+    <wsdl:part name="gateway" type="tns1:Device"/>
+  </wsdl:message>
+  <wsdl:message name="getMonitoredDevicesResponse">
+    <wsdl:part name="devices" type="tns1:DeviceList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteIdleDevicesRequest">
+    <wsdl:part name="idleTime" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="deleteIdleDevicesResponse">
+    <wsdl:part name="totalDevicesDeleted" type="xsd:long"/>
+  </wsdl:message>
+
+  <wsdl:message name="getDeviceDataRequest"> 
+    <wsdl:part name="deviceId" type="tns1:IdList"/>
+	<wsdl:part name="deviceDataType" type="tns1:DeviceDataType"/>	
+  </wsdl:message>
+  <wsdl:message name="getDeviceDataResponse">  
+    <wsdl:part name="deviceData" type="tns1:DeviceDataList"/>
+  </wsdl:message>
+  
+  
+  <wsdl:portType name="DeviceService">
+    <wsdl:operation name="createDevices" parameterOrder="devices">
+      <wsdl:input message="impl:createDevicesRequest" name="createDevicesRequest"/>
+      <wsdl:output message="impl:createDevicesResponse" name="createDevicesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDevices" parameterOrder="query">
+      <wsdl:input message="impl:getDevicesRequest" name="getDevicesRequest"/>
+      <wsdl:output message="impl:getDevicesResponse" name="getDevicesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDevice" parameterOrder="id">
+      <wsdl:input message="impl:getDeviceRequest" name="getDeviceRequest"/>
+      <wsdl:output message="impl:getDeviceResponse" name="getDeviceResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDevices" parameterOrder="ids">
+      <wsdl:input message="impl:deleteDevicesRequest" name="deleteDevicesRequest"/>
+      <wsdl:output message="impl:deleteDevicesResponse" name="deleteDevicesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateDevices" parameterOrder="updates">
+      <wsdl:input message="impl:updateDevicesRequest" name="updateDevicesRequest"/>
+      <wsdl:output message="impl:updateDevicesResponse" name="updateDevicesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAssociatedGateway" parameterOrder="device">
+      <wsdl:input message="impl:getAssociatedGatewayRequest" name="getAssociatedGatewayRequest"/>
+      <wsdl:output message="impl:getAssociatedGatewayResponse" name="getAssociatedGatewayResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMonitoredDevices" parameterOrder="gateway">
+      <wsdl:input message="impl:getMonitoredDevicesRequest" name="getMonitoredDevicesRequest"/>
+      <wsdl:output message="impl:getMonitoredDevicesResponse" name="getMonitoredDevicesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteIdleDevices" parameterOrder="idleTime">
+      <wsdl:input message="impl:deleteIdleDevicesRequest" name="deleteIdleDevicesRequest"/>
+      <wsdl:output message="impl:deleteIdleDevicesResponse" name="deleteIdleDevicesResponse"/>
+    </wsdl:operation>
+	
+    <wsdl:operation name="getDeviceData" parameterOrder="deviceId deviceDataType">
+      <wsdl:input message="impl:getDeviceDataRequest" name="getDeviceDataRequest"/>
+      <wsdl:output message="impl:getDeviceDataResponse" name="getDeviceDataResponse"/>
+    </wsdl:operation>	
+	
+  </wsdl:portType>
+  <wsdl:binding name="DeviceServiceBinding" type="impl:DeviceService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createDevices">
+      <wsdlsoap:operation soapAction="CreateDevices"/>
+      <wsdl:input name="createDevicesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createDevicesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDevices">
+      <wsdlsoap:operation soapAction="GetDevices"/>
+      <wsdl:input name="getDevicesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDevicesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDevice">
+      <wsdlsoap:operation soapAction="GetDevice"/>
+      <wsdl:input name="getDeviceRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeviceResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDevices">
+      <wsdlsoap:operation soapAction="DeleteDevices"/>
+      <wsdl:input name="deleteDevicesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteDevicesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDevices">
+      <wsdlsoap:operation soapAction="UpdateDevices"/>
+      <wsdl:input name="updateDevicesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateDevicesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAssociatedGateway">
+      <wsdlsoap:operation soapAction="GetAssociatedGateway"/>
+      <wsdl:input name="getAssociatedGatewayRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getAssociatedGatewayResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonitoredDevices">
+      <wsdlsoap:operation soapAction="GetMonitoredDevices"/>
+      <wsdl:input name="getMonitoredDevicesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMonitoredDevicesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteIdleDevices">
+      <wsdlsoap:operation soapAction="DeleteIdleDevices"/>
+      <wsdl:input name="deleteIdleDevicesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteIdleDevicesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+	
+    <wsdl:operation name="getDeviceData">	
+      <wsdlsoap:operation soapAction="GetDeviceData"/>
+      <wsdl:input name="getDeviceDataRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeviceDataResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/device/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+	
+  </wsdl:binding>
+  <wsdl:service name="DeviceServiceService">
+    <wsdl:port binding="impl:DeviceServiceBinding" name="DeviceService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/DeviceService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

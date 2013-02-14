@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/rules/engine/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+                  xmlns:impl="http://sdk.axeda.com/webservices/rules/engine/"
+                  xmlns:intf="http://sdk.axeda.com/webservices/rules/engine/"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl1="http://sdk.axeda.com/webservices/rules/engine/"
+                  xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+                  xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <!-- create expression rule() -->
+  <wsdl:message name="createRuleRequest">
+    <wsdl:part name="expressionRules" type="tns1:ExpressionRulesList"/>
+  </wsdl:message>
+  <wsdl:message name="createRuleResponse">
+    <wsdl:part name="expressionRuleRes" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- validate expression rule() -->
+  <wsdl:message name="validateRuleRequest">
+    <wsdl:part name="expressionRule" type="tns1:ExpressionRule"/>
+    <wsdl:part name="modelIds" type="tns1:IdList"/>
+    <wsdl:part name="union" type="xsd:boolean"/>
+  </wsdl:message>
+  <wsdl:message name="validateRuleResponse">
+    <wsdl:part name="expressionRuleRes" type="tns1:ExpressionRuleResult"/>
+  </wsdl:message>
+
+  <!-- update expression rules() -->
+  <wsdl:message name="updateRuleRequest">
+    <wsdl:part name="expressionRules" type="tns1:ExpressionRulesList"/>
+  </wsdl:message>
+  <wsdl:message name="updateRuleResponse">
+    <wsdl:part name="expressionRuleRes" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- get expression rules() -->
+  <wsdl:message name="getRuleRequest">
+    <wsdl:part name="expressionRuleQuery" type="tns1:ExpressionRuleQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getRuleResponse">
+    <wsdl:part name="expressionRules" type="tns1:ExpressionRulesList"/>
+  </wsdl:message>
+
+  <!-- enable expression rules() -->
+  <wsdl:message name="enableRuleRequest">
+    <wsdl:part name="expressionRuleIds" type="tns1:ExpressionRuleIds"/>
+  </wsdl:message>
+  <wsdl:message name="enableRuleResponse">
+    <wsdl:part name="expressionRuleRes" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- disable expression rules() -->
+  <wsdl:message name="disableRuleRequest">
+    <wsdl:part name="expressionRuleIds" type="tns1:ExpressionRuleIds"/>
+  </wsdl:message>
+  <wsdl:message name="disableRuleResponse">
+    <wsdl:part name="expressionRuleRes" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- delete expression rules() -->
+  <wsdl:message name="deleteRuleRequest">
+    <wsdl:part name="expressionRuleIds" type="tns1:ExpressionRuleIds"/>
+  </wsdl:message>
+  <wsdl:message name="deleteRuleResponse">
+    <wsdl:part name="expressionRuleRes" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Create state machine -->
+  <wsdl:message name="createStateMachineRequest">
+    <wsdl:part name="stateMachine" type="tns1:StateMachine"/>
+  </wsdl:message>
+  <wsdl:message name="createStateMachineResponse">
+    <wsdl:part name="response" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- delete state machine -->
+  <wsdl:message name="deleteStateMachineRequest">
+    <wsdl:part name="stateMachineId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="deleteStateMachineResponse">
+    <wsdl:part name="response" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- enable state machine -->
+  <wsdl:message name="enableStateMachinesRequest">
+    <wsdl:part name="stateMachineIds" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="enableStateMachinesResponse">
+    <wsdl:part name="response" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- disable state machine -->
+  <wsdl:message name="disableStateMachinesRequest">
+    <wsdl:part name="stateMachineIds" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="disableStateMachinesResponse">
+    <wsdl:part name="response" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- validate state machine -->
+  <wsdl:message name="validateStateMachineRequest">
+    <wsdl:part name="stateMachine" type="tns1:StateMachine"/>
+    <wsdl:part name="modelIds" type="tns1:IdList"/>
+    <wsdl:part name="union" type="xsd:boolean"/>
+  </wsdl:message>
+  <wsdl:message name="validateStateMachineResponse">
+    <wsdl:part name="stateMachineResponse" type="tns1:StateMachineResult"/>
+  </wsdl:message>
+
+  <!-- update state machine -->
+  <wsdl:message name="updateStateMachineRequest">
+    <wsdl:part name="request" type="tns1:StateMachine"/>
+  </wsdl:message>
+  <wsdl:message name="updateStateMachineResponse">
+    <wsdl:part name="response" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- get state machine -->
+  <wsdl:message name="getStateMachinesRequest">
+    <wsdl:part name="stateMachineQuery" type="tns1:StateMachineQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getStateMachinesResponse">
+    <wsdl:part name="response" type="tns1:StateMachineList"/>
+  </wsdl:message>
+
+  <!-- get triggers -->
+  <wsdl:message name="getTriggersRequest" />
+  <wsdl:message name="getTriggersResponse">
+    <wsdl:part name="response" type="tns1:TriggerList"/>
+  </wsdl:message>
+
+  <!-- get Functions -->
+  <wsdl:message name="getFunctionsRequest"/>
+  <wsdl:message name="getFunctionsResponse">
+    <wsdl:part name="response" type="tns1:FunctionList"/>
+  </wsdl:message>
+
+  <!-- get actions -->
+  <wsdl:message name="getActionsRequest"/>
+  <wsdl:message name="getActionsResponse">
+    <wsdl:part name="response" type="tns1:FunctionList"/>
+  </wsdl:message>
+
+  <!-- get variables -->
+  <wsdl:message name="getExpressionVariablesRequest">
+    <wsdl:part name="variablesQuery" type="tns1:ExpressionVariableQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getExpressionVariablesResponse">
+    <wsdl:part name="response" type="tns1:ExpressionVariableList"/>
+  </wsdl:message>
+
+  <!-- create rule associations -->
+  <wsdl:message name="createRuleAssociationsRequest">
+  	<wsdl:part name="associations" type="tns1:RuleAssociationList"/>
+  </wsdl:message>
+  <wsdl:message name="createRuleAssociationsResponse">
+  	<wsdl:part name="response" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- delete rule associations -->
+  <wsdl:message name="deleteRuleAssociationsRequest">
+  	<wsdl:part name="associations" type="tns1:RuleAssociationList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteRuleAssociationsResponse">
+  	<wsdl:part name="response" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- get rule associations -->
+  <wsdl:message name="getRuleAssociationsRequest">
+  	<wsdl:part name="query" type="tns1:RuleAssociationQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getRuleAssociationsResponse">
+  	<wsdl:part name="response" type="tns1:RuleAssociationList"/>
+  </wsdl:message>
+
+  <!-- get device rules -->
+  <wsdl:message name="getDeviceRulesRequest">
+   <wsdl:part name="deviceId" type="tns1:IdList"/>
+   <wsdl:part name="ruleTypes" type="tns1:RuleTypeList"/>  	
+  </wsdl:message>
+  <wsdl:message name="getDeviceRulesResponse">  
+  	<wsdl:part name="deviceRules" type="tns1:DeviceRuleList"/>	
+  </wsdl:message>    
+  
+  <wsdl:portType name="ExpressionRuleServicePortType">
+
+    <wsdl:operation name="createExpressionRules">
+      <wsdl:input name="createRuleRequest" message="impl:createRuleRequest"/>
+      <wsdl:output name="createRuleResponse" message="impl:createRuleResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="validateExpressionRule">
+      <wsdl:input name="validateRuleRequest" message="impl:validateRuleRequest"/>
+      <wsdl:output name="validateRuleResponse" message="impl:validateRuleResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateExpressionRules">
+      <wsdl:input name="updateRuleRequest" message="impl:updateRuleRequest"/>
+      <wsdl:output name="updateRuleResponse" message="impl:updateRuleResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getExpressionRules">
+      <wsdl:input name="getRuleRequest" message="impl:getRuleRequest"/>
+      <wsdl:output name="getRuleResponse" message="impl:getRuleResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="enableExpressionRules">
+      <wsdl:input name="enableRuleRequest" message="impl:enableRuleRequest"/>
+      <wsdl:output name="enableRuleResponse" message="impl:enableRuleResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="disableExpressionRules">
+      <wsdl:input name="disableRuleRequest" message="impl:disableRuleRequest"/>
+      <wsdl:output name="disableRuleResponse" message="impl:disableRuleResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteExpressionRules">
+      <wsdl:input name="deleteRuleRequest" message="impl:deleteRuleRequest"/>
+      <wsdl:output name="deleteRuleResponse" message="impl:deleteRuleResponse"/>
+    </wsdl:operation>
+
+    <!-- Create State Machine -->
+    <wsdl:operation name="createStateMachine" parameterOrder="stateMachine">
+      <wsdl:input message="impl:createStateMachineRequest"
+                  name="createStateMachineRequest"/>
+      <wsdl:output message="impl:createStateMachineResponse"
+                   name="createStateMachineResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete State Machine -->
+    <wsdl:operation name="deleteStateMachine" parameterOrder="stateMachineId">
+      <wsdl:input message="impl:deleteStateMachineRequest"
+                  name="deleteStateMachineRequest"/>
+      <wsdl:output message="impl:deleteStateMachineResponse"
+                   name="deleteStateMachineResponse"/>
+    </wsdl:operation>
+
+    <!-- Enable State Machine -->
+    <wsdl:operation name="enableStateMachines" parameterOrder="stateMachineIds">
+      <wsdl:input name="enableStateMachinesRequest"
+                  message="impl:enableStateMachinesRequest"/>
+      <wsdl:output name="enableStateMachinesResponse"
+                   message="impl:enableStateMachinesResponse"/>
+    </wsdl:operation>
+
+    <!-- Disable State Machine -->
+    <wsdl:operation name="disableStateMachines">
+      <wsdl:input name="disableStateMachinesRequest"
+                  message="impl:disableStateMachinesRequest"/>
+      <wsdl:output name="disableStateMachinesResponse"
+                   message="impl:disableStateMachinesResponse"/>
+    </wsdl:operation>
+
+    <!-- Validate State Machine -->
+    <wsdl:operation name="validateStateMachine">
+      <wsdl:input name="validateStateMachineRequest"
+                  message="impl:validateStateMachineRequest"/>
+      <wsdl:output name="validateStateMachineResponse"
+                   message="impl:validateStateMachineResponse"/>
+    </wsdl:operation>
+
+    <!-- Update State Machine -->
+    <wsdl:operation name="updateStateMachine">
+      <wsdl:input name="updateStateMachineRequest"
+                  message="impl:updateStateMachineRequest"/>
+      <wsdl:output name="updateStateMachineResponse"
+                   message="impl:updateStateMachineResponse"/>
+    </wsdl:operation>
+
+    <!-- Get State Machines -->
+    <wsdl:operation name="getStateMachines">
+      <wsdl:input name="getStateMachinesRequest"
+                  message="impl:getStateMachinesRequest"/>
+      <wsdl:output name="getStateMachinesResponse"
+                   message="impl:getStateMachinesResponse"/>
+    </wsdl:operation>
+
+    <!-- Get Triggers -->
+    <wsdl:operation name="getTriggers">
+      <wsdl:input name="getTriggersRequest"
+                  message="impl:getTriggersRequest"/>
+      <wsdl:output name="getTriggersResponse"
+                   message="impl:getTriggersResponse"/>
+    </wsdl:operation>
+
+    <!-- Get Functions -->
+    <wsdl:operation name="getFunctions">
+      <wsdl:input name="getFunctionsRequest"
+                  message="impl:getFunctionsRequest"/>
+      <wsdl:output name="getFunctionsResponse"
+                   message="impl:getFunctionsResponse"/>
+    </wsdl:operation>
+
+    <!-- Get Actions -->
+    <wsdl:operation name="getActions">
+      <wsdl:input name="getActionsRequest"
+                  message="impl:getActionsRequest"/>
+      <wsdl:output name="getActionsResponse"
+                   message="impl:getActionsResponse"/>
+    </wsdl:operation>
+
+    <!-- Get ExpressionVariables -->
+    <wsdl:operation name="getExpressionVariables">
+      <wsdl:input name="getExpressionVariablesRequest"
+                  message="impl:getExpressionVariablesRequest"/>
+      <wsdl:output name="getExpressionVariablesResponse"
+                   message="impl:getExpressionVariablesResponse"/>
+    </wsdl:operation>
+
+    <!-- Create Rule Associations -->
+    <wsdl:operation name="createRuleAssociations" parameterOrder="associations">
+    	<wsdl:input name="createRuleAssociationsRequest"
+    	            message="impl:createRuleAssociationsRequest"/>
+    	<wsdl:output name="createRuleAssociationsResponse"
+    	             message="impl:createRuleAssociationsResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete Rule Associations -->
+    <wsdl:operation name="deleteRuleAssociations" parameterOrder="associations">
+    	<wsdl:input name="deleteRuleAssociationsRequest"
+    	            message="impl:deleteRuleAssociationsRequest"/>
+    	<wsdl:output name="deleteRuleAssociationsResponse"
+    	             message="impl:deleteRuleAssociationsResponse"/>
+    </wsdl:operation>
+
+    <!-- Get Rule Associations -->
+    <wsdl:operation name="getRuleAssociations" parameterOrder="query">
+    	<wsdl:input name="getRuleAssociationsRequest"
+    	            message="impl:getRuleAssociationsRequest"/>
+    	<wsdl:output name="getRuleAssociationsResponse"
+    	             message="impl:getRuleAssociationsResponse"/>
+    </wsdl:operation>
+	
+    <!-- Get Device Rules -->
+    <wsdl:operation name="getDeviceRules" parameterOrder="deviceId ruleTypes">
+    	<wsdl:input name="getDeviceRulesRequest"
+    	            message="impl:getDeviceRulesRequest"/>
+    	<wsdl:output name="getDeviceRulesResponse"
+    	             message="impl:getDeviceRulesResponse"/>
+    </wsdl:operation>	
+
+  </wsdl:portType>
+
+  <wsdl:binding name="ExpressionRuleServiceBinding"
+                type="impl:ExpressionRuleServicePortType">
+    <wsdlsoap:binding style="rpc"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <!-- create expression rule() -->
+    <wsdl:operation name="createExpressionRules">
+      <wsdlsoap:operation soapAction="createExpressionRules"/>
+      <wsdl:input name="createRuleRequest">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         use="encoded"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="createRuleResponse">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- validate expression rule() -->
+    <wsdl:operation name="validateExpressionRule">
+      <wsdlsoap:operation soapAction="validateExpressionRule"/>
+      <wsdl:input name="validateRuleRequest">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         use="encoded"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="validateRuleResponse">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- update expression rule() -->
+    <wsdl:operation name="updateExpressionRules">
+      <wsdlsoap:operation soapAction="updateExpressionRules"/>
+      <wsdl:input name="updateRuleRequest">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         use="encoded"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="updateRuleResponse">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- get expression rules() -->
+    <wsdl:operation name="getExpressionRules">
+      <wsdlsoap:operation soapAction="getExpressionRules"/>
+      <wsdl:input name="getRuleRequest">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         use="encoded"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="getRuleResponse">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- enable expression rule() -->
+    <wsdl:operation name="enableExpressionRules">
+      <wsdlsoap:operation soapAction="enableExpressionRules"/>
+      <wsdl:input name="enableRuleRequest">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         use="encoded"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="enableRuleResponse">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- disable expression rule() -->
+    <wsdl:operation name="disableExpressionRules">
+      <wsdlsoap:operation soapAction="disableExpressionRules"/>
+      <wsdl:input name="disableRuleRequest">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         use="encoded"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="disableRuleResponse">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- delete expression rule() -->
+    <wsdl:operation name="deleteExpressionRules">
+      <wsdlsoap:operation soapAction="deleteExpressionRules"/>
+      <wsdl:input name="deleteRuleRequest">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         use="encoded"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="deleteRuleResponse">
+        <wsdlsoap:body use="encoded"
+                       encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Create State Machine -->
+    <wsdl:operation name="createStateMachine">
+      <wsdlsoap:operation soapAction="createStateMachine"/>
+      <wsdl:input name="createStateMachineRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createStateMachineResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Delete State Machine -->
+    <wsdl:operation name="deleteStateMachine">
+      <wsdlsoap:operation soapAction="deleteStateMachine"/>
+      <wsdl:input name="deleteStateMachineRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteStateMachineResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Enable State Machine -->
+    <wsdl:operation name="enableStateMachines">
+      <wsdlsoap:operation soapAction="enableStateMachines"/>
+      <wsdl:input name="enableStateMachinesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="enableStateMachinesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Disable State Machine -->
+    <wsdl:operation name="disableStateMachines">
+      <wsdlsoap:operation soapAction="disableStateMachines"/>
+      <wsdl:input name="disableStateMachinesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="disableStateMachinesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Validate State Machine -->
+    <wsdl:operation name="validateStateMachine">
+      <wsdlsoap:operation soapAction="validateStateMachine"/>
+      <wsdl:input name="validateStateMachineRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="validateStateMachineResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Update State Machine -->
+    <wsdl:operation name="updateStateMachine">
+      <wsdlsoap:operation soapAction="updateStateMachine"/>
+      <wsdl:input name="updateStateMachineRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateStateMachineResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Get State Machines -->
+    <wsdl:operation name="getStateMachines">
+      <wsdlsoap:operation soapAction="getStateMachines"/>
+      <wsdl:input name="getStateMachinesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getStateMachinesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- get triggers -->
+    <wsdl:operation name="getTriggers">
+      <wsdlsoap:operation soapAction="getTriggers"/>
+      <wsdl:input name="getTriggersRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getTriggersResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- get Functions -->
+    <wsdl:operation name="getFunctions">
+      <wsdlsoap:operation soapAction="getFunctions"/>
+      <wsdl:input name="getFunctionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getFunctionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- get actions -->
+    <wsdl:operation name="getActions">
+      <wsdlsoap:operation soapAction="getActions"/>
+      <wsdl:input name="getActionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getActionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+    <!--  get Variables -->
+    <wsdl:operation name="getExpressionVariables">
+      <wsdlsoap:operation soapAction="getExpressionVariables"/>
+      <wsdl:input name="getExpressionVariablesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getExpressionVariablesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+	<!-- create rule associations -->
+    <wsdl:operation name="createRuleAssociations">
+      <wsdlsoap:operation soapAction="createRuleAssociations"/>
+      <wsdl:input name="createRuleAssociationsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createRuleAssociationsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+	<!-- delete rule associations -->
+    <wsdl:operation name="deleteRuleAssociations">
+      <wsdlsoap:operation soapAction="deleteRuleAssociations"/>
+      <wsdl:input name="deleteRuleAssociationsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteRuleAssociationsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+	<!-- get rule associations -->
+    <wsdl:operation name="getRuleAssociations">
+      <wsdlsoap:operation soapAction="getRuleAssociations"/>
+      <wsdl:input name="getRuleAssociationsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getRuleAssociationsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+	<!-- get device rules -->
+    <wsdl:operation name="getDeviceRules">
+      <wsdlsoap:operation soapAction="getDeviceRules"/>
+      <wsdl:input name="getDeviceRulesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeviceRulesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/rules/engine/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>	
+	
+	
+  </wsdl:binding>
+
+  <wsdl:service name="ExpressionRuleService">
+    <wsdl:port binding="impl:ExpressionRuleServiceBinding"
+               name="ExpressionRuleService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/ExpressionRuleService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

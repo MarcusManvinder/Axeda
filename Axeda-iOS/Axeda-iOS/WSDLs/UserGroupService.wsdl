@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/userGroup/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/userGroup/" xmlns:intf="http://sdk.axeda.com/webservices/userGroup/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="Privilege">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="PrivilegesList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Privilege[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="UserGroup">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="DeviceGroup">
+        <sequence>
+          <element name="id" nillable="false" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="model" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="getAssignedPrivilegesRequest">
+    <wsdl:part name="userGroup" type="tns1:UserGroup"/>
+  </wsdl:message>
+  <wsdl:message name="getAssignedPrivilegesResponse">
+    <wsdl:part name="privileges" type="tns1:PrivilegesList"/>
+  </wsdl:message>
+  <wsdl:message name="addPrivilegeRequest">
+    <wsdl:part name="userGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="privilege" type="tns1:Privilege"/>
+  </wsdl:message>
+  <wsdl:message name="addPrivilegeResponse" />
+  <wsdl:message name="removePrivilegeRequest">
+    <wsdl:part name="userGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="privilege" type="tns1:Privilege"/>
+  </wsdl:message>
+  <wsdl:message name="removePrivilegeResponse" />
+  <wsdl:message name="addDeviceGroupToUserGroupRequest">
+    <wsdl:part name="userGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="deviceGroup" type="tns1:DeviceGroup"/>
+  </wsdl:message>
+  <wsdl:message name="addDeviceGroupToUserGroupResponse" />
+  <wsdl:message name="removeDeviceGroupFromUserGroupRequest">
+    <wsdl:part name="userGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="deviceGroup" type="tns1:DeviceGroup"/>
+  </wsdl:message>
+  <wsdl:message name="removeDeviceGroupFromUserGroupResponse" />
+  <wsdl:message name="addUserGroupToUserGroupRequest">
+    <wsdl:part name="parentUserGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="childUserGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="ldapUserName" type="xsd:string"/>
+    <wsdl:part name="ldapPassword" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="addUserGroupToUserGroupResponse" />
+  <wsdl:message name="removeUserGroupFromUserGroupRequest">
+    <wsdl:part name="parentUserGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="childUserGroup" type="tns1:UserGroup"/>
+    <wsdl:part name="ldapUserName" type="xsd:string"/>
+    <wsdl:part name="ldapPassword" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="removeUserGroupFromUserGroupResponse" />
+  <wsdl:portType name="UserGroupService">
+    <wsdl:operation name="getAssignedPrivileges">
+      <wsdl:input message="impl:getAssignedPrivilegesRequest" name="getAssignedPrivilegesRequest"/>
+      <wsdl:output message="impl:getAssignedPrivilegesResponse" name="getAssignedPrivilegesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addPrivilege">
+      <wsdl:input message="impl:addPrivilegeRequest" name="addPrivilegeRequest"/>
+      <wsdl:output message="impl:addPrivilegeResponse" name="addPrivilegeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removePrivilege">
+      <wsdl:input message="impl:removePrivilegeRequest" name="removePrivilegeRequest"/>
+      <wsdl:output message="impl:removePrivilegeResponse" name="removePrivilegeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addDeviceGroupToUserGroup">
+      <wsdl:input message="impl:addDeviceGroupToUserGroupRequest" name="addDeviceGroupToUserGroupRequest"/>
+      <wsdl:output message="impl:addDeviceGroupToUserGroupResponse" name="addDeviceGroupToUserGroupResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removeDeviceGroupFromUserGroup">
+      <wsdl:input message="impl:removeDeviceGroupFromUserGroupRequest" name="removeDeviceGroupFromUserGroupRequest"/>
+      <wsdl:output message="impl:removeDeviceGroupFromUserGroupResponse" name="removeDeviceGroupFromUserGroupResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addUserGroupToUserGroup">
+      <wsdl:input message="impl:addUserGroupToUserGroupRequest" name="addUserGroupToUserGroupRequest"/>
+      <wsdl:output message="impl:addUserGroupToUserGroupResponse" name="addUserGroupToUserGroupResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removeUserGroupFromUserGroup">
+      <wsdl:input message="impl:removeUserGroupFromUserGroupRequest" name="removeUserGroupFromUserGroupRequest"/>
+      <wsdl:output message="impl:removeUserGroupFromUserGroupResponse" name="removeUserGroupFromUserGroupResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserGroupServiceBinding" type="impl:UserGroupService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAssignedPrivileges">
+      <wsdlsoap:operation soapAction="getAssignedPrivileges"/>
+      <wsdl:input name="getAssignedPrivilegesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getAssignedPrivilegesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addPrivilege">
+      <wsdlsoap:operation soapAction="addPrivilege"/>
+      <wsdl:input name="addPrivilegeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="addPrivilegeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removePrivilege">
+      <wsdlsoap:operation soapAction="removePrivilege"/>
+      <wsdl:input name="removePrivilegeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removePrivilegeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addDeviceGroupToUserGroup">
+      <wsdlsoap:operation soapAction="addDeviceGroupToUserGroup"/>
+      <wsdl:input name="addDeviceGroupToUserGroupRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="addDeviceGroupToUserGroupResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeDeviceGroupFromUserGroup">
+      <wsdlsoap:operation soapAction="removeDeviceGroupFromUserGroup"/>
+      <wsdl:input name="removeDeviceGroupFromUserGroupRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removeDeviceGroupFromUserGroupResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addUserGroupToUserGroup">
+      <wsdlsoap:operation soapAction="addUserGroupToUserGroup"/>
+      <wsdl:input name="addUserGroupToUserGroupRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="addUserGroupToUserGroupResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeUserGroupFromUserGroup">
+      <wsdlsoap:operation soapAction="removeUserGroupFromUserGroup"/>
+      <wsdl:input name="removeUserGroupFromUserGroupRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removeUserGroupFromUserGroupResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/userGroup/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserGroupServiceService">
+    <wsdl:port binding="impl:UserGroupServiceBinding" name="UserGroupService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/UserGroupService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

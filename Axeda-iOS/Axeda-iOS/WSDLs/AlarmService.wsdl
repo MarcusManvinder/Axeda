@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/alarm/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/alarm/" xmlns:intf="http://sdk.axeda.com/webservices/alarm/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+  
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>   
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="getAlarmsRequest">
+    <wsdl:part name="query" type="tns1:AlarmQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getAlarmsResponse">
+    <wsdl:part name="alarms" type="tns1:AlarmList"/>
+  </wsdl:message>
+  <wsdl:message name="createAlarmsRequest">
+    <wsdl:part name="alarms" type="tns1:AlarmList"/>
+  </wsdl:message>
+  <wsdl:message name="acknowledgeAlarmsResponse">
+    <wsdl:part name="count" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="createAlarmsResponse"/>
+  <wsdl:message name="acknowledgeAlarmsRequest">
+    <wsdl:part name="alarms" type="tns1:AlarmQuery"/>
+  </wsdl:message>            
+  <wsdl:message name="getAlarmSourceTypesRequest"/>  
+  <wsdl:message name="setAlarmStateRequest">
+    <wsdl:part name="alarms" type="tns1:AlarmList"/>
+    <wsdl:part name="alarmState" type="tns1:AlarmState"/>
+    <wsdl:part name="notes" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="setAlarmSeverityRequest">
+    <wsdl:part name="alarms" type="tns1:AlarmQuery"/>
+    <wsdl:part name="severity" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="getAlarmStateChangesRequest">
+    <wsdl:part name="alarmId" type="tns1:AlarmIdentification"/>
+  </wsdl:message>
+  <wsdl:message name="updateAlarmNoteRequest">
+    <wsdl:part name="alarms" type="tns1:AlarmList"/>
+  </wsdl:message>
+  <wsdl:message name="updateAlarmExtendedDataRequest">
+    <wsdl:part name="alarms" type="tns1:AlarmQuery"/>
+    <wsdl:part name="extendedData" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="setAlarmCreateDispositionRequest">
+    <wsdl:part name="entityId" type="xsd:long"/>
+    <wsdl:part name="entity" type="tns1:CreateDispositionEntity"/>
+    <wsdl:part name="alarm" type="tns1:AlarmSpecifier"/>
+    <wsdl:part name="disposition" type="tns1:CreateDisposition"/>
+  </wsdl:message>
+  <wsdl:message name="deleteAlarmCreateDispositionRequest">
+    <wsdl:part name="entityId" type="xsd:long"/>
+    <wsdl:part name="entity" type="tns1:CreateDispositionEntity"/>
+    <wsdl:part name="alarm" type="tns1:AlarmSpecifier"/>
+  </wsdl:message>
+  <wsdl:message name="getAlarmCreateDispositionsRequest">
+    <wsdl:part name="query" type="tns1:AlarmCreateDispositionQuery"/>
+  </wsdl:message>
+  <wsdl:message name="evaluateAlarmCreateDispositionRequest">
+    <wsdl:part name="deviceId" type="xsd:long"/>
+    <wsdl:part name="alarmName" type="xsd:string"/>
+  </wsdl:message>  
+  <wsdl:message name="getAlarmSourceTypesResponse">
+    <wsdl:part name="AlarmTypes" type="tns1:AlarmSourceTypeList"/>
+  </wsdl:message>
+  <wsdl:message name="setAlarmStatesResponse">      
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+  <wsdl:message name="setAlarmSeverityResponse">
+    <wsdl:part name="count" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="getAlarmStateChangesResponse">
+    <wsdl:part name="results" type="tns1:AlarmStateChangeList"/>
+  </wsdl:message>
+  <wsdl:message name="updateAlarmNoteResponse">      
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>  
+  <wsdl:message name="updateAlarmExtendedDataResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+  <wsdl:message name="setAlarmCreateDispositionResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+  <wsdl:message name="getAlarmCreateDispositionsResponse">
+    <wsdl:part name="alarmCreateDispositions" type="tns1:AlarmCreateDispositionList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteAlarmCreateDispositionResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+  <wsdl:message name="evaluateAlarmCreateDispositionResponse">
+    <wsdl:part name="dispositionResult" type="tns1:AlarmCreateDispositionResult"/>
+  </wsdl:message>
+  <wsdl:message name="getHistoricalAlarmsRequest">
+    <wsdl:part name="query" type="tns1:AlarmQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getHistoricalAlarmsResponse">
+    <wsdl:part name="alarms" type="tns1:AlarmList"/>
+  </wsdl:message>
+  <wsdl:portType name="AlarmService">
+    <wsdl:operation name="createAlarms" parameterOrder="alarms">
+      <wsdl:input message="impl:createAlarmsRequest" name="createAlarmsRequest"/>
+      <wsdl:output message="impl:createAlarmsResponse" name="createAlarmsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarms" parameterOrder="query">
+      <wsdl:input message="impl:getAlarmsRequest" name="getAlarmsRequest"/>
+      <wsdl:output message="impl:getAlarmsResponse" name="getAlarmsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="acknowledgeAlarms" parameterOrder="alarms">
+      <wsdl:input message="impl:acknowledgeAlarmsRequest" name="acknowledgeAlarmsRequest"/>
+      <wsdl:output message="impl:acknowledgeAlarmsResponse" name="acknowledgeAlarmsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmSourceTypes">
+      <wsdl:input message="impl:getAlarmSourceTypesRequest" name="getAlarmSourceTypesRequest"/>
+      <wsdl:output message="impl:getAlarmSourceTypesResponse" name="getAlarmSourceTypesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="setAlarmState" parameterOrder="alarms alarmState notes">
+      <wsdl:input message="impl:setAlarmStateRequest" name="setAlarmStateRequest"/>
+      <wsdl:output message="impl:setAlarmStatesResponse" name="setAlarmStatesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="setAlarmSeverity" parameterOrder="alarms severity">
+      <wsdl:input message="impl:setAlarmSeverityRequest" name="setAlarmSeverityRequest"/>
+      <wsdl:output message="impl:setAlarmSeverityResponse" name="setAlarmSeverityResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmStateChanges" parameterOrder="alarmId">
+      <wsdl:input message="impl:getAlarmStateChangesRequest" name="getAlarmStateChangesRequest"/>
+      <wsdl:output message="impl:getAlarmStateChangesResponse" name="getAlarmStateChangesResponse"/>
+    </wsdl:operation>    
+    <wsdl:operation name="updateAlarmNotes" parameterOrder="alarms">
+      <wsdl:input message="impl:updateAlarmNoteRequest" name="updateAlarmNoteRequest"/>
+      <wsdl:output message="impl:updateAlarmNoteResponse" name="updateAlarmNoteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateAlarmExtendedData" parameterOrder="alarms extendedData">
+      <wsdl:input message="impl:updateAlarmExtendedDataRequest" name="updateAlarmExtendedDataRequest"/>
+      <wsdl:output message="impl:updateAlarmExtendedDataResponse" name="updateAlarmExtendedDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="setAlarmCreateDisposition" parameterOrder="entityId entity alarm disposition">
+      <wsdl:input message="impl:setAlarmCreateDispositionRequest" name="setAlarmCreateDispositionRequest"/>
+      <wsdl:output message="impl:setAlarmCreateDispositionResponse" name="setAlarmCreateDispositionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmCreateDispositions" parameterOrder="query">
+      <wsdl:input message="impl:getAlarmCreateDispositionsRequest" name="getAlarmCreateDispositionsRequest"/>
+      <wsdl:output message="impl:getAlarmCreateDispositionsResponse" name="getAlarmCreateDispositionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAlarmCreateDisposition" parameterOrder="entityId entity alarm">
+      <wsdl:input message="impl:deleteAlarmCreateDispositionRequest" name="deleteAlarmCreateDispositionRequest"/>
+      <wsdl:output message="impl:deleteAlarmCreateDispositionResponse" name="deleteAlarmCreateDispositionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="evaluateAlarmCreateDisposition" parameterOrder="deviceId alarmName">
+      <wsdl:input message="impl:evaluateAlarmCreateDispositionRequest" name="evaluateAlarmCreateDispositionRequest"/>
+      <wsdl:output message="impl:evaluateAlarmCreateDispositionResponse" name="evaluateAlarmCreateDispositionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getHistoricalAlarms" parameterOrder="query">
+      <wsdl:input message="impl:getHistoricalAlarmsRequest" name="getHistoricalAlarmsRequest"/>
+      <wsdl:output message="impl:getHistoricalAlarmsResponse" name="getHistoricalAlarmsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AlarmServiceSoapBinding" type="impl:AlarmService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createAlarms">
+      <wsdlsoap:operation soapAction="CreateAlarms"/>
+      <wsdl:input name="createAlarmsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createAlarmsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarms">
+      <wsdlsoap:operation soapAction="GetAlarms"/>
+      <wsdl:input name="getAlarmsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getAlarmsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="acknowledgeAlarms">
+      <wsdlsoap:operation soapAction="AcknowledgeAlarms"/>
+      <wsdl:input name="acknowledgeAlarmsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="acknowledgeAlarmsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>   
+    <wsdl:operation name="getAlarmSourceTypes">
+      <wsdlsoap:operation soapAction="getAlarmSourceTypes"/>
+      <wsdl:input name="getAlarmSourceTypesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getAlarmSourceTypesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setAlarmState">
+      <wsdlsoap:operation soapAction="SetAlarmState"/>
+      <wsdl:input name="setAlarmStateRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setAlarmStatesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setAlarmSeverity">
+      <wsdlsoap:operation soapAction="SetAlarmSeverity"/>
+      <wsdl:input name="setAlarmSeverityRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setAlarmSeverityResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmStateChanges">
+      <wsdlsoap:operation soapAction="GetAlarmStateChanges"/>
+      <wsdl:input name="getAlarmStateChangesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getAlarmStateChangesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>      
+    <wsdl:operation name="updateAlarmNotes">
+      <wsdlsoap:operation soapAction="UpdateAlarmNotes"/>
+      <wsdl:input name="updateAlarmNoteRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateAlarmNoteResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAlarmExtendedData">
+      <wsdlsoap:operation soapAction="UpdateAlarmExtendedData"/>
+      <wsdl:input name="updateAlarmExtendedDataRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateAlarmExtendedDataResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setAlarmCreateDisposition">
+      <wsdlsoap:operation soapAction="SetAlarmCreateDisposition"/>
+      <wsdl:input name="setAlarmCreateDispositionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setAlarmCreateDispositionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmCreateDispositions">
+      <wsdlsoap:operation soapAction="GetAlarmCreateDispositions"/>
+      <wsdl:input name="getAlarmCreateDispositionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getAlarmCreateDispositionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAlarmCreateDisposition">
+      <wsdlsoap:operation soapAction="DeleteAlarmCreateDisposition"/>
+      <wsdl:input name="deleteAlarmCreateDispositionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteAlarmCreateDispositionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="evaluateAlarmCreateDisposition">
+      <wsdlsoap:operation soapAction="EvaluateAlarmCreateDisposition"/>
+      <wsdl:input name="evaluateAlarmCreateDispositionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="evaluateAlarmCreateDispositionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHistoricalAlarms">
+      <wsdlsoap:operation soapAction="GetHistoricalAlarms"/>
+      <wsdl:input name="getHistoricalAlarmsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getHistoricalAlarmsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/alarm/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AlarmServiceService">
+    <wsdl:port binding="impl:AlarmServiceSoapBinding" name="AlarmService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/AlarmService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/scm/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+                  xmlns:impl="http://sdk.axeda.com/webservices/scm/"
+                  xmlns:intf="http://sdk.axeda.com/webservices/scm/"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl1="http://sdk.axeda.com/webservices/model/"
+                  xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+                  xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <wsdl:message name="UserOrDeviceAuthentication">
+    <wsdl:part name="UserOrDeviceAuthentication"
+               type="tns1:UserOrDeviceSessionInfo"/>
+  </wsdl:message>
+
+  <!-- Create Packages -->
+  <wsdl:message name="createNamedPackageRequest">
+    <wsdl:part name="in0" type="tns1:NamedPackageList"/>
+  </wsdl:message>
+
+  <wsdl:message name="createNamedPackageResponse">
+    <wsdl:part name="createNamedPackageReturn" type="tns1:IdList"/>
+  </wsdl:message>
+
+  <!-- Delete Packages -->
+  <wsdl:message name="deleteNamedPackageRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+
+  <wsdl:message name="deleteNamedPackageResponse"/>
+
+  <!-- Publish Packages -->
+  <wsdl:message name="publishPackagesRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+
+  <wsdl:message name="publishPackagesResponse"/>
+
+  <!-- start of fetching Named Packages -->
+  <wsdl:message name="getNamedPackageRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+
+  <wsdl:message name="getNamedPackageResponse">
+    <wsdl:part name="namedPackage" type="tns1:NamedPackage"/>
+  </wsdl:message>
+
+  <wsdl:message name="getNamedPackagesRequest">
+    <wsdl:part name="query" type="tns1:NamedPackageQuery"/>
+  </wsdl:message>
+
+  <wsdl:message name="getNamedPackagesResponse">
+    <wsdl:part name="namedPackages" type="tns1:NamedPackageList"/>
+  </wsdl:message>
+  <!-- ende of fetching Named Packages -->
+
+  <!-- Deploy Package -->
+  <wsdl:message name="deployNamedPackageRequest">
+    <wsdl:part name="deployPackage" type="tns1:DeployedPackage"/>
+  </wsdl:message>
+
+  <wsdl:message name="deployNamedPackageResponse">
+    <wsdl:part name="deployNamedPackageReturn" type="xsd:long"/>
+  </wsdl:message>
+
+  <!-- Deploy Packages -->
+  <wsdl:message name="deployNamedPackagesRequest">
+    <wsdl:part name="model" type="xsd:string"/>
+    <wsdl:part name="serialNumber" type="xsd:string"/>
+    <wsdl:part name="packageIds" type="tns1:IdList"/>
+  </wsdl:message>
+
+  <wsdl:message name="deployNamedPackagesResponse">
+    <wsdl:part name="deployNamedPackagesReturn" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Get Deploy Packages -->
+  <wsdl:message name="getDeployedPackageRequest">
+    <wsdl:part name="deployPackageId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="getDeployedPackageResponse">
+    <wsdl:part name="deployedPackage" type="tns1:DeployedPackage"/>
+  </wsdl:message>
+
+  <!-- Get Deploy Packages -->
+  <wsdl:message name="getDeployedPackagesRequest">
+    <wsdl:part name="deployedPackageQuery" type="tns1:DeployedPackageQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getDeployedPackagesResponse">
+    <wsdl:part name="deployedPackages" type="tns1:DeployedPackageList"/>
+  </wsdl:message>
+
+  <!-- Get Applicable Packages -->
+  <wsdl:message name="getApplicablePackagesRequest">
+    <wsdl:part name="model" type="xsd:string"/>
+    <wsdl:part name="serialNumber" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getApplicablePackagesResponse">
+    <wsdl:part name="applicablePackages" type="tns1:NamedPackageList"/>
+  </wsdl:message>
+
+  <wsdl:portType name="SCMService">
+    <!-- Create Packages -->
+    <wsdl:operation name="createNamedPackage" parameterOrder="in0">
+      <wsdl:input message="impl:createNamedPackageRequest" name="createNamedPackageRequest"/>
+      <wsdl:output message="impl:createNamedPackageResponse" name="createNamedPackageResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete Packages -->
+    <wsdl:operation name="deleteNamedPackages" parameterOrder="ids">
+      <wsdl:input message="impl:deleteNamedPackageRequest" name="deleteNamedPackageRequest"/>
+      <wsdl:output message="impl:deleteNamedPackageResponse" name="deleteNamedPackageResponse"/>
+    </wsdl:operation>
+
+    <!-- Publish Packages -->
+    <wsdl:operation name="publishPackages" parameterOrder="ids">
+      <wsdl:input message="impl:publishPackagesRequest" name="publishPackagesRequest"/>
+      <wsdl:output message="impl:publishPackagesResponse" name="publishPackagesResponse"/>
+    </wsdl:operation>
+
+    <!-- Search Named Packages -->
+    <wsdl:operation name="getNamedPackage" parameterOrder="id">
+      <wsdl:input message="impl:getNamedPackageRequest" name="getNamedPackageRequest"/>
+      <wsdl:output message="impl:getNamedPackageResponse" name="getNamedPackageResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getNamedPackages" parameterOrder="query">
+      <wsdl:input message="impl:getNamedPackagesRequest" name="getNamedPackagesRequest"/>
+      <wsdl:output message="impl:getNamedPackagesResponse" name="getNamedPackagesResponse"/>
+    </wsdl:operation>
+
+    <!-- Deploy Package -->
+    <wsdl:operation name="deployNamedPackage" parameterOrder="deployPackage">
+      <wsdl:input message="impl:deployNamedPackageRequest" name="deployNamedPackageRequest"/>
+      <wsdl:output message="impl:deployNamedPackageResponse" name="deployNamedPackageResponse"/>
+    </wsdl:operation>
+
+    <!-- Deploy Packages -->
+    <wsdl:operation name="deployNamedPackages" parameterOrder="model serialNumber packageIds">
+      <wsdl:input message="impl:deployNamedPackagesRequest" name="deployNamedPackagesRequest"/>
+      <wsdl:output message="impl:deployNamedPackagesResponse" name="deployNamedPackagesResponse"/>
+    </wsdl:operation>
+
+    <!-- Get Deploy Packages -->
+    <wsdl:operation name="getDeployedPackage" parameterOrder="deployPackageId">
+      <wsdl:input message="impl:getDeployedPackageRequest"
+                  name="getDeployedPackageRequest"/>
+      <wsdl:output message="impl:getDeployedPackageResponse"
+                   name="getDeployedPackageResponse"/>
+    </wsdl:operation>
+
+    <!-- Get Deploy Packages -->
+    <wsdl:operation name="getDeployedPackages"
+                    parameterOrder="deployedPackageQuery">
+      <wsdl:input name="getDeployedPackagesRequest"
+                  message="impl:getDeployedPackagesRequest"/>
+      <wsdl:output name="getDeployedPackagesResponse"
+                   message="impl:getDeployedPackagesResponse"/>
+    </wsdl:operation>
+
+    <!-- Get Applicable Packages (for a given device) -->
+    <wsdl:operation name="getApplicablePackages" parameterOrder="model serialNumber">
+      <wsdl:input message="impl:getApplicablePackagesRequest" name="getApplicablePackagesRequest"/>
+      <wsdl:output message="impl:getApplicablePackagesResponse" name="getApplicablePackagesResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="SCMServiceBinding" type="impl:SCMService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <!-- Create Packages -->
+    <wsdl:operation name="createNamedPackage">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="createNamedPackageRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createNamedPackageResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Delete Packages -->
+    <wsdl:operation name="deleteNamedPackages">
+      <wsdlsoap:operation soapAction="DeleteNamedPackages"/>
+      <wsdl:input name="deleteNamedPackageRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteNamedPackageResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Publish Packages -->
+    <wsdl:operation name="publishPackages">
+      <wsdlsoap:operation soapAction="PublishPackages"/>
+      <wsdl:input name="publishPackagesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="publishPackagesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Search Named Packages -->
+    <wsdl:operation name="getNamedPackage">
+      <wsdlsoap:operation soapAction="GetNamedPackage"/>
+      <wsdl:input name="getNamedPackageRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getNamedPackageResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getNamedPackages">
+      <wsdlsoap:operation soapAction="GetNamedPackages"/>
+      <wsdl:input name="getNamedPackagesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getNamedPackagesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Get Applicable Packages (for a given device) -->
+    <wsdl:operation name="getApplicablePackages">
+      <wsdlsoap:operation soapAction="GetApplicablePackages"/>
+      <wsdl:input name="getApplicablePackagesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:UserOrDeviceAuthentication"
+                         part="UserOrDeviceAuthentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getApplicablePackagesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Deploy Package -->
+    <wsdl:operation name="deployNamedPackage">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="deployNamedPackageRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deployNamedPackageResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Deploy Packages -->
+    <wsdl:operation name="deployNamedPackages">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="deployNamedPackagesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+        <wsdlsoap:header message="impl:UserOrDeviceAuthentication" part="UserOrDeviceAuthentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deployNamedPackagesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Deploy Packages -->
+    <wsdl:operation name="getDeployedPackage">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getDeployedPackageRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeployedPackageResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Deploy Packages -->
+    <wsdl:operation name="getDeployedPackages">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getDeployedPackagesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeployedPackagesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/SCMService/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+  </wsdl:binding>
+
+  <wsdl:service name="SCMServiceService">
+    <wsdl:port binding="impl:SCMServiceBinding" name="SCMService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/SCMService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

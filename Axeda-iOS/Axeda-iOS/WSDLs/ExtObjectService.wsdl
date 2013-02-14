@@ -1,0 +1,666 @@
+<wsdl:definitions
+  targetNamespace="http://sdk.axeda.com/webservices/extobject/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+  xmlns:impl="http://sdk.axeda.com/webservices/extobject/"
+  xmlns:intf="http://sdk.axeda.com/webservices/extobject/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsdl1="http://sdk.axeda.com/webservices/extobject/"
+  xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+  xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/"
+               location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <!--                        -->
+  <!-- ExtObjectType messages -->
+  <!--                        -->
+
+  <!-- Create ExtObjectType -->
+  <wsdl:message name="createExtObjectTypeRequest">
+    <wsdl:part name="objectType" type="tns1:ExtObjectType"/>
+  </wsdl:message>
+  <wsdl:message name="createExtObjectTypeResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Get ExtObjectTypes -->
+  <wsdl:message name="getExtObjectTypesRequest">
+    <wsdl:part name="query" type="tns1:ExtObjectTypeQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getExtObjectTypesResponse">
+    <wsdl:part name="results" type="tns1:ExtObjectTypeList"/>
+  </wsdl:message>
+
+  <!-- Update ExtObjectType -->
+  <wsdl:message name="updateExtObjectTypeRequest">
+    <wsdl:part name="extObjectType" type="tns1:ExtObjectType"/>
+  </wsdl:message>
+  <wsdl:message name="updateExtObjectTypeResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Delete ExtObjectType -->
+  <wsdl:message name="deleteExtObjectTypeRequest">
+    <wsdl:part name="extObjectTypeId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="deleteExtObjectTypeResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!--                          -->
+  <!-- ExtPropertyType messages -->
+  <!--                          -->
+
+  <!-- Create ExtPropertyType -->
+  <wsdl:message name="createExtPropertyTypeRequest">
+    <wsdl:part name="propertyType" type="tns1:ExtPropertyType"/>
+  </wsdl:message>
+  <wsdl:message name="createExtPropertyTypeResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Get ExtPropertyType -->
+  <wsdl:message name="getExtPropertyTypesRequest">
+    <wsdl:part name="query" type="tns1:ExtPropertyTypeQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getExtPropertyTypesResponse">
+    <wsdl:part name="results" type="tns1:ExtPropertyTypeList"/>
+  </wsdl:message>
+
+  <!-- Update ExtPropertyType -->
+  <wsdl:message name="updateExtPropertyTypeRequest">
+    <wsdl:part name="extPropertyType" type="tns1:ExtPropertyType"/>
+  </wsdl:message>
+  <wsdl:message name="updateExtPropertyTypeResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Delete ExtPropertyType -->
+  <wsdl:message name="deleteExtPropertyTypeRequest">
+    <wsdl:part name="extPropertyTypeId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="deleteExtPropertyTypeResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!--                    -->
+  <!-- ExtObject messages -->
+  <!--                    -->
+
+  <!-- Create ExtObject -->
+  <wsdl:message name="createExtObjectRequest">
+    <wsdl:part name="extObject" type="tns1:ExtObject"/>
+  </wsdl:message>
+  <wsdl:message name="createExtObjectResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Get ExtObject -->
+  <wsdl:message name="getExtObjectsRequest">
+    <wsdl:part name="query" type="tns1:ExtObjectQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getExtObjectsResponse">
+    <wsdl:part name="results" type="tns1:ExtObjectList"/>
+  </wsdl:message>
+
+  <!-- Update ExtObject -->
+  <wsdl:message name="updateExtObjectRequest">
+    <wsdl:part name="extObject" type="tns1:ExtObject"/>
+  </wsdl:message>
+  <wsdl:message name="updateExtObjectResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Delete ExtObject -->
+  <wsdl:message name="deleteExtObjectRequest">
+    <wsdl:part name="extObjectId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="deleteExtObjectResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!--                      -->
+  <!-- ExtProperty messages -->
+  <!--                      -->
+
+  <!-- Create ExtProperty -->
+  <wsdl:message name="createExtPropertyRequest">
+    <wsdl:part name="extProperty" type="tns1:ExtProperty"/>
+  </wsdl:message>
+  <wsdl:message name="createExtPropertyResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Update ExtProperty -->
+  <wsdl:message name="updateExtPropertyRequest">
+    <wsdl:part name="extProperty" type="tns1:ExtProperty"/>
+  </wsdl:message>
+  <wsdl:message name="updateExtPropertyResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <!-- Delete ExtProperty -->
+  <wsdl:message name="deleteExtPropertyRequest">
+    <wsdl:part name="extPropertyId" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="deleteExtPropertyResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+
+  <wsdl:portType name="ExtObjectServicePortType">
+
+    <!--                          -->
+    <!-- ExtObjectType Operations -->
+    <!--                          -->
+
+    <!-- Create ExtObjectType -->
+    <wsdl:operation name="createExtObjectType">
+      <wsdl:input name="createExtObjectTypeRequest"
+                  message="impl:createExtObjectTypeRequest"/>
+      <wsdl:output name="createExtObjectTypeResponse"
+                   message="impl:createExtObjectTypeResponse"/>
+    </wsdl:operation>
+
+    <!-- Get ExtObjectTypes -->
+    <wsdl:operation name="getExtObjectTypes">
+      <wsdl:input name="getExtObjectTypesRequest"
+                  message="impl:getExtObjectTypesRequest"/>
+      <wsdl:output name="getExtObjectTypesResponse"
+                   message="impl:getExtObjectTypesResponse"/>
+    </wsdl:operation>
+
+    <!-- Update ExtObjectTypes -->
+    <wsdl:operation name="updateExtObjectType">
+      <wsdl:input name="updateExtObjectTypeRequest"
+                  message="impl:updateExtObjectTypeRequest"/>
+      <wsdl:output name="updateExtObjectTypeResponse"
+                   message="impl:updateExtObjectTypeResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete ExtObjectType -->
+    <wsdl:operation name="deleteExtObjectType">
+      <wsdl:input name="deleteExtObjectTypeRequest"
+                  message="impl:deleteExtObjectTypeRequest"/>
+      <wsdl:output name="deleteExtObjectTypeResponse"
+                   message="impl:deleteExtObjectTypeResponse"/>
+    </wsdl:operation>
+
+    <!--                            -->
+    <!-- ExtPropertyType Operations -->
+    <!--                            -->
+
+    <!-- Create ExtPropertyType -->
+    <wsdl:operation name="createExtPropertyType">
+      <wsdl:input name="createExtPropertyTypeRequest"
+                  message="impl:createExtPropertyTypeRequest"/>
+      <wsdl:output name="createExtPropertyTypeResponse"
+                   message="impl:createExtPropertyTypeResponse"/>
+    </wsdl:operation>
+
+    <!-- Get ExtPropertyTypes -->
+    <wsdl:operation name="getExtPropertyTypes">
+      <wsdl:input name="getExtPropertyTypesRequest"
+                  message="impl:getExtPropertyTypesRequest"/>
+      <wsdl:output name="getExtPropertyTypesResponse"
+                   message="impl:getExtPropertyTypesResponse"/>
+    </wsdl:operation>
+
+    <!-- Update ExtPropertyTypes -->
+    <wsdl:operation name="updateExtPropertyType">
+      <wsdl:input name="updateExtPropertyTypeRequest"
+                  message="impl:updateExtPropertyTypeRequest"/>
+      <wsdl:output name="updateExtPropertyTypeResponse"
+                   message="impl:updateExtPropertyTypeResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete ExtPropertyType -->
+    <wsdl:operation name="deleteExtPropertyType">
+      <wsdl:input name="deleteExtPropertyTypeRequest"
+                  message="impl:deleteExtPropertyTypeRequest"/>
+      <wsdl:output name="deleteExtPropertyTypeResponse"
+                   message="impl:deleteExtPropertyTypeResponse"/>
+    </wsdl:operation>
+
+    <!--                      -->
+    <!-- ExtObject Operations -->
+    <!--                      -->
+
+    <!-- Create ExtObject -->
+    <wsdl:operation name="createExtObject">
+      <wsdl:input name="createExtObjectRequest"
+                  message="impl:createExtObjectRequest"/>
+      <wsdl:output name="createExtObjectResponse"
+                   message="impl:createExtObjectResponse"/>
+    </wsdl:operation>
+
+    <!-- Get ExtObjects -->
+    <wsdl:operation name="getExtObjects">
+      <wsdl:input name="getExtObjectsRequest"
+                  message="impl:getExtObjectsRequest"/>
+      <wsdl:output name="getExtObjectsResponse"
+                   message="impl:getExtObjectsResponse"/>
+    </wsdl:operation>
+
+    <!-- Update ExtObjects -->
+    <wsdl:operation name="updateExtObject">
+      <wsdl:input name="updateExtObjectRequest"
+                  message="impl:updateExtObjectRequest"/>
+      <wsdl:output name="updateExtObjectResponse"
+                   message="impl:updateExtObjectResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete ExtObject -->
+    <wsdl:operation name="deleteExtObject">
+      <wsdl:input name="deleteExtObjectRequest"
+                  message="impl:deleteExtObjectRequest"/>
+      <wsdl:output name="deleteExtObjectResponse"
+                   message="impl:deleteExtObjectResponse"/>
+    </wsdl:operation>
+
+    <!--                        -->
+    <!-- ExtProperty Operations -->
+    <!--                        -->
+
+    <!-- Create ExtProperty -->
+    <wsdl:operation name="createExtProperty">
+      <wsdl:input name="createExtPropertyRequest"
+                  message="impl:createExtPropertyRequest"/>
+      <wsdl:output name="createExtPropertyResponse"
+                   message="impl:createExtPropertyResponse"/>
+    </wsdl:operation>
+
+    <!-- Update ExtProperties -->
+    <wsdl:operation name="updateExtProperty">
+      <wsdl:input name="updateExtPropertyRequest"
+                  message="impl:updateExtPropertyRequest"/>
+      <wsdl:output name="updateExtPropertyResponse"
+                   message="impl:updateExtPropertyResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete ExtProperty -->
+    <wsdl:operation name="deleteExtProperty">
+      <wsdl:input name="deleteExtPropertyRequest"
+                  message="impl:deleteExtPropertyRequest"/>
+      <wsdl:output name="deleteExtPropertyResponse"
+                   message="impl:deleteExtPropertyResponse"/>
+    </wsdl:operation>
+
+  </wsdl:portType>
+
+  <wsdl:binding name="ExtObjectServiceBinding"
+                type="impl:ExtObjectServicePortType">
+    <wsdlsoap:binding style="rpc"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <!--                        -->
+    <!-- ExtObjectType Bindings -->
+    <!--                        -->
+
+    <!-- Create ExtObjectType -->
+    <wsdl:operation name="createExtObjectType">
+      <wsdlsoap:operation soapAction="createExtObjectType"/>
+      <wsdl:input name="createExtObjectTypeRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createExtObjectTypeResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Get ExtObjectType -->
+    <wsdl:operation name="getExtObjectTypes">
+      <wsdlsoap:operation soapAction="getExtObjectTypes"/>
+      <wsdl:input name="getExtObjectTypesRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getExtObjectTypesResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Update ExtObjectType -->
+    <wsdl:operation name="updateExtObjectType">
+      <wsdlsoap:operation soapAction="updateExtObjectType"/>
+      <wsdl:input name="updateExtObjectTypeRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateExtObjectTypeResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Delete ExtObjectType -->
+    <wsdl:operation name="deleteExtObjectType">
+      <wsdlsoap:operation soapAction="deleteExtObjectType"/>
+      <wsdl:input name="deleteExtObjectTypeRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteExtObjectTypeResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!--                          -->
+    <!-- ExtPropertyType Bindings -->
+    <!--                          -->
+
+    <!-- Create ExtPropertyType -->
+    <wsdl:operation name="createExtPropertyType">
+      <wsdlsoap:operation soapAction="createExtPropertyType"/>
+      <wsdl:input name="createExtPropertyTypeRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createExtPropertyTypeResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Get ExtPropertyType -->
+    <wsdl:operation name="getExtPropertyTypes">
+      <wsdlsoap:operation soapAction="getExtPropertyTypes"/>
+      <wsdl:input name="getExtPropertyTypesRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getExtPropertyTypesResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Update ExtPropertyType -->
+    <wsdl:operation name="updateExtPropertyType">
+      <wsdlsoap:operation soapAction="updateExtPropertyType"/>
+      <wsdl:input name="updateExtPropertyTypeRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateExtPropertyTypeResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Delete ExtPropertyType -->
+    <wsdl:operation name="deleteExtPropertyType">
+      <wsdlsoap:operation soapAction="deleteExtPropertyType"/>
+      <wsdl:input name="deleteExtPropertyTypeRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteExtPropertyTypeResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!--                    -->
+    <!-- ExtObject Bindings -->
+    <!--                    -->
+
+    <!-- Create ExtObject -->
+    <wsdl:operation name="createExtObject">
+      <wsdlsoap:operation soapAction="createExtObject"/>
+      <wsdl:input name="createExtObjectRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createExtObjectResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Get ExtObject -->
+    <wsdl:operation name="getExtObjects">
+      <wsdlsoap:operation soapAction="getExtObjects"/>
+      <wsdl:input name="getExtObjectsRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getExtObjectsResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Update ExtObject -->
+    <wsdl:operation name="updateExtObject">
+      <wsdlsoap:operation soapAction="updateExtObject"/>
+      <wsdl:input name="updateExtObjectRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateExtObjectResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Delete ExtObject -->
+    <wsdl:operation name="deleteExtObject">
+      <wsdlsoap:operation soapAction="deleteExtObject"/>
+      <wsdl:input name="deleteExtObjectRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteExtObjectResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!--                      -->
+    <!-- ExtProperty Bindings -->
+    <!--                      -->
+
+    <!-- Create ExtProperty -->
+    <wsdl:operation name="createExtProperty">
+      <wsdlsoap:operation soapAction="createExtProperty"/>
+      <wsdl:input name="createExtPropertyRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createExtPropertyResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Update ExtProperty -->
+    <wsdl:operation name="updateExtProperty">
+      <wsdlsoap:operation soapAction="updateExtProperty"/>
+      <wsdl:input name="updateExtPropertyRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateExtPropertyResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- Delete ExtProperty -->
+    <wsdl:operation name="deleteExtProperty">
+      <wsdlsoap:operation soapAction="deleteExtProperty"/>
+      <wsdl:input name="deleteExtPropertyRequest">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+        <wsdlsoap:header
+           message="impl:Authentication"
+           part="Authentication"
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteExtPropertyResponse">
+        <wsdlsoap:body
+           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+           namespace="http://sdk.axeda.com/webservices/extobject/"
+           use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+  </wsdl:binding>
+
+  <wsdl:service name="ExtObjectService">
+    <wsdl:port binding="impl:ExtObjectServiceBinding"
+               name="ExtObjectService">
+      <wsdlsoap:address
+        location="http://sdk.axeda.com/webservices/services/ExtObjectService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

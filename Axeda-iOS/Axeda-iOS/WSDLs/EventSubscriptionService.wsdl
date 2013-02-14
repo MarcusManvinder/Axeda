@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+  targetNamespace="http://sdk.axeda.com/webservices/eventSubscription/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+  xmlns:impl="http://sdk.axeda.com/webservices/eventSubscription/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsdl1="http://sdk.axeda.com/webservices/eventSubscription/"
+  xmlns:wsdl2="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <wsdl:message name="createSubscriptionRequest">
+    <wsdl:part name="deviceQuery" type="tns1:DeviceQuery"/>
+    <wsdl:part name="eventTypes" type="tns1:EventTypeList"/>
+    <wsdl:part name="format" type="tns1:EventMessageFormat"/>
+    <wsdl:part name="protocolURI" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="createSubscriptionResponse">
+    <wsdl:part name="result" type="tns1:SubscriptionResponse"/>
+  </wsdl:message>
+    
+  <wsdl:message name="alterSubscriptionRequest">
+    <wsdl:part name="deviceQuery" type="tns1:DeviceQuery"/>
+    <wsdl:part name="eventTypes" type="tns1:EventTypeList"/>
+    <wsdl:part name="format" type="tns1:EventMessageFormat"/>
+    <wsdl:part name="destinationURI" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="alterSubscriptionResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+    
+  <wsdl:message name="refreshSubscriptionRequest">
+    <wsdl:part name="destinationURI" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="refreshSubscriptionResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+      
+  <wsdl:message name="terminateSubscriptionRequest">
+    <wsdl:part name="destinationURI" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="terminateSubscriptionResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+    
+  <wsdl:message name="getEventTypesRequest" />
+  <wsdl:message name="getEventTypesResponse">
+    <wsdl:part name="eventTypes" type="tns1:EventTypeList"/>
+  </wsdl:message> 
+   
+  <wsdl:portType name="EventSubscriptionServicePortType">
+    <wsdl:operation name="createSubscription">
+      <wsdl:input message="impl:createSubscriptionRequest"/>
+      <wsdl:output message="impl:createSubscriptionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="alterSubscription">
+      <wsdl:input message="impl:alterSubscriptionRequest"/>
+      <wsdl:output message="impl:alterSubscriptionResponse"/>
+    </wsdl:operation>    
+    <wsdl:operation name="refreshSubscription">
+      <wsdl:input message="impl:refreshSubscriptionRequest"/>
+      <wsdl:output message="impl:refreshSubscriptionResponse"/>
+    </wsdl:operation>  
+    <wsdl:operation name="terminateSubscription">
+      <wsdl:input message="impl:terminateSubscriptionRequest"/>
+      <wsdl:output message="impl:terminateSubscriptionResponse"/>
+    </wsdl:operation> 
+    <wsdl:operation name="getEventTypes">
+      <wsdl:input message="impl:getEventTypesRequest"/>
+      <wsdl:output message="impl:getEventTypesResponse"/>
+    </wsdl:operation>      
+  </wsdl:portType>
+  <wsdl:binding name="EventSubscriptionServiceBinding" type="impl:EventSubscriptionServicePortType">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createSubscription">
+      <wsdlsoap:operation soapAction="createSubscription"/>
+      <wsdl:input name="createSubscriptionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createSubscriptionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alterSubscription">
+      <wsdlsoap:operation soapAction="alterSubscription"/>
+      <wsdl:input name="alterSubscriptionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="alterSubscriptionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="refreshSubscription">
+      <wsdlsoap:operation soapAction="refreshSubscription"/>
+      <wsdl:input name="refreshSubscriptionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="refreshSubscriptionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation> 
+    <wsdl:operation name="terminateSubscription">
+      <wsdlsoap:operation soapAction="terminateSubscription"/>
+      <wsdl:input name="terminateSubscriptionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="terminateSubscriptionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEventTypes">
+      <wsdlsoap:operation soapAction="getEventTypes"/>
+      <wsdl:input name="getEventTypesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getEventTypesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/eventSubscription/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="EventSubscriptionService">
+    <wsdl:port binding="impl:EventSubscriptionServiceBinding" name="EventSubscriptionService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/EventSubscriptionService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

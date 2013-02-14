@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/organization/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/organization/" xmlns:intf="http://sdk.axeda.com/webservices/organization/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="OrganizationQuery">
+        <sequence>
+          <element name="id" nillable="true" type="xsd:long"/>
+          <element name="name" nillable="true" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <simpleType name="ActionType">
+        <restriction base="xsd:string">
+          <enumeration value="create"/>
+          <enumeration value="find"/>
+          <enumeration value="createIfNotFound"/>
+        </restriction>
+      </simpleType>
+      <complexType name="Organization">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" type="xsd:string"/>
+          <element name="description" nillable="true" type="xsd:string"/>
+          <element name="location" type="tns1:Location"/>
+        </sequence>
+      </complexType>
+      <complexType name="Location">
+        <sequence>
+          <element name="id" type="xsd:long"/>
+          <element name="action" nillable="true" type="tns1:ActionType"/>
+          <element name="name" type="xsd:string"/>
+          <element name="line1"  type="xsd:string"/>
+          <element name="line2" nillable="true" type="xsd:string"/>
+          <element name="city"  type="xsd:string"/>
+          <element name="state" nillable="true" type="xsd:string"/>
+          <element name="zip" nillable="true" type="xsd:string"/>
+          <element name="country" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="OrganizationUpdateQuery">
+        <sequence>
+          <element name="query" nillable="true" type="tns1:OrganizationQuery"/>
+          <element name="update" nillable="true" type="tns1:Organization"/>
+        </sequence>
+      </complexType>
+      <complexType name="OrganizationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Organization[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="LocationList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Location[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="IdList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="OrganizationUpdateQueryList">
+        <complexContent>
+          <restriction base="soapenc:Array">
+            <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:OrganizationUpdateQuery[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="updateOrganizationsRequest">
+    <wsdl:part name="updates" type="tns1:OrganizationUpdateQueryList"/>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationResponse">
+    <wsdl:part name="organization" type="tns1:Organization"/>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationsRequest">
+    <wsdl:part name="query" type="tns1:OrganizationQuery"/>
+  </wsdl:message>
+  <wsdl:message name="updateOrganizationsResponse"/>
+  <wsdl:message name="createOrganizationsRequest">
+    <wsdl:part name="organizations" type="tns1:OrganizationList"/>
+  </wsdl:message>
+  <wsdl:message name="createOrganizationsResponse">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteOrganizationsRequest">
+    <wsdl:part name="ids" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteOrganizationsResponse"/>
+  <wsdl:message name="getOrganizationRequest">
+    <wsdl:part name="id" type="xsd:long"/>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationsResponse">
+    <wsdl:part name="organizations" type="tns1:OrganizationList"/>
+  </wsdl:message>
+  <wsdl:portType name="OrganizationService">
+    <wsdl:operation name="createOrganizations" parameterOrder="organizations">
+      <wsdl:input message="impl:createOrganizationsRequest" name="createOrganizationsRequest"/>
+      <wsdl:output message="impl:createOrganizationsResponse" name="createOrganizationsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganizations" parameterOrder="query">
+      <wsdl:input message="impl:getOrganizationsRequest" name="getOrganizationsRequest"/>
+      <wsdl:output message="impl:getOrganizationsResponse" name="getOrganizationsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganization" parameterOrder="id">
+      <wsdl:input message="impl:getOrganizationRequest" name="getOrganizationRequest"/>
+      <wsdl:output message="impl:getOrganizationResponse" name="getOrganizationResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateOrganizations" parameterOrder="updates">
+      <wsdl:input message="impl:updateOrganizationsRequest" name="updateOrganizationsRequest"/>
+      <wsdl:output message="impl:updateOrganizationsResponse" name="updateOrganizationsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteOrganizations" parameterOrder="ids">
+      <wsdl:input message="impl:deleteOrganizationsRequest" name="deleteOrganizationsRequest"/>
+      <wsdl:output message="impl:deleteOrganizationsResponse" name="deleteOrganizationsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrganizationServiceSoapBinding" type="impl:OrganizationService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createOrganizations">
+      <wsdlsoap:operation soapAction="CreateOrganizations"/>
+      <wsdl:input name="createOrganizationsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createOrganizationsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganizations">
+      <wsdlsoap:operation soapAction="GetOrganizations"/>
+      <wsdl:input name="getOrganizationsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getOrganizationsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganization">
+      <wsdlsoap:operation soapAction="GetOrganization"/>
+      <wsdl:input name="getOrganizationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getOrganizationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateOrganizations">
+      <wsdlsoap:operation soapAction="UpdateOrganizations"/>
+      <wsdl:input name="updateOrganizationsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateOrganizationsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteOrganizations">
+      <wsdlsoap:operation soapAction="DeleteOrganizations"/>
+      <wsdl:input name="deleteOrganizationsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteOrganizationsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/organization/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrganizationServiceService">
+    <wsdl:port binding="impl:OrganizationServiceSoapBinding" name="OrganizationService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/OrganizationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

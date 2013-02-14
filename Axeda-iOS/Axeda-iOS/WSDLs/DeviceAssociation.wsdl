@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+    targetNamespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:apachesoap="http://xml.apache.org/xml-soap"
+    xmlns:impl="http://sdk.axeda.com/webservices/deviceAssociation/"
+    xmlns:intf="http://sdk.axeda.com/webservices/deviceAssociation/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns1="http://sdk.axeda.com/webservices/type"
+    xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl1="http://sdk.axeda.com/webservices/deviceAssociation/"
+    xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+    xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <!-- Create Model Association -->
+  <wsdl:message name="createModelAssociationRequest">
+    <wsdl:part name="modelAssociations" type="tns1:ModelAssociationList"/>
+  </wsdl:message>
+  <wsdl:message name="createModelAssociationResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Update Model Association -->
+  <wsdl:message name="updateModelAssociationRequest">
+    <wsdl:part name="modelAssociations" type="tns1:ModelAssociationList"/>
+  </wsdl:message>
+  <wsdl:message name="updateModelAssociationResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Delete Model Association -->
+  <wsdl:message name="deleteModelAssociationRequest">
+    <wsdl:part name="modelAssociations" type="tns1:ModelAssociationList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteModelAssociationResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Get Model Association -->
+  <wsdl:message name="getModelAssociationRequest">
+    <wsdl:part name="modelAssociationQuery" type="tns1:AssociationQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getModelAssociationResponse">
+    <wsdl:part name="modelAssociations" type="tns1:ModelAssociationList"/>
+  </wsdl:message>
+
+  <!-- Create Device Association -->
+  <wsdl:message name="createDeviceAssociationRequest">
+    <wsdl:part name="deviceAssociations" type="tns1:DeviceAssociationList"/>
+  </wsdl:message>
+  <wsdl:message name="createDeviceAssociationResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Delete Device Association -->
+
+  <wsdl:message name="deleteDeviceAssociationRequest">
+    <wsdl:part name="deviceAssociations" type="tns1:DeviceAssociationList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteDeviceAssociationResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Get Device Associations -->
+  <wsdl:message name="getDeviceAssociationRequest">
+    <wsdl:part name="deviceAssociationQuery" type="tns1:AssociationQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getDeviceAssociationResponse">
+    <wsdl:part name="deviceAssociations" type="tns1:DeviceAssociationList"/>
+  </wsdl:message>
+
+  <wsdl:portType name="DeviceAssociation">
+
+
+
+    <!-- create DataItemAssociation Mapping -->
+    <wsdl:operation name="createModelAssociations"
+                    parameterOrder="modelAssociations">
+      <wsdl:input message="impl:createModelAssociationRequest"
+                  name="createModelAssociationRequest"/>
+      <wsdl:output message="impl:createModelAssociationResponse"
+                   name="createModelAssociationResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateModelAssociations"
+                    parameterOrder="modelAssociations">
+      <wsdl:input message="impl:updateModelAssociationRequest"
+                  name="updateModelAssociationRequest"/>
+      <wsdl:output message="impl:updateModelAssociationResponse"
+                   name="updateModelAssociationResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteModelAssociations"
+                    parameterOrder="modelAssociations">
+      <wsdl:input message="impl:deleteModelAssociationRequest"
+                  name="deleteModelAssociationRequest"/>
+      <wsdl:output message="impl:deleteModelAssociationResponse"
+                   name="deleteModelAssociationResponse"/>
+    </wsdl:operation>
+
+
+    <wsdl:operation name="getModelAssociations"
+                    parameterOrder="modelAssociationQuery">
+      <wsdl:input message="impl:getModelAssociationRequest"
+                  name="getModelAssociationRequest"/>
+      <wsdl:output message="impl:getModelAssociationResponse"
+                   name="getModelAssociationResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="createDeviceAssociations"
+                    parameterOrder="deviceAssociations">
+      <wsdl:input message="impl:createDeviceAssociationRequest"
+                  name="createDeviceAssociationRequest"/>
+      <wsdl:output message="impl:createDeviceAssociationResponse"
+                   name="createDeviceAssociationResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteDeviceAssociations"
+                    parameterOrder="deviceAssociations">
+      <wsdl:input message="impl:deleteDeviceAssociationRequest"
+                  name="deleteDeviceAssociationRequest"/>
+      <wsdl:output message="impl:deleteDeviceAssociationResponse"
+                   name="deleteDeviceAssociationResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getDeviceAssociations"
+                    parameterOrder="deviceAssociationQuery">
+      <wsdl:input message="impl:getDeviceAssociationRequest"
+                  name="getDeviceAssociationRequest"/>
+      <wsdl:output message="impl:getDeviceAssociationResponse"
+                   name="getDeviceAssociationResponse"/>
+    </wsdl:operation>
+
+  </wsdl:portType>
+
+  <wsdl:binding name="DeviceAssociationServiceBinding"
+                type="impl:DeviceAssociation">
+    <wsdlsoap:binding style="rpc"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <!-- create DataItemAssociation Mapping -->
+    <wsdl:operation name="createModelAssociations">
+      <wsdlsoap:operation soapAction="deviceAssociation"/>
+      <wsdl:input name="createModelAssociationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createModelAssociationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateModelAssociations">
+      <wsdlsoap:operation soapAction="deviceAssociation"/>
+      <wsdl:input name="updateModelAssociationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateModelAssociationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteModelAssociations">
+      <wsdlsoap:operation soapAction="deviceAssociation"/>
+      <wsdl:input name="deleteModelAssociationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteModelAssociationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getModelAssociations">
+      <wsdlsoap:operation soapAction="deviceAssociation"/>
+      <wsdl:input name="getModelAssociationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getModelAssociationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="createDeviceAssociations">
+      <wsdlsoap:operation soapAction="deviceAssociation"/>
+      <wsdl:input name="createDeviceAssociationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createDeviceAssociationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>    
+
+    <wsdl:operation name="deleteDeviceAssociations">
+      <wsdlsoap:operation soapAction="deviceAssociation"/>
+      <wsdl:input name="deleteDeviceAssociationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteDeviceAssociationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+
+    <wsdl:operation name="getDeviceAssociations">
+      <wsdlsoap:operation soapAction="deviceAssociation"/>
+      <wsdl:input name="getDeviceAssociationRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication"
+                         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                         use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeviceAssociationResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                       namespace="http://sdk.axeda.com/webservices/deviceAssociation/"
+                       use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+  </wsdl:binding>
+
+  <wsdl:service name="DeviceAssociationService">
+    <wsdl:port binding="impl:DeviceAssociationServiceBinding"
+               name="DeviceAssociationService">
+      <wsdlsoap:address
+          location="http://sdk.axeda.com/webservices/services/DeviceAssociationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

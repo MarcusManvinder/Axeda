@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+  targetNamespace="http://sdk.axeda.com/webservices/contact/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+  xmlns:impl="http://sdk.axeda.com/webservices/contact/"
+  xmlns:intf="http://sdk.axeda.com/webservices/contact/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsdl1="http://sdk.axeda.com/webservices/contact/"
+  xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+  xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+  <wsdl:message name="setContactTypeRequest">
+    <wsdl:part name="device" type="tns1:Device"/>
+    <wsdl:part name="contact" type="tns1:Contact"/>
+    <wsdl:part name="contactType" type="tns1:ContactType"/>
+  </wsdl:message>
+  <wsdl:message name="setContactTypeResponse">
+  </wsdl:message>
+  <wsdl:message name="getContactTypeRequest">
+    <wsdl:part name="query" type="tns1:ContactTypeQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getContactTypeResponse">
+    <wsdl:part name="contactType" type="tns1:ContactType"/>
+  </wsdl:message>
+  <wsdl:message name="addDeviceContactRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="contact" type="tns1:ContactIdentification"/>
+    <wsdl:part name="contactType" type="tns1:ContactType"/>
+  </wsdl:message>
+  <wsdl:message name="addDeviceContactResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+  <wsdl:message name="removeDeviceContactRequest">
+    <wsdl:part name="device" type="tns1:DeviceIdentification"/>
+    <wsdl:part name="contact" type="tns1:ContactIdentification"/>
+    <wsdl:part name="contactType" type="tns1:ContactType"/>
+  </wsdl:message>
+  <wsdl:message name="removeDeviceContactResponse">
+    <wsdl:part name="result" type="tns1:Result"/>
+  </wsdl:message>
+  <wsdl:message name="getDeviceContactsRequest">
+    <wsdl:part name="query" type="tns1:DeviceContactQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getDeviceContactsResponse">
+    <wsdl:part name="results" type="tns1:DeviceContactList"/>
+  </wsdl:message>
+  <wsdl:portType name="ContactService">
+    <wsdl:operation name="setContactType">
+      <wsdl:input message="impl:setContactTypeRequest" name="setContactTypeRequest"/>
+      <wsdl:output message="impl:setContactTypeResponse" name="setContactTypeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getContactType">
+      <wsdl:input message="impl:getContactTypeRequest" name="getContactTypeRequest"/>
+      <wsdl:output message="impl:getContactTypeResponse" name="getContactTypeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addDeviceContact">
+      <wsdl:input message="impl:addDeviceContactRequest" name="addDeviceContactRequest"/>
+      <wsdl:output message="impl:addDeviceContactResponse" name="addDeviceContactResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removeDeviceContact">
+      <wsdl:input message="impl:removeDeviceContactRequest" name="removeDeviceContactRequest"/>
+      <wsdl:output message="impl:removeDeviceContactResponse" name="removeDeviceContactResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDeviceContacts">
+      <wsdl:input message="impl:getDeviceContactsRequest" name="getDeviceContactsRequest"/>
+      <wsdl:output message="impl:getDeviceContactsResponse" name="getDeviceContactsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ContactServiceBinding" type="impl:ContactService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="setContactType">
+      <wsdlsoap:operation soapAction="setContactType"/>
+      <wsdl:input name="setContactTypeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setContactTypeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getContactType">
+      <wsdlsoap:operation soapAction="getContactType"/>
+      <wsdl:input name="getContactTypeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getContactTypeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addDeviceContact">
+      <wsdlsoap:operation soapAction="addDeviceContact"/>
+      <wsdl:input name="addDeviceContactRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="addDeviceContactResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeDeviceContact">
+      <wsdlsoap:operation soapAction="removeDeviceContact"/>
+      <wsdl:input name="removeDeviceContactRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removeDeviceContactResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeviceContacts">
+      <wsdlsoap:operation soapAction="getDeviceContacts"/>
+      <wsdl:input name="getDeviceContactsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDeviceContactsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/contact/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ContactServiceService">
+    <wsdl:port binding="impl:ContactServiceBinding" name="ContactService">
+      <wsdlsoap:address location="http://sdk.axeda.com/webservices/services/ContactService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

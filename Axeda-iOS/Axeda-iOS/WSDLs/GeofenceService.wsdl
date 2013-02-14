@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+  targetNamespace="http://sdk.axeda.com/webservices/geofence/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:apachesoap="http://xml.apache.org/xml-soap"
+  xmlns:impl="http://sdk.axeda.com/webservices/geofence/"
+  xmlns:intf="http://sdk.axeda.com/webservices/geofence/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns1="http://sdk.axeda.com/webservices/type"
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsdl1="http://sdk.axeda.com/webservices/geofence/"
+  xmlns:wsdl2="http://sdk.axeda.com/webservices/type/"
+  xmlns:wsdl3="http://sdk.axeda.com/webservices/type/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type/" location="Types.wsdl"/>
+
+  <wsdl:types>
+    <schema targetNamespace="http://sdk.axeda.com/webservices/type"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+  </wsdl:message>
+
+  <!-- Create geofences -->
+  <wsdl:message name="createGeofencesRequest">
+    <wsdl:part name="geofences" type="tns1:GeofenceList"/>
+  </wsdl:message>
+  <wsdl:message name="createGeofencesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Get geofences -->
+  <wsdl:message name="getGeofencesRequest">
+    <wsdl:part name="query" type="tns1:GeofenceQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getGeofencesResponse">
+    <wsdl:part name="geofences" type="tns1:GeofenceList"/>
+  </wsdl:message>
+
+  <!-- Update geofences -->
+  <wsdl:message name="updateGeofencesRequest">
+    <wsdl:part name="geofences" type="tns1:GeofenceList"/>
+  </wsdl:message>
+  <wsdl:message name="updateGeofencesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Delete geofences -->
+  <wsdl:message name="deleteGeofencesRequest">
+    <wsdl:part name="geofenceIds" type="tns1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteGeofencesResponse">
+    <wsdl:part name="results" type="tns1:ResultList"/>
+  </wsdl:message>
+
+  <!-- Get geocode -->
+  <wsdl:message name="getGeocodeRequest">
+    <wsdl:part name="address" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getGeocodeResponse">
+    <wsdl:part name="geometry" type="tns1:Point"/>
+  </wsdl:message>
+
+  <wsdl:portType name="GeofenceServicePortType">
+    <!-- Create geofences -->
+    <wsdl:operation name="createGeofences">
+      <wsdl:input name="createGeofencesRequest"
+                  message="impl:createGeofencesRequest"/>
+      <wsdl:output name="createGeofencesResponse"
+                   message="impl:createGeofencesResponse"/>
+    </wsdl:operation>
+
+    <!-- Get geofences -->
+    <wsdl:operation name="getGeofences">
+      <wsdl:input name="getGeofencesRequest"
+                  message="impl:getGeofencesRequest"/>
+      <wsdl:output name="getGeofencesResponse"
+                   message="impl:getGeofencesResponse"/>
+    </wsdl:operation>
+
+    <!-- Update geofences -->
+    <wsdl:operation name="updateGeofences">
+      <wsdl:input name="updateGeofencesRequest"
+                  message="impl:updateGeofencesRequest"/>
+      <wsdl:output name="updateGeofencesResponse"
+                   message="impl:updateGeofencesResponse"/>
+    </wsdl:operation>
+
+    <!-- Delete geofences -->
+    <wsdl:operation name="deleteGeofences">
+      <wsdl:input name="deleteGeofencesRequest"
+                  message="impl:deleteGeofencesRequest"/>
+      <wsdl:output name="deleteGeofencesResponse"
+                   message="impl:deleteGeofencesResponse"/>
+    </wsdl:operation>
+
+    <!-- Get geocodes -->
+    <wsdl:operation name="getGeocode">
+      <wsdl:input name="getGeocodeRequest" message="impl:getGeocodeRequest"/>
+      <wsdl:output name="getGeocodeResponse" message="impl:getGeocodeResponse"/>
+    </wsdl:operation>
+
+  </wsdl:portType>
+
+  <wsdl:binding name="GeofenceServiceBinding" type="impl:GeofenceServicePortType">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createGeofences">
+      <wsdlsoap:operation soapAction="createGeofences"/>
+      <wsdl:input name="createGeofencesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createGeofencesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getGeofences">
+      <wsdlsoap:operation soapAction="getGeofences"/>
+      <wsdl:input name="getGeofencesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getGeofencesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateGeofences">
+      <wsdlsoap:operation soapAction="updateGeofences"/>
+      <wsdl:input name="updateGeofencesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="updateGeofencesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteGeofences">
+      <wsdlsoap:operation soapAction="deleteGeofences"/>
+      <wsdl:input name="deleteGeofencesRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteGeofencesResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getGeocode">
+      <wsdlsoap:operation soapAction="getGeocode"/>
+      <wsdl:input name="getGeocodeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+        <wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getGeocodeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/geofence/" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+  </wsdl:binding>
+
+  <wsdl:service name="GeofenceService">
+    <wsdl:port binding="impl:GeofenceServiceBinding"
+               name="GeofenceService">
+      <wsdlsoap:address
+        location="http://sdk.axeda.com/webservices/services/GeofenceService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

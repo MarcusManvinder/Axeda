@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sdk.axeda.com/webservices/systemservices/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sdk.axeda.com/webservices/systemservices/" xmlns:intf="http://sdk.axeda.com/webservices/systemservices/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://sdk.axeda.com/webservices/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<schema targetNamespace="http://sdk.axeda.com/webservices/type" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<simpleType name="ActionType">
+				<restriction base="xsd:string">
+					<enumeration value="create"/>
+					<enumeration value="find"/>
+					<enumeration value="createIfNotFound"/>
+				</restriction>
+			</simpleType>
+			<complexType name="Location">
+				<sequence>
+					<element name="id" type="xsd:long"/>
+					<element name="action" nillable="true" type="tns1:ActionType"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="line1" nillable="true" type="xsd:string"/>
+					<element name="line2" nillable="true" type="xsd:string"/>
+					<element name="city" nillable="true" type="xsd:string"/>
+					<element name="state" nillable="true" type="xsd:string"/>
+					<element name="zip" nillable="true" type="xsd:string"/>
+					<element name="country" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="SystemQuery">
+				<sequence>
+					<element name="id" nillable="true" type="xsd:long"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="description" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="Organization">
+				<sequence>
+					<element name="id" type="xsd:long"/>
+					<element name="action" nillable="true" type="tns1:ActionType"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="description" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="Condition">
+				<sequence>
+					<element name="action" nillable="true" type="tns1:ActionType"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="priority" type="xsd:int"/>
+				</sequence>
+			</complexType>
+			<complexType name="Device">
+				<sequence>
+					<element name="id" type="xsd:long"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="serialNumber" nillable="true" type="xsd:string"/>
+					<element name="model" nillable="true" type="xsd:string"/>
+					<element name="pingRate" nillable="true" type="xsd:long"/>
+					<element name="missing" type="xsd:boolean"/>
+					<element name="lastContactDate" nillable="true" type="xsd:dateTime"/>
+					<element name="registrationDate" nillable="true" type="xsd:dateTime"/>
+					<element name="location" nillable="true" type="tns1:Location"/>
+					<element name="customer" nillable="true" type="tns1:Organization"/>
+					<element name="deviceSystem" nillable="true" type="tns1:DeviceSystem"/>
+					<element name="condition" nillable="true" type="tns1:Condition"/>
+					<element name="associatedGatewayId" nillable="true" type="xsd:long"/>
+				</sequence>
+			</complexType>
+			<complexType name="DeviceList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Device[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="DeviceSystem">
+				<sequence>
+					<element name="id" type="xsd:long"/>
+					<element name="action" nillable="true" type="tns1:ActionType"/>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="description" nillable="true" type="xsd:string"/>
+					<element name="devices" nillable="true" type="tns1:DeviceList"/>
+				</sequence>
+			</complexType>
+			<complexType name="SystemUpdateQuery">
+				<sequence>
+					<element name="query" nillable="true" type="tns1:SystemQuery"/>
+					<element name="update" nillable="true" type="tns1:DeviceSystem"/>
+				</sequence>
+			</complexType>
+			<complexType name="SystemList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:DeviceSystem[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="IdList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:long[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="SystemUpdateQueryList">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:SystemUpdateQuery[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+      <complexType name="SessionInfo">
+        <sequence>
+          <element name="User" nillable="true" type="xsd:string"/>
+          <element name="Password" nillable="true" type="xsd:string"/>
+          <element name="sessionID" nillable="true" type="xsd:string"/>
+        </sequence>
+      </complexType>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="Authentication">
+		<wsdl:part name="Authentication" type="tns1:SessionInfo"/>
+	</wsdl:message>
+	<wsdl:message name="getSystemsRequest">
+		<wsdl:part name="query" type="tns1:SystemQuery"/>
+	</wsdl:message>
+	<wsdl:message name="createSystemsRequest">
+		<wsdl:part name="systems" type="tns1:SystemList"/>
+	</wsdl:message>
+	<wsdl:message name="createSystemsResponse">
+		<wsdl:part name="ids" type="tns1:IdList"/>
+	</wsdl:message>
+	<wsdl:message name="updateSystemsResponse"/>
+	<wsdl:message name="getSystemResponse">
+		<wsdl:part name="devicesystem" type="tns1:DeviceSystem"/>
+	</wsdl:message>
+	<wsdl:message name="getSystemRequest">
+		<wsdl:part name="id" type="xsd:long"/>
+	</wsdl:message>
+	<wsdl:message name="updateSystemsRequest">
+		<wsdl:part name="updates" type="tns1:SystemUpdateQueryList"/>
+	</wsdl:message>
+	<wsdl:message name="getSystemsResponse">
+		<wsdl:part name="systems" type="tns1:SystemList"/>
+	</wsdl:message>
+	<wsdl:message name="deleteSystemsResponse"/>
+	<wsdl:message name="deleteSystemsRequest">
+		<wsdl:part name="ids" type="tns1:IdList"/>
+	</wsdl:message>
+	<wsdl:portType name="SystemService">
+		<wsdl:operation name="createSystems" parameterOrder="systems">
+			<wsdl:input message="impl:createSystemsRequest" name="createSystemsRequest"/>
+			<wsdl:output message="impl:createSystemsResponse" name="createSystemsResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getSystems" parameterOrder="query">
+			<wsdl:input message="impl:getSystemsRequest" name="getSystemsRequest"/>
+			<wsdl:output message="impl:getSystemsResponse" name="getSystemsResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getSystem" parameterOrder="id">
+			<wsdl:input message="impl:getSystemRequest" name="getSystemRequest"/>
+			<wsdl:output message="impl:getSystemResponse" name="getSystemResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="deleteSystems" parameterOrder="ids">
+			<wsdl:input message="impl:deleteSystemsRequest" name="deleteSystemsRequest"/>
+			<wsdl:output message="impl:deleteSystemsResponse" name="deleteSystemsResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="updateSystems" parameterOrder="updates">
+			<wsdl:input message="impl:updateSystemsRequest" name="updateSystemsRequest"/>
+			<wsdl:output message="impl:updateSystemsResponse" name="updateSystemsResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SystemServiceSoapBinding" type="impl:SystemService">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createSystems">
+			<wsdlsoap:operation soapAction="CreateSystems"/>
+			<wsdl:input name="createSystemsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+			</wsdl:input>
+			<wsdl:output name="createSystemsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getSystems">
+			<wsdlsoap:operation soapAction="GetSystems"/>
+			<wsdl:input name="getSystemsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+			</wsdl:input>
+			<wsdl:output name="getSystemsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getSystem">
+			<wsdlsoap:operation soapAction="GetSystem"/>
+			<wsdl:input name="getSystemRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+			</wsdl:input>
+			<wsdl:output name="getSystemResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteSystems">
+			<wsdlsoap:operation soapAction="DeleteSystems"/>
+			<wsdl:input name="deleteSystemsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+			</wsdl:input>
+			<wsdl:output name="deleteSystemsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="updateSystems">
+			<wsdlsoap:operation soapAction="UpdateSystems"/>
+			<wsdl:input name="updateSystemsRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+				<wsdlsoap:header message="impl:Authentication" part="Authentication" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+			</wsdl:input>
+			<wsdl:output name="updateSystemsResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://sdk.axeda.com/webservices/systemservices/" use="encoded"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SystemServiceService">
+		<wsdl:port binding="impl:SystemServiceSoapBinding" name="SystemService">
+			<wsdlsoap:address location="http://sdk.axeda.com/webservices/services/SystemService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

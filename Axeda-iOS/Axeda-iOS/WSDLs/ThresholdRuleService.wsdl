@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:trs="http://sdk.axeda.com/webservices/rules/threshold/"
+                  xmlns:impl="http://sdk.axeda.com/webservices/rules/threshold/"
+                  xmlns:t1="http://sdk.axeda.com/webservices/type"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  name="ThresholdRuleService"
+                  targetNamespace="http://sdk.axeda.com/webservices/rules/threshold/">
+
+  <wsdl:import namespace="http://sdk.axeda.com/webservices/type" location="Types.wsdl"/>
+
+  <wsdl:message name="getThresholdPrototypesRequest"/>
+  <wsdl:message name="getThresholdPrototypesResponse">
+    <wsdl:part name="thresholdPrototypes" type="t1:AlgorithmPrototypeList"/>
+  </wsdl:message>
+
+  <wsdl:message name="getActionPrototypesRequest"/>
+  <wsdl:message name="getActionPrototypesResponse">
+    <wsdl:part name="actionPrototypes" type="t1:AlgorithmPrototypeList"/>
+  </wsdl:message>
+
+  <wsdl:message name="createThresholdRulesRequest">
+    <wsdl:part name="thresholdRules" type="t1:ThresholdRuleList"/>
+  </wsdl:message>
+  <wsdl:message name="createThresholdRulesResponse">
+    <wsdl:part name="results" type="t1:ResultList"/>
+  </wsdl:message>
+
+  <wsdl:message name="getThresholdRulesRequest">
+    <wsdl:part name="thresholdRuleQuery" type="t1:ThresholdRuleQuery"/>
+  </wsdl:message>
+  <wsdl:message name="getThresholdRulesResponse">
+    <wsdl:part name="thresholdRules" type="t1:ThresholdRuleList"/>
+  </wsdl:message>
+
+  <wsdl:message name="updateThresholdRulesRequest">
+    <wsdl:part name="thresholdRules" type="t1:ThresholdRuleList"/>
+  </wsdl:message>
+  <wsdl:message name="updateThresholdRulesResponse">
+    <wsdl:part name="results" type="t1:ResultList"/>
+  </wsdl:message>
+
+  <wsdl:message name="deleteThresholdRulesRequest">
+    <wsdl:part name="thresholdRuleIds" type="t1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="deleteThresholdRulesResponse">
+    <wsdl:part name="results" type="t1:ResultList"/>
+  </wsdl:message>
+
+  <!-- enable Threshold rules() -->
+  <wsdl:message name="enableRuleRequest">
+    <wsdl:part name="thresholdRuleIds" type="t1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="enableRuleResponse">
+    <wsdl:part name="results" type="t1:ResultList"/>
+  </wsdl:message>
+
+  <!-- disable Threshold rules() -->
+  <wsdl:message name="disableRuleRequest">
+    <wsdl:part name="thresholdRuleIds" type="t1:IdList"/>
+  </wsdl:message>
+  <wsdl:message name="disableRuleResponse">
+    <wsdl:part name="results" type="t1:ResultList"/>
+  </wsdl:message>
+
+  <wsdl:message name="Authentication">
+    <wsdl:part name="Authentication" type="t1:SessionInfo"/>
+  </wsdl:message>
+
+  <wsdl:portType name="ThresholdRuleServicePortType">
+
+    <wsdl:operation name="getThresholdPrototypes">
+      <wsdl:input name="getThresholdPrototypesRequest" message="trs:getThresholdPrototypesRequest"/>
+      <wsdl:output name="getThresholdPrototypesResponse" message="trs:getThresholdPrototypesResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getActionPrototypes">
+      <wsdl:input name="getActionPrototypesRequest" message="trs:getActionPrototypesRequest"/>
+      <wsdl:output name="getActionPrototypesResponse" message="trs:getActionPrototypesResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="createThresholdRules">
+      <wsdl:input name="createThresholdRulesRequest" message="trs:createThresholdRulesRequest"/>
+      <wsdl:output name="createThresholdRulesResponse" message="trs:createThresholdRulesResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getThresholdRules">
+      <wsdl:input name="getThresholdRulesRequest" message="trs:getThresholdRulesRequest"/>
+      <wsdl:output name="getThresholdRulesResponse" message="trs:getThresholdRulesResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateThresholdRules">
+      <wsdl:input name="updateThresholdRulesRequest" message="trs:updateThresholdRulesRequest"/>
+      <wsdl:output name="updateThresholdRulesResponse" message="trs:updateThresholdRulesResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteThresholdRules">
+      <wsdl:input name="deleteThresholdRulesRequest" message="trs:deleteThresholdRulesRequest"/>
+      <wsdl:output name="deleteThresholdRulesResponse" message="trs:deleteThresholdRulesResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="enableThresholdRules">
+      <wsdl:input name="enableRuleRequest" message="trs:enableRuleRequest"/>
+      <wsdl:output name="enableRuleResponse" message="trs:enableRuleResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="disableThresholdRules">
+      <wsdl:input name="disableRuleRequest" message="trs:disableRuleRequest"/>
+      <wsdl:output name="disableRuleResponse"
+                   message="trs:disableRuleResponse"/>
+    </wsdl:operation>
+
+  </wsdl:portType>
+
+  <wsdl:binding name="ThresholdRuleServiceBinding" type="trs:ThresholdRuleServicePortType">
+
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <wsdl:operation name="getThresholdPrototypes">
+      <soap:operation soapAction="getThresholdPrototypes"/>
+      <wsdl:input name="getThresholdPrototypesRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="getThresholdPrototypesResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getActionPrototypes">
+      <soap:operation soapAction="getActionPrototypes"/>
+      <wsdl:input name="getActionPrototypesRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="getActionPrototypesResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="createThresholdRules">
+      <soap:operation soapAction="createThresholdRules"/>
+      <wsdl:input name="createThresholdRulesRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="createThresholdRulesResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getThresholdRules">
+      <soap:operation soapAction="getThresholdRules"/>
+      <wsdl:input name="getThresholdRulesRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="getThresholdRulesResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateThresholdRules">
+      <soap:operation soapAction="updateThresholdRules"/>
+      <wsdl:input name="updateThresholdRulesRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="updateThresholdRulesResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteThresholdRules">
+      <soap:operation soapAction="deleteThresholdRules"/>
+      <wsdl:input name="deleteThresholdRulesRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="deleteThresholdRulesResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- enable Threshold rule() -->
+    <wsdl:operation name="enableThresholdRules">
+      <soap:operation soapAction="enableThresholdRules"/>
+      <wsdl:input name="enableRuleRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="enableRuleResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <!-- disable Threshold rule() -->
+    <wsdl:operation name="disableThresholdRules">
+      <soap:operation soapAction="disableThresholdRules"/>
+      <wsdl:input name="disableRuleRequest">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+        <soap:header message="impl:Authentication" part="Authentication"
+                     use="encoded"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output name="disableRuleResponse">
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                   namespace="http://sdk.axeda.com/webservices/rules/threshold/"
+                   use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="ThresholdRuleService">
+    <wsdl:port binding="trs:ThresholdRuleServiceBinding" name="ThresholdRuleService">
+      <soap:address location="http://sdk.axeda.com/webservices/services/ThresholdRuleService"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>
