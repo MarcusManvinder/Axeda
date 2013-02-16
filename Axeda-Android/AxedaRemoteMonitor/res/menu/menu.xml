@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/alarm" android:icon="@drawable/alarm" android:title="All Alerts"/>
+    
+    <item android:id="@+id/map" android:icon="@drawable/mapicon" android:title="My Location"/>
+<item android:id="@+id/search" android:icon="@drawable/search_icon" android:title="Search Assets"></item>
+
+<item android:title="Logout" android:id="@+id/logout" android:icon="@drawable/logout"></item>
+</menu>

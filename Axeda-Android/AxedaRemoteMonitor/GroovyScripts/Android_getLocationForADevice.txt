@@ -1,0 +1,59 @@
+import com.axeda.drm.sdk.Context;
+import com.axeda.drm.sdk.user.User;
+import com.axeda.drm.sdk.device.*;
+import com.axeda.drm.sdk.model.*;
+import com.axeda.common.sdk.jdbc.StringQuery;
+import com.axeda.drm.sdk.mobilelocation.*;
+import java.util.*;
+import groovy.xml.MarkupBuilder
+import org.custommonkey.xmlunit.*
+
+def writer = new StringWriter()
+def xml = new MarkupBuilder(writer)
+
+
+try {
+  String username= parameters.username
+  String devicename  = parameters.devicename
+
+  Context ctx = Context.create(username);
+  DeviceFinder df = new DeviceFinder(ctx);
+  if (devicename != null)
+  {
+    df.setSerialNumber(devicename)
+    Device device= df.find()
+    if (device != null)
+      df.setSerialNumber(devicename)
+  }
+
+  HistoricalMobileLocationFinder hmlFinder = new HistoricalMobileLocationFinder(ctx);
+  hmlFinder .setLastN(10)
+  List dList = df.findAll();
+  for (d in dList)
+  {
+    hmlFinder.setDeviceId(d.getId().getValue());
+    List mlList = hmlFinder .findAll();
+    xml.Response()
+      {
+        for (a in mlList)
+        {
+          Loc('lat': a.getLat(), 'long':a.getLng(),
+            'currLoc':a.isCurrentLocation(),'devName':d.getSerialNumber(),
+            'cond': d.getCondition().getName(), 'model':d.getModel().getName()) ;
+        }
+      }
+  }
+} catch (Exception ex) {
+  xml.Response() {
+    Fault {
+      Code('Groovy Exception')
+      Message(ex.getMessage())
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      ex.printStackTrace(pw);
+      Detail(sw.toString())
+    }
+  }
+}
+//logger.info(writer.toString())
+return ['Content-Type': 'text/xml', 'Content': writer.toString()]

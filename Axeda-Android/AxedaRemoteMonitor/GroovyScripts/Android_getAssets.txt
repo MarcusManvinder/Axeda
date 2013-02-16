@@ -1,0 +1,40 @@
+import com.axeda.drm.sdk.Context;
+import com.axeda.drm.sdk.user.User;
+import com.axeda.drm.sdk.device.*;
+import com.axeda.drm.sdk.model.*;
+import com.axeda.common.sdk.jdbc.StringQuery;
+import java.util.*;
+import groovy.xml.MarkupBuilder
+import org.custommonkey.xmlunit.*
+import com.axeda.common.sdk.id.Identifier;
+ 
+def writer = new StringWriter()
+def xml = new MarkupBuilder(writer)
+ 
+try 
+{
+  String username = parameters.username
+ 
+  Context ctx = Context.create(username);
+  DeviceFinder df = new DeviceFinder(ctx);
+ 
+  List dList = df.findAll();
+  Context.create();
+  xml.Response() 
+  {
+    for (d in dList) Devicel('name': d.getSerialNumber(), 'model': d.getModel().getName());
+  }
+} catch (Exception ex) {
+
+  xml.Response() {
+    Fault {
+      Code('Groovy Exception')
+      Message(ex.getMessage())
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      ex.printStackTrace(pw);
+      Detail(sw.toString())
+    }
+  }
+}
+return ['Content-Type': 'text/xml', 'Content': writer.toString()]

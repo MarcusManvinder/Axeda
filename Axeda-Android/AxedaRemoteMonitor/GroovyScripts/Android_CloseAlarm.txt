@@ -1,0 +1,51 @@
+import com.axeda.drm.sdk.Context
+import com.axeda.drm.sdk.audit.*
+import groovy.xml.MarkupBuilder
+import com.axeda.drm.sdk.data.*
+import com.axeda.drm.sdk.device.*
+
+def writer = new StringWriter()
+def xml = new MarkupBuilder(writer)
+
+try
+{
+
+  String username = parameters.username
+  def alarmName = parameters.alarmName
+  def modelName = parameters.modelName
+  def deviceName = parameters.deviceName
+
+  Context ctx = Context.create(username);
+
+  def mf = new ModelFinder(ctx)
+  mf.setName(modelName)
+  def df = new DeviceFinder(ctx)
+  df.setModel(mf.find())
+  device = df.setDeviceName(deviceName)
+
+  AlarmFinder af = new AlarmFinder(ctx)
+  af.setDevice(device)
+  af.setAlarmName(alarmName)
+
+  def al = af.find()
+
+  al.setState(AlarmState.valueOf("CLOSED"), "CLOSING")
+
+
+} catch (Exception ex)
+{
+  xml.Response()
+    {
+      Fault
+      {
+        Code('Groovy Exception')
+        Message(ex.getMessage())
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        Detail(sw.toString())
+      }
+    }
+}
+
+return ['Content-Type': 'text/xml', 'Content': writer.toString()]

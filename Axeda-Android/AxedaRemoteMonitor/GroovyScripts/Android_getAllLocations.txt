@@ -1,0 +1,55 @@
+import com.axeda.drm.sdk.Context;
+import com.axeda.drm.sdk.user.User;
+import com.axeda.drm.sdk.device.*;
+import com.axeda.drm.sdk.model.*;
+import com.axeda.common.sdk.jdbc.StringQuery;
+import com.axeda.drm.sdk.mobilelocation.*;
+import java.util.*;
+import groovy.xml.MarkupBuilder
+import org.custommonkey.xmlunit.*
+
+def writer = new StringWriter()
+def xml = new MarkupBuilder(writer)
+
+try {
+  String username= parameters.username
+
+  Context ctx = Context.create(username);
+  DeviceFinder df = new DeviceFinder(ctx);
+
+  CurrentMobileLocationFinder cmlFinder = new CurrentMobileLocationFinder(ctx);
+
+  List dList = df.findAll();
+  xml.Response()
+    {
+      for (d in dList)
+      {
+        cmlFinder.setDeviceId(d.getId().getValue());
+        List mlList = cmlFinder.findAll();
+        for (a in mlList)
+        {
+          if(a !=null)
+          {
+            Device ('lat': a.getLat(), 'long':a.getLng(), 'devName':d.getSerialNumber(),'cond': d.getCondition().getName(), 'model':d.getModel().getName()) ;
+          }
+        }
+      }
+    }
+
+} catch (Exception ex)
+{
+  xml.Response()
+    {
+      Fault
+      {
+        Code('Groovy Exception')
+        Message(ex.getMessage())
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        Detail(sw.toString())
+      }
+    }
+}
+logger.info(writer.toString());
+return ['Content-Type': 'text/xml', 'Content': writer.toString()]

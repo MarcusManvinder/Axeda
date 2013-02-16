@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F46E67C816CE379C00DD605D /* GeneralServiceSvc.m in Sources */ = {isa = PBXBuildFile; fileRef = F46E67BB16CE379C00DD605D /* GeneralServiceSvc.m */; };
+		F46E67C916CE379C00DD605D /* ns1.m in Sources */ = {isa = PBXBuildFile; fileRef = F46E67BD16CE379C00DD605D /* ns1.m */; };
+		F46E67CA16CE379C00DD605D /* NSDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = F46E67BF16CE379C00DD605D /* NSDate+ISO8601Parsing.m */; };
+		F46E67CB16CE379C00DD605D /* NSDate+ISO8601Unparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = F46E67C116CE379C00DD605D /* NSDate+ISO8601Unparsing.m */; };
+		F46E67CC16CE379C00DD605D /* tns1.m in Sources */ = {isa = PBXBuildFile; fileRef = F46E67C316CE379C00DD605D /* tns1.m */; };
+		F46E67CD16CE379C00DD605D /* USAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F46E67C516CE379C00DD605D /* USAdditions.m */; };
+		F46E67CE16CE379C00DD605D /* USGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = F46E67C716CE379C00DD605D /* USGlobals.m */; };
+		F46E67D016CE381500DD605D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F46E67CF16CE381500DD605D /* libxml2.dylib */; };
 		F4A4C93E16CD6C01009B4708 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4C93D16CD6C01009B4708 /* UIKit.framework */; };
 		F4A4C94016CD6C01009B4708 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4C93F16CD6C01009B4708 /* Foundation.framework */; };
 		F4A4C94216CD6C01009B4708 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4C94116CD6C01009B4708 /* CoreGraphics.framework */; };
@@ -58,6 +66,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F46E67BA16CE379C00DD605D /* GeneralServiceSvc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralServiceSvc.h; sourceTree = "<group>"; };
+		F46E67BB16CE379C00DD605D /* GeneralServiceSvc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralServiceSvc.m; sourceTree = "<group>"; };
+		F46E67BC16CE379C00DD605D /* ns1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ns1.h; sourceTree = "<group>"; };
+		F46E67BD16CE379C00DD605D /* ns1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ns1.m; sourceTree = "<group>"; };
+		F46E67BE16CE379C00DD605D /* NSDate+ISO8601Parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ISO8601Parsing.h"; sourceTree = "<group>"; };
+		F46E67BF16CE379C00DD605D /* NSDate+ISO8601Parsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ISO8601Parsing.m"; sourceTree = "<group>"; };
+		F46E67C016CE379C00DD605D /* NSDate+ISO8601Unparsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ISO8601Unparsing.h"; sourceTree = "<group>"; };
+		F46E67C116CE379C00DD605D /* NSDate+ISO8601Unparsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ISO8601Unparsing.m"; sourceTree = "<group>"; };
+		F46E67C216CE379C00DD605D /* tns1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tns1.h; sourceTree = "<group>"; };
+		F46E67C316CE379C00DD605D /* tns1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tns1.m; sourceTree = "<group>"; };
+		F46E67C416CE379C00DD605D /* USAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USAdditions.h; sourceTree = "<group>"; };
+		F46E67C516CE379C00DD605D /* USAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USAdditions.m; sourceTree = "<group>"; };
+		F46E67C616CE379C00DD605D /* USGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USGlobals.h; sourceTree = "<group>"; };
+		F46E67C716CE379C00DD605D /* USGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USGlobals.m; sourceTree = "<group>"; };
+		F46E67CF16CE381500DD605D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		F4A4C93A16CD6C01009B4708 /* Axeda-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Axeda-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A4C93D16CD6C01009B4708 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F4A4C93F16CD6C01009B4708 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -118,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F46E67D016CE381500DD605D /* libxml2.dylib in Frameworks */,
 				F4A4C93E16CD6C01009B4708 /* UIKit.framework in Frameworks */,
 				F4A4C94016CD6C01009B4708 /* Foundation.framework in Frameworks */,
 				F4A4C94216CD6C01009B4708 /* CoreGraphics.framework in Frameworks */,
@@ -127,6 +151,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F46E67B916CE379C00DD605D /* General */ = {
+			isa = PBXGroup;
+			children = (
+				F46E67BA16CE379C00DD605D /* GeneralServiceSvc.h */,
+				F46E67BB16CE379C00DD605D /* GeneralServiceSvc.m */,
+				F46E67BC16CE379C00DD605D /* ns1.h */,
+				F46E67BD16CE379C00DD605D /* ns1.m */,
+				F46E67BE16CE379C00DD605D /* NSDate+ISO8601Parsing.h */,
+				F46E67BF16CE379C00DD605D /* NSDate+ISO8601Parsing.m */,
+				F46E67C016CE379C00DD605D /* NSDate+ISO8601Unparsing.h */,
+				F46E67C116CE379C00DD605D /* NSDate+ISO8601Unparsing.m */,
+				F46E67C216CE379C00DD605D /* tns1.h */,
+				F46E67C316CE379C00DD605D /* tns1.m */,
+				F46E67C416CE379C00DD605D /* USAdditions.h */,
+				F46E67C516CE379C00DD605D /* USAdditions.m */,
+				F46E67C616CE379C00DD605D /* USGlobals.h */,
+				F46E67C716CE379C00DD605D /* USGlobals.m */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
 		F4A4C93116CD6C01009B4708 = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +192,7 @@
 		F4A4C93C16CD6C01009B4708 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F46E67CF16CE381500DD605D /* libxml2.dylib */,
 				F4A4C93D16CD6C01009B4708 /* UIKit.framework */,
 				F4A4C93F16CD6C01009B4708 /* Foundation.framework */,
 				F4A4C94116CD6C01009B4708 /* CoreGraphics.framework */,
@@ -157,7 +203,6 @@
 		F4A4C94316CD6C01009B4708 /* Axeda-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				F4A4C96316CD6E1F009B4708 /* WSDLs */,
 				F4A4C94C16CD6C01009B4708 /* GRAppDelegate.h */,
 				F4A4C94D16CD6C01009B4708 /* GRAppDelegate.m */,
 				F4A4C95516CD6C01009B4708 /* MainStoryboard_iPhone.storyboard */,
@@ -172,6 +217,8 @@
 		F4A4C94416CD6C01009B4708 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F46E67B916CE379C00DD605D /* General */,
+				F4A4C96316CD6E1F009B4708 /* WSDLs */,
 				F4A4C94516CD6C01009B4708 /* Axeda-iOS-Info.plist */,
 				F4A4C94616CD6C01009B4708 /* InfoPlist.strings */,
 				F4A4C94916CD6C01009B4708 /* main.m */,
@@ -341,6 +388,13 @@
 				F4A4C94A16CD6C01009B4708 /* main.m in Sources */,
 				F4A4C94E16CD6C01009B4708 /* GRAppDelegate.m in Sources */,
 				F4A4C95D16CD6C01009B4708 /* GRViewController.m in Sources */,
+				F46E67C816CE379C00DD605D /* GeneralServiceSvc.m in Sources */,
+				F46E67C916CE379C00DD605D /* ns1.m in Sources */,
+				F46E67CA16CE379C00DD605D /* NSDate+ISO8601Parsing.m in Sources */,
+				F46E67CB16CE379C00DD605D /* NSDate+ISO8601Unparsing.m in Sources */,
+				F46E67CC16CE379C00DD605D /* tns1.m in Sources */,
+				F46E67CD16CE379C00DD605D /* USAdditions.m in Sources */,
+				F46E67CE16CE379C00DD605D /* USGlobals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +492,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Axeda-iOS/Axeda-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Axeda-iOS/Axeda-iOS-Info.plist";
+				OTHER_LDFLAGS = lxml2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -449,6 +504,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Axeda-iOS/Axeda-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Axeda-iOS/Axeda-iOS-Info.plist";
+				OTHER_LDFLAGS = lxml2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -473,6 +529,7 @@
 				F4A4C96216CD6C01009B4708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

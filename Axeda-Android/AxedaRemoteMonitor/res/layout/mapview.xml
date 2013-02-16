@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/widget556"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<LinearLayout
+android:id="@+id/widget564"
+android:layout_width="320px"
+android:layout_height="365px"
+android:orientation="vertical"
+>
+<com.google.android.maps.MapView
+			android:id="@+id/mapView" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:enabled="true"
+			android:clickable="true" android:apiKey="0oyiVokJLuG6q29Qpfo8vHgg5tZKhFdgb1Hj7sQ" />
+
+<LinearLayout
+android:id="@+id/zoom"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+>
+</LinearLayout>
+</LinearLayout>
+<AbsoluteLayout
+android:id="@+id/widget51"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+>
+<RadioGroup android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:id="@+id/radiogroup"><RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1 mile" android:layout_x="8px" android:layout_y="0px" android:checked="false" android:id="@+id/onemile" android:paddingRight="20px">
+</RadioButton><RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10 miles" android:layout_x="95px" android:layout_y="0px" android:checked="false" android:id="@+id/tenmile" android:paddingRight="20px">
+</RadioButton><RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="20 miles" android:layout_x="199px" android:layout_y="0px" android:id="@+id/twentymile" android:checked="true">
+</RadioButton></RadioGroup>
+</AbsoluteLayout>
+
+
+</LinearLayout>

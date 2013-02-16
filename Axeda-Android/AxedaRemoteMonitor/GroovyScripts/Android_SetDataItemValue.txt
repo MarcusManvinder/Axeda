@@ -1,0 +1,53 @@
+import com.axeda.drm.sdk.Context;
+import com.axeda.drm.sdk.user.User;
+import com.axeda.drm.sdk.device.*;
+import com.axeda.drm.sdk.model.*;
+import com.axeda.drm.sdk.data.*;
+import com.axeda.drm.sdk.agent.commands.SetDataItem
+
+
+try {
+
+  String username = parameters.username
+  String deviceName  = parameters.deviceName
+  String modelNumber  = parameters.modelNumber
+  String dataItemName  = parameters.dataItemName
+  double dataItemValue  = Double.valueOf( parameters.dataItemValue.toString())
+
+  Context ctx = Context.create(username);
+
+  d =new Date();
+
+
+  ModelFinder modelFinder = new ModelFinder(ctx);
+  modelFinder.setName(modelNumber);
+  Model model = modelFinder.find();
+
+  DeviceFinder dfinder= new DeviceFinder(ctx);
+  dfinder.setSerialNumber(deviceName) ;
+  Device device = dfinder.find();
+
+  DataItemFinder difinder = new DataItemFinder(ctx)
+  difinder.setDataItemName(dataItemName)
+  difinder.setModel(model)
+  DataItem pressure = difinder.find()
+
+  DataValueEntry dve = new DataValueEntry(ctx,device,pressure,dataItemValue);
+  dve.setDate(d);
+  dve.store();
+
+  String dataValueOutput = dataItemValue.toString()
+  if (Math.abs(dataItemValue) == dataItemValue) 
+  {
+    dataValueOutput =  Math.abs(dataItemValue)+""
+  }
+
+  SetDataItem sdi = new SetDataItem(ctx, pressure, dataValueOutput);
+  sdi.send(device);
+
+}
+catch(Exception e)
+{
+  logger.info e.getMessage();
+}
+return ['Content-Type': 'text/xml', 'Content': "foo"]

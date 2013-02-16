@@ -1,0 +1,95 @@
+import com.axeda.drm.sdk.Context;
+import com.axeda.drm.sdk.device.*;
+import com.axeda.drm.sdk.data.*;
+import groovy.xml.MarkupBuilder
+
+def writer = new StringWriter()
+def xml = new MarkupBuilder(writer)
+String date
+
+try {
+
+  String username = parameters.username
+
+  d = new Date();
+
+  Context ctx = Context.create(username);
+  DeviceFinder df = new DeviceFinder(ctx);
+  Device device = df.find()
+
+  AlarmFinder af = new AlarmFinder(ctx);
+
+  xml.Response() {
+
+    List aList = af.findAll();
+
+    def dateString
+    def sevString
+
+    for (Alarm al in aList) {
+
+      if (al != null) {
+
+        if (al.getState().toString() == "STARTED") {
+          def diff = d - al.getDate()
+
+          if (diff  == 0) {
+            dateString = al.date.format("hh:mm:ss")
+          }
+          if (diff == 1) {
+            dateString = "Yesterday"
+          }
+
+          if (diff > 1 && diff < 7) {
+            dateString =  al.date.format("EEEE")
+          }
+
+          if (diff > 6 && diff <= 13) {
+            dateString= "1 week ago"
+          }
+
+          if (diff > 13) {
+            dateString= "${(int)Math.floor(diff/7)} weeks ago"
+          }
+
+          def sev = al.getSeverity();
+          if (sev > 0 && sev <= 350)
+          {
+            sevString ="Lo"
+          }
+          else if (sev > 350 && sev <= 650)
+          {
+            sevString ="Med"
+          }
+          else if (sev > 650 && sev <= 1000)
+          {
+            sevString ="Hi"
+          }
+          else {
+            sevString = ""+sev
+          }
+
+
+          Alarm('name': al.getName(), 'date': dateString, 'severity': sevString,
+            'desc': al.getDescription(), 'device': al.getDevice().getSerialNumber(),
+            'longdate': al.getDate(),'cond': al.getDevice().getCondition().getName(),
+            'active': al.getState(),'model': al.getDevice().getModel().getName())
+        }
+      }
+
+    }
+  }
+} catch (Exception ex) {
+  xml.Response() {
+    Fault {
+      Code('Groovy Exception')
+      Message(ex.getMessage())
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      ex.printStackTrace(pw);
+      Detail(sw.toString())
+    }
+  }
+}
+//logger.info(writer.toString());
+return ['Content-Type': 'text/xml', 'Content': writer.toString()]

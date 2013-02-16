@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/widget73"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<TextView
+android:id="@+id/txt_search"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Search for your Assets:"
+android:textStyle="bold"
+>
+</TextView>
+<AutoCompleteTextView
+android:id="@+id/txtAssets"
+android:layout_width="fill_parent"
+android:layout_height="47px"
+android:completionThreshold="1"
+android:singleLine="true" android:focusable="true" android:layout_marginTop="30px">
+</AutoCompleteTextView>
+<ListView
+android:id="@android:id/list"
+android:layout_width="wrap_content"
+android:layout_height="25px"
+android:layout_marginTop="5px"
+>
+</ListView>
+</LinearLayout>

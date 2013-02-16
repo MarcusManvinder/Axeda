@@ -1,0 +1,105 @@
+import com.axeda.drm.sdk.Context;
+import com.axeda.drm.sdk.user.User;
+import com.axeda.drm.sdk.device.*;
+import com.axeda.drm.sdk.model.*;
+import com.axeda.drm.sdk.data.*;
+import com.axeda.common.sdk.jdbc.StringQuery;
+import com.axeda.drm.sdk.mobilelocation.*;
+import java.util.*;
+import groovy.xml.MarkupBuilder
+import org.custommonkey.xmlunit.*
+
+def writer = new StringWriter()
+def xml = new MarkupBuilder(writer)
+
+
+try {
+  String username = parameters.username
+  String devicename  = parameters.devicename
+
+  Context ctx = Context.create(username);
+
+  DeviceFinder dfinder= new DeviceFinder(ctx);
+  dfinder.setSerialNumber(devicename)
+  Device device = dfinder.find();
+
+  d = new Date();
+
+  AlarmFinder af = new AlarmFinder(ctx);
+  af.setDevice(device)
+  xml.Response() {
+
+    List aList = af.findAll();
+
+    def dateString
+    def sevString
+
+    for (Alarm al in aList) {
+
+      if (al != null) {
+
+        if (al.getState().toString() == "STARTED") {
+          def diff = d - al.getDate()
+
+          if (diff  == 0) {
+            dateString = al.date.format("hh:mm:ss")
+          }
+
+          if (diff == 1) {
+            dateString = "Yesterday"
+          }
+
+          if (diff > 1 && diff < 7) {
+            dateString =  al.date.format("EEEE")
+          }
+
+          if (diff > 6 && diff <= 13) {
+            dateString= "1 week ago"
+          }
+
+          if (diff > 13) {
+            dateString= "${(int)Math.floor(diff/7)} weeks ago"
+          }
+
+          def sev = al.getSeverity();
+
+          if (sev > 0 && sev <= 350)
+          {
+            sevString ="Lo"
+          }
+          else if (sev > 350 && sev <= 650)
+          {
+            sevString ="Med"
+          }
+          else if (sev > 650 && sev <= 1000)
+          {
+            sevString ="Hi"
+          } else {
+            sevString = ""+sev
+          }
+
+
+          Alarm('name': al.getName(), 'date': dateString, 'severity': sevString,
+            'desc': al.getDescription(), 'device': al.getDevice().getSerialNumber(),
+            'longdate': al.getDate(),
+            'cond': al.getDevice().getCondition().getName(), 'active': al.getState(),
+            'model': al.getDevice().getModel().getName(), 'cust':al.getDevice().getCustomer().getName())
+        }
+      }
+
+    }
+  }
+} catch (Exception ex) {
+  xml.Response() {
+    Fault {
+      Code('Groovy Exception')
+      Message(ex.getMessage())
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      ex.printStackTrace(pw);
+      Detail(sw.toString())
+    }
+  }
+}
+
+return ['Content-Type': 'text/xml', 'Content': writer.toString()]
